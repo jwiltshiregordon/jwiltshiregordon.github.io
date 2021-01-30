@@ -1,0 +1,36 @@
+-- -*- M2-comint -*- hash: -995465665
+
+i1 : S = QQ[s, t, u]; R = S[x, y]; m = matrix {{s*x^2+t*x*y+u*y^2}}; M = coker m
+
+             1       1
+o3 : Matrix R  <--- R
+
+o4 = cokernel | sx2+txy+uy2 |
+
+                            1
+o4 : R-module, quotient of R
+
+i5 : N = evaluateInDegree({4}, M)
+
+o5 = cokernel | s 0 0 |
+              | t s 0 |
+              | u t s |
+              | 0 u t |
+              | 0 0 u |
+
+                            5
+o5 : S-module, quotient of S
+
+i6 : apply(10, i -> hilbertFunction({i}, N))
+
+o6 = {5, 12, 21, 32, 45, 60, 77, 96, 117, 140}
+
+o6 : List
+
+i7 : (F, f) = flattenRing R; apply(10, i -> hilbertFunction({4, i}, f ** M))
+
+o8 = {5, 12, 21, 32, 45, 60, 77, 96, 117, 140}
+
+o8 : List
+
+i9 : 

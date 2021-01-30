@@ -1,0 +1,32 @@
+-- -*- M2-comint -*- hash: 369538300
+
+i1 : C = QQ[d]/d^2;
+
+i2 : declareGenerators(C,{a=>0,b=>0,c=>0,ab=>1,ac=>1,bc=>1});
+
+i3 : M = cospan(d*a+ab+ac, d*b-ab+bc, d*c-ac-bc, d*ab, d*ac, d*bc);
+
+i4 : apply(5,i->prune evaluateInDegree({i},M))
+
+        3    3
+o4 = {QQ , QQ , 0, 0, 0}
+
+o4 : List
+
+i5 : H = chainModuleHomology(M);
+
+i6 : apply(5,i->prune evaluateInDegree({i},H))
+
+        1    1
+o6 = {QQ , QQ , 0, 0, 0}
+
+o6 : List
+
+i7 : apply(5,i->prune chainModuleHomology(i,M))
+
+        1    1
+o7 = {QQ , QQ , 0, 0, 0}
+
+o7 : List
+
+i8 : 

@@ -1,0 +1,35 @@
+-- -*- M2-comint -*- hash: 144418432
+
+i1 : Q = coupleRing(ZZ,1,e,f,Degrees=>{{-1,0},{2,-2}})
+
+o1 = Q
+
+o1 : PolynomialRing
+
+i2 : declareCouple(Q, {z => {4,0}}, {x => {1,0}, y => {1,2}, w => {5,2}})
+
+o2 = cokernel {5, 2} | e_1^2 e_1f_1 0     0      0     0      0     0   |
+              {1, 0} | 0     0      e_1^2 e_1f_1 0     0      0     0   |
+              {1, 2} | 0     0      0     0      e_1^2 e_1f_1 0     0   |
+              {4, 0} | 0     0      0     0      0     0      e_1^3 f_1 |
+
+                            4
+o2 : Q-module, quotient of Q
+
+i3 : C = cospan(e_1*z-f_1*y)
+
+o3 = cokernel {5, 2} | 0    e_1^2 e_1f_1 0     0      0     0      0     0   |
+              {1, 0} | 0    0     0      e_1^2 e_1f_1 0     0      0     0   |
+              {1, 2} | -f_1 0     0      0     0      e_1^2 e_1f_1 0     0   |
+              {4, 0} | e_1  0     0      0     0      0     0      e_1^3 f_1 |
+
+                            4
+o3 : Q-module, quotient of Q
+
+i4 : isHomogeneous C
+
+o4 = true
+
+i5 : expectExactCouple C
+
+i6 : 

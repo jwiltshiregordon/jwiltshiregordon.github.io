@@ -1,0 +1,36 @@
+-- -*- M2-comint -*- hash: 1058196222
+
+i1 : R = QQ[d,t,Degrees=>{{0,1},{1,0}}]/d^2;
+
+i2 : declareGenerators(R,{a=>{0,0},b=>{0,0},c=>{0,0},ab=>{0,1},ac=>{0,1},bc=>{0,1}});
+
+i3 : M = cospan(d*a+ab+ac, d*b-ab+bc, d*c-ac-bc, d*ab, d*ac, d*bc,
+                t*bc, t^2*ac, t^3*ab, t^4*c, t^5*b, t^6*a);
+
+i4 : netList table(7,4,(i,j)->hilbertFunction({6-i,j},M))
+
+     +-+-+-+-+
+o4 = |0|0|0|0|
+     +-+-+-+-+
+     |1|0|0|0|
+     +-+-+-+-+
+     |2|0|0|0|
+     +-+-+-+-+
+     |3|0|0|0|
+     +-+-+-+-+
+     |3|1|0|0|
+     +-+-+-+-+
+     |3|2|0|0|
+     +-+-+-+-+
+     |3|3|0|0|
+     +-+-+-+-+
+
+i5 : Q = QQ[e_1,f_1,Degrees=>{{-1,1},{2,0}}];
+
+i6 : E1 = exactCouple(Q,M);
+
+i7 : expectExactCouple E1; -- No error
+
+i8 : E1' = E1 / E1_0; -- but expectExactCouple E1' would give the error "failure of exactness at page: ker e != im e."
+
+i9 : 

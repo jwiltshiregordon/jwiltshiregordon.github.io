@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>Conventions and first examples -- specifics on encoding exact couples as modules for a ring</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="_cospan.html">next</a> | <a href="_contravariant__Ext__L__E__S.html">previous</a> | <a href="_cospan.html">forward</a> | <a href="_contravariant__Ext__L__E__S.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="specifics on encoding exact couples as modules for a ring" href="___Conventions_spand_spfirst_spexamples.html">Conventions and first examples</a>    </div>
+    <hr/>
+    <div>
+      <h1>Conventions and first examples -- specifics on encoding exact couples as modules for a ring</h1>
+      <div>
+        <div>
+          <p><b>Encoding an exact couple as a module for a ring</b></p>
+          <p>An exact couple is a pair of R-modules E and A together with maps A --> E --> A and A --> A with the conditions that</p>
+          <p>im(A --> E) = ker(E --> A)</p>
+          <p>im(E --> A) = ker(A --> A)</p>
+          <p>im(A --> A) = ker(A --> E).</p>
+          <p>In this package, exact couples are encoded by an action of R[e,f] on the direct sum $M = A \oplus E$, where e acts by the maps  A --> E --> A, f acts on A by the map A --> A, and on E by 0.  A ring of the form R[e,f] form is called a 'couple ring' and the degrees of its variables must satisfy the conditions in <a title="accepts certain rings of the form R[e_r,f_r], and installs Page, isEvenDegree, and isOddDegree" href="_expect__Couple__Ring.html">expectCoupleRing</a>.</p>
+          <p>The module E is the &quot;page&quot; and the module A is the &quot;auxiliary&quot;.  Typically, E and A occupy disjoint sets of degrees, termed &quot;even&quot; and &quot;odd&quot;.  The terms of the spectral sequence live in even degrees, since they come from the page.  The auxiliary data lives in odd degree.</p>
+          <p><b>Constructing exact couples</b></p>
+          <p>Exact couples arise in algebra any time a chain complex $C=(C,d)$ carries a self map $f : C \to C$.  Setting $A = H_* C$ to be the homology of $C$, and $E=H_* C(f)$ to be the homology of the mapping cone of $f$, we have a long exact sequence</p>
+          <p>... —-> A —-> E —-> A --f--> A —-> ...</p>
+          <p>defining the maps in the exact couple.</p>
+          <p>The all-purpose method <a title="builds an exact couple from a R[d,f]/d^2-module" href="_exact__Couple.html">exactCouple</a> accepts as input C considered as an $R[d,f]/d^2$ module. Note that the action of $d$ and $f$ is encoded by the ring action.</p>
+          <p></p>
+          <p>To build exact couples by hand, use <a title="initializes generating classes for an exact couple" href="_declare__Couple.html">declareCouple</a>, and check your work with <a title="whether something is homogeneous (graded)" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/_is__Homogeneous.html">isHomogeneous</a> and <a title="accepts a module if it encodes an exact couple" href="_expect__Exact__Couple.html">expectExactCouple</a>.  For the usual long exact sequence induced by a map of complexes, use <a title="finds the long exact sequence associated to a map of R[d]/d^2-modules" href="_long__Exact__Sequence.html">longExactSequence</a>. Once you have an exact couple, <a title="builds the derived couple of an exact couple" href="_derived__Couple.html">derivedCouple</a> produces another, as we now explain.</p>
+          <p><b>Derived couples</b></p>
+          <p>Every exact couple determines a new exact couple by the formulas $A' = im(f)$ and $E' = ker(e^2)/im(e^2)$.  The maps $A' \to E' \to A'$ are induced by $e$, and the map $A' \to A'$ is induced by $f$.  There is a wrinkle, however: the map $A' \to E'$ factors $A' \to A / ker(f) \to E'$, making use of the first isomorphism theorem.  Some degree confusion can result.  Indeed, the inclusion $A' \subseteq A$, which is induced by the identity, is a degree 0 map; in contrast, the projection $A / (ker f) \to A'$, which is induced by $f$, has the same degree as $f$ itself.  This forces the inverse map $A' \to A / ker(f)$ to have degree $-deg(f)$.</p>
+          <p>If we had taken A' to be the coimage of f instead of the image, this would have resulted in different degrees.  So either of these conventions would have an asymmetry: an unjustified preference for image or coimage.</p>
+          <p>We use neither convention.  Instead, we place A' exactly halfway between (image f) and (coimage f).  This has the effect of giving the comparison maps $A \to A' \to A$ the same degree, namely, $(degree f)/2$.  (This division-by-two accounts for the requirement in <a title="accepts certain rings of the form R[e_r,f_r], and installs Page, isEvenDegree, and isOddDegree" href="_expect__Couple__Ring.html">expectCoupleRing</a> that the degree of $f$ be even.)</p>
+          <p>The new degrees can be expressed in terms of the old:</p>
+          <p></p>
+          <p>$ degree f' = degree f$</p>
+          <p></p>
+          <p>$ degree e' = (degree e) - (degree f) / 2$.</p>
+          <p></p>
+          <p>The resulting ring $R[e',f']$ is the derived couple ring of $R[e,f]$; it acts on the derived couple, and can be obtained using <a title="forms the ring that acts on a derived couple" href="_derived__Couple__Ring.html">derivedCoupleRing</a>.</p>
+        </div>
+        <div>
+          <p><b>How to determine $deg(e)$ and $deg(f)$ in your example</b></p>
+          <p>Suppose you have in mind a particular spectral sequence of $R$-modules, starting on page k, and you want to program its exact couple.  What degrees should you use for the couple ring $R[e_k,f_k]$?</p>
+          <p>Think about the degree of $D_k$, the differential on the starting page.  This tells you the degree of $e_k$:</p>
+          <p>$deg(e_k) = deg(D_k)$.</p>
+          <p>Now think about the degree of $D_{k+1}$, the differential on the next page.  This lets you compute the degree of $f_k$:</p>
+          <p>$deg(f_k) = 2 * deg(D_k) - 2 * deg(D_{k+1})$.</p>
+        </div>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="builds an exact couple from a R[d,f]/d^2-module" href="_exact__Couple.html">exactCouple</a> -- builds an exact couple from a R[d,f]/d^2-module</span>          </li>
+          <li>
+<span><a title="accepts a module if it encodes an exact couple" href="_expect__Exact__Couple.html">expectExactCouple</a> -- accepts a module if it encodes an exact couple</span>          </li>
+          <li>
+<span><a title="builds the derived couple of an exact couple" href="_derived__Couple.html">derivedCouple</a> -- builds the derived couple of an exact couple</span>          </li>
+          <li>
+<span><a title="the exact couple obtained by applying Ext(-,Y) to a filtered module" href="_contravariant__Ext__Couple.html">contravariantExtCouple</a> -- the exact couple obtained by applying Ext(-,Y) to a filtered module</span>          </li>
+          <li>
+<span><a title="the exact couple obtained by applying Ext(W,-) to a filtered module" href="_covariant__Ext__Couple.html">covariantExtCouple</a> -- the exact couple obtained by applying Ext(W,-) to a filtered module</span>          </li>
+          <li>
+<span><a title="the exact couple obtained by applying Tor(W,-) to a filtered module" href="___Tor__Couple.html">TorCouple</a> -- the exact couple obtained by applying Tor(W,-) to a filtered module</span>          </li>
+          <li>
+<span><a title="a singly-graded spectral sequence built from the chain self-map &quot;multiplication by p&quot;" href="___Bockstein_spspectral_spsequence.html">Bockstein spectral sequence</a> -- a singly-graded spectral sequence built from the chain self-map &quot;multiplication by p&quot;</span>          </li>
+          <li>
+<span><a title="exact couple associated to a fibration" href="___Serre_spspectral_spsequence_spin_sphomology.html">Serre spectral sequence in homology</a> -- exact couple associated to a fibration</span>          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+
+</html>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>expectCoupleRing -- accepts certain rings of the form R[e_r,f_r], and installs Page, isEvenDegree, and isOddDegree</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="_expect__Exact__Couple.html">next</a> | <a href="_expect__Chain__Ring.html">previous</a> | <a href="_expect__Exact__Couple.html">forward</a> | <a href="_expect__Chain__Ring.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="accepts certain rings of the form R[e_r,f_r], and installs Page, isEvenDegree, and isOddDegree" href="_expect__Couple__Ring.html">expectCoupleRing</a>    </div>
+    <hr/>
+    <div>
+      <h1>expectCoupleRing -- accepts certain rings of the form R[e_r,f_r], and installs Page, isEvenDegree, and isOddDegree</h1>
+      <div>
+        <h2>Synopsis</h2>
+        <ul>
+          <li>
+            <dl class="element">
+              <dt>Usage: </dt>
+              <dd><tt>expectCoupleRing Q</tt></dd>
+            </dl>
+          </li>
+          <li>
+Inputs:            <ul>
+              <li>
+<span><tt>Q</tt>, <span>a <a title="the class of all rings" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Ring.html">ring</a></span></span>              </li>
+            </ul>
+          </li>
+          <li>
+            <div>
+Consequences:              <ul>
+                <li>
+causes an error if Q is not of the form R[e_r,f_r] with $deg(f)$ divisible by two                </li>
+                <li>
+Sets Q.Page, Q.isEvenDegree, and Q.isOddDegree                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h2>Description</h2>
+        <div>
+          <p>Specifically, Q should have exactly two generators over its coefficient ring, and these must be indexed variables with the same subscript.  Moreover, the degree of $f$ must be divisible by two.</p>
+          <p>Q.Page = r</p>
+          <p>Q.isEvenDegree is set to be a boolean-valued function so that</p>
+          <p></p>
+          <p>Q.isEvenDegree(deg) = not Q.isOddDegree(deg)</p>
+          <p></p>
+          <p>Q.isEvenDegree(deg + degree e_r) = Q.isOddDegree(deg)</p>
+          <p></p>
+          <p>Q.isEvenDegree(deg + degree f_r) = Q.isEvenDegree(deg)</p>
+          <p></p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : Q = coupleRing(QQ, 7, e, f)
+
+o1 = Q
+
+o1 : PolynomialRing</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i2 : describe Q
+
+o2 = QQ[e , f , Degrees => {{1}, {-2}}, Heft => {1..2}, MonomialOrder => {MonomialSize => 32}, DegreeRank => 2]
+         7   7              {0}  {2 }                                    {GRevLex => {1..2} }
+                                                                         {Position => Up    }</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i3 : expectCoupleRing Q</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i4 : Q.Page
+
+o4 = 7</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i5 : netList table(5,10,(i,j)->Q.isEvenDegree({i,j}))
+
+     +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
+o5 = |true |true |true |true |true |true |true |true |true |true |
+     +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
+     |false|false|false|false|false|false|false|false|false|false|
+     +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
+     |true |true |true |true |true |true |true |true |true |true |
+     +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
+     |false|false|false|false|false|false|false|false|false|false|
+     +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
+     |true |true |true |true |true |true |true |true |true |true |
+     +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i6 : netList table(5,10,(i,j)->Q.isOddDegree({i,j}))
+
+     +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
+o6 = |false|false|false|false|false|false|false|false|false|false|
+     +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
+     |true |true |true |true |true |true |true |true |true |true |
+     +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
+     |false|false|false|false|false|false|false|false|false|false|
+     +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
+     |true |true |true |true |true |true |true |true |true |true |
+     +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
+     |false|false|false|false|false|false|false|false|false|false|
+     +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+</pre>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="builds a couple ring" href="_couple__Ring.html">coupleRing</a> -- builds a couple ring</span>          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>Ways to use <tt>expectCoupleRing</tt>:</h2>
+        <ul>
+          <li>
+expectCoupleRing(Ring)          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>For the programmer</h2>
+        <p>The object <a title="accepts certain rings of the form R[e_r,f_r], and installs Page, isEvenDegree, and isOddDegree" href="_expect__Couple__Ring.html">expectCoupleRing</a> is <span>a <a title="a type of method function" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Method__Function.html">method function</a></span>.</p>
+      </div>
+    </div>
+  </body>
+
+</html>

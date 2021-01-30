@@ -1,0 +1,7 @@
+-- -*- M2-comint -*- hash: 768059377
+
+i1 : Q = QQ[d]/d^2;
+
+i2 : expectChainRing Q
+
+i3 : 

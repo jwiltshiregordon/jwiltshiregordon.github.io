@@ -1,0 +1,87 @@
+-- -*- M2-comint -*- hash: 629837545
+
+i1 : Q = coupleRing(ZZ,1,e,f,Degrees=>{{-1,0},{2,-2}})
+
+o1 = Q
+
+o1 : PolynomialRing
+
+i2 : declareCouple(Q, {z => {4,0}}, {x => {1,0}, y => {1,2}, w => {5,2}})
+
+o2 = cokernel {5, 2} | e_1^2 e_1f_1 0     0      0     0      0     0   |
+              {1, 0} | 0     0      e_1^2 e_1f_1 0     0      0     0   |
+              {1, 2} | 0     0      0     0      e_1^2 e_1f_1 0     0   |
+              {4, 0} | 0     0      0     0      0     0      e_1^3 f_1 |
+
+                            4
+o2 : Q-module, quotient of Q
+
+i3 : C = cospan(e_1*z-f_1*y)
+
+o3 = cokernel {5, 2} | 0    e_1^2 e_1f_1 0     0      0     0      0     0   |
+              {1, 0} | 0    0     0      e_1^2 e_1f_1 0     0      0     0   |
+              {1, 2} | -f_1 0     0      0     0      e_1^2 e_1f_1 0     0   |
+              {4, 0} | e_1  0     0      0     0      0     0      e_1^3 f_1 |
+
+                            4
+o3 : Q-module, quotient of Q
+
+i4 : isHomogeneous C
+
+o4 = true
+
+i5 : expectExactCouple C
+
+i6 : prune pageModule(1,D,C)
+
+o6 = cokernel {2, 1} | D_1 0   0   0   |
+              {0, 0} | 0   0   D_1 0   |
+              {0, 1} | 0   0   0   D_1 |
+              {2, 0} | 0   D_1 0   0   |
+
+     ZZ[D ]                     /ZZ[D ]\
+         1                      |    1 |4
+o6 : -------module, quotient of |------|
+        2                       |   2  |
+       D                        |  D   |
+        1                       \   1  /
+
+i7 : E2 = prune pageModule(2,D,C)
+
+o7 = cokernel {2, 0} | 0   0   |
+              {2, 1} | D_2 0   |
+              {0, 0} | 0   D_2 |
+
+     ZZ[D ]                     /ZZ[D ]\
+         2                      |    2 |3
+o7 : -------module, quotient of |------|
+        2                       |   2  |
+       D                        |  D   |
+        2                       \   2  /
+
+i8 : degree D_2
+
+o8 = {-2, 1}
+
+o8 : List
+
+i9 : structureMap({2,0}, {0,1}, D_2, pageModule(2,D,C))
+
+o9 = | 1 |
+
+              1        1
+o9 : Matrix ZZ  <--- ZZ
+
+i10 : prune pageModule(3,D,C)
+
+o10 = cokernel {2, 1} | D_3 0   |
+               {0, 0} | 0   D_3 |
+
+      ZZ[D ]                     /ZZ[D ]\
+          3                      |    3 |2
+o10 : -------module, quotient of |------|
+         2                       |   2  |
+        D                        |  D   |
+         3                       \   3  /
+
+i11 : 

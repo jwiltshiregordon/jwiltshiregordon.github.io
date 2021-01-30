@@ -1,0 +1,106 @@
+-- -*- M2-comint -*- hash: -654440313
+
+i1 : Q = ZZ[d, f, Degrees => {1,0}]/d^2;
+
+i2 : declareGenerators(Q, {p0 => 0, p1 => 1, p2 => 2, p3 => 3});
+
+i3 : C = cospan(d*p0, d*p1-2*p2, d*p2, d*p3) ** Q^1/(f-2); C
+
+o4 = cokernel {3} | f-2 0   0   0   0 0  0 d |
+              {0} | 0   f-2 0   0   d 0  0 0 |
+              {1} | 0   0   f-2 0   0 d  0 0 |
+              {2} | 0   0   0   f-2 0 -2 d 0 |
+
+                            4
+o4 : Q-module, quotient of Q
+
+i5 : isHomogeneous C
+
+o5 = true
+
+i6 : bock = exactCouple C
+warning: clearing value of symbol f to allow access to subscripted variables based on it
+       : debug with expression   debug 3406   or with command line option   --debug 3406
+
+o6 = cokernel {5}  | f_1-2 2e_1 0 e_1^2 0     0    0 0     0 0   0 0     0       0 0 e_1^2 e_1f_1 0     0      0     0   |
+              {-1} | 0     0    0 0     f_1-2 2e_1 0 e_1^2 0 0   0 0     0       0 0 0     0      e_1^2 e_1f_1 0     0   |
+              {2}  | 0     0    0 0     0     0    0 0     2 f_1 0 -2e_1 -e_1f_1 0 0 0     0      0     0      e_1^3 f_1 |
+
+                                                3
+o6 : ZZ[e , f ]-module, quotient of (ZZ[e , f ])
+         1   1                           1   1
+
+i7 : expectExactCouple bock
+
+i8 : P1 = prune pageModule(1,D,bock)
+
+o8 = cokernel {3} | 0 0   0 2 D_1 |
+              {0} | 2 D_1 0 0 0   |
+              {1} | 0 0   2 0 0   |
+
+     ZZ[D ]                     /ZZ[D ]\
+         1                      |    1 |3
+o8 : -------module, quotient of |------|
+        2                       |   2  |
+       D                        |  D   |
+        1                       \   1  /
+
+i9 : P2 = prune pageModule(2,D,bock)
+warning: clearing value of symbol e to allow access to subscripted variables based on it
+       : debug with expression   debug 3903   or with command line option   --debug 3903
+warning: clearing value of symbol f to allow access to subscripted variables based on it
+       : debug with expression   debug 3406   or with command line option   --debug 3406
+
+o9 = cokernel {3} | 0 0   2 D_2 |
+              {0} | 2 D_2 0 0   |
+
+     ZZ[D ]                     /ZZ[D ]\
+         2                      |    2 |2
+o9 : -------module, quotient of |------|
+        2                       |   2  |
+       D                        |  D   |
+        2                       \   2  /
+
+i10 : P3 = prune pageModule(3,D,bock)
+
+o10 = cokernel {3} | 0 0   2 D_3 |
+               {0} | 2 D_3 0 0   |
+
+      ZZ[D ]                     /ZZ[D ]\
+          3                      |    3 |2
+o10 : -------module, quotient of |------|
+         2                       |   2  |
+        D                        |  D   |
+         3                       \   3  /
+
+i11 : P1' = prune(map((ZZ/2)[D_1],ring P1) ** P1)
+
+o11 = cokernel {3} | 0   D_1 |
+               {0} | D_1 0   |
+               {1} | 0   0   |
+
+      ZZ                          ZZ     3
+o11 : --[D ]-module, quotient of (--[D ])
+       2  1                        2  1
+
+i12 : P2' = prune(map((ZZ/2)[D_2],ring P1) ** P1)
+
+       ZZ     3
+o12 = (--[D ])
+        2  2
+
+      ZZ
+o12 : --[D ]-module, free, degrees {3, 0..1}
+       2  2
+
+i13 : P3' = prune(map((ZZ/2)[D_3],ring P1) ** P1)
+
+       ZZ     3
+o13 = (--[D ])
+        2  3
+
+      ZZ
+o13 : --[D ]-module, free, degrees {3, 0..1}
+       2  3
+
+i14 : 

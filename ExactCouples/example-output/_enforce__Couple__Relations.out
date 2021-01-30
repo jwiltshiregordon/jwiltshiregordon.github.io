@@ -1,0 +1,20 @@
+-- -*- M2-comint -*- hash: -85103210
+
+i1 : Q = coupleRing(ZZ,1,e,f,Degrees=>{{-1,0},{2,-2}})
+
+o1 = Q
+
+o1 : PolynomialRing
+
+i2 : C = enforceCoupleRelations Q^{{0,0},{-1,0},{-2,0}}
+
+o2 = cokernel {0, 0} | e_1^3 f_1 0     0      0     0   |
+              {1, 0} | 0     0   e_1^2 e_1f_1 0     0   |
+              {2, 0} | 0     0   0     0      e_1^3 f_1 |
+
+                            3
+o2 : Q-module, quotient of Q
+
+i3 : expectExactCouple C
+
+i4 : 

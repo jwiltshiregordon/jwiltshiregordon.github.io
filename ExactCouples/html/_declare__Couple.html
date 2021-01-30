@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>declareCouple -- initializes generating classes for an exact couple</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="_declare__Generators.html">next</a> | <a href="_covariant__Ext__L__E__S.html">previous</a> | <a href="_declare__Generators.html">forward</a> | <a href="_covariant__Ext__L__E__S.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="initializes generating classes for an exact couple" href="_declare__Couple.html">declareCouple</a>    </div>
+    <hr/>
+    <div>
+      <h1>declareCouple -- initializes generating classes for an exact couple</h1>
+      <div>
+        <h2>Synopsis</h2>
+        <ul>
+          <li>
+            <dl class="element">
+              <dt>Usage: </dt>
+              <dd><tt>declareCouple(Q, pageClasses, auxClasses)</tt></dd>
+            </dl>
+          </li>
+          <li>
+Inputs:            <ul>
+              <li>
+<span><tt>Q</tt>, <span>a <a title="the class of all rings" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Ring.html">ring</a></span>, a couple ring</span>              </li>
+              <li>
+<span><tt>pageClasses</tt>, <span>a <a title="the class of all lists -- {...}" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___List.html">list</a></span>, of the form {... , generatorName => degree, ...} with generatorName a Symbol and degree a List. The degrees should be external degrees for the ring Q.  Since these classes appear on the page of the spectral sequence, their degrees should be even, i.e., Q.isEvenDegree(degree) should return true.</span>              </li>
+              <li>
+<span><tt>auxClasses</tt>, <span>a <a title="the class of all lists -- {...}" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___List.html">list</a></span>, also of the form {... , generatorName => degree, ...}; the degrees should be odd external degrees for Q.</span>              </li>
+            </ul>
+          </li>
+          <li>
+Outputs:            <ul>
+              <li>
+<span><span>a <a title="the class of all modules" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span>, a free exact couple with the specified generators</span>              </li>
+            </ul>
+          </li>
+          <li>
+            <div>
+Consequences:              <ul>
+                <li>
+assigns appropriate values to the symbols supplied as generator names                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h2>Description</h2>
+        <div>
+          <p>We build the homological Serre spectral sequence for the Hopf fibration S^3 \to S^2</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : Q = coupleRing(ZZ,1,e,f,Degrees=>{{-1,0},{2,-2}})
+
+o1 = Q
+
+o1 : PolynomialRing</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i2 : declareCouple(Q, {z => {4,0}}, {x => {1,0}, y => {1,2}, w => {5,2}})
+
+o2 = cokernel {5, 2} | e_1^2 e_1f_1 0     0      0     0      0     0   |
+              {1, 0} | 0     0      e_1^2 e_1f_1 0     0      0     0   |
+              {1, 2} | 0     0      0     0      e_1^2 e_1f_1 0     0   |
+              {4, 0} | 0     0      0     0      0     0      e_1^3 f_1 |
+
+                            4
+o2 : Q-module, quotient of Q</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i3 : C = cospan(e_1*z-f_1*y)
+
+o3 = cokernel {5, 2} | 0    e_1^2 e_1f_1 0     0      0     0      0     0   |
+              {1, 0} | 0    0     0      e_1^2 e_1f_1 0     0      0     0   |
+              {1, 2} | -f_1 0     0      0     0      e_1^2 e_1f_1 0     0   |
+              {4, 0} | e_1  0     0      0     0      0     0      e_1^3 f_1 |
+
+                            4
+o3 : Q-module, quotient of Q</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i4 : isHomogeneous C
+
+o4 = true</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i5 : expectExactCouple C</pre>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <h2>Caveat</h2>
+        <div>
+          <p>The output of declareCouple is a free exact couple, but it is not a free module for Q; the tautological couple relations are enforced.  If Q = R[e,f], then we have that f annihilates every page generator and e^2 annihilates every aux generator.  We also have that e*f and e^3 act by zero on all generators.</p>
+        </div>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="mods out by tautological relations satisfied by every exact couple" href="_enforce__Couple__Relations.html">enforceCoupleRelations</a> -- mods out by tautological relations satisfied by every exact couple</span>          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>Ways to use <tt>declareCouple</tt>:</h2>
+        <ul>
+          <li>
+declareCouple(Ring,List,List)          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>For the programmer</h2>
+        <p>The object <a title="initializes generating classes for an exact couple" href="_declare__Couple.html">declareCouple</a> is <span>a <a title="a type of method function" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Method__Function.html">method function</a></span>.</p>
+      </div>
+    </div>
+  </body>
+
+</html>

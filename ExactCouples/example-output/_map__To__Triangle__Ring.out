@@ -1,0 +1,41 @@
+-- -*- M2-comint -*- hash: 2113731419
+
+i1 : R = QQ[x];
+
+i2 : Q = R[d,f,Degrees=>{{1,2,3},{10,11,12}}]/d^2
+
+o2 = Q
+
+o2 : QuotientRing
+
+i3 : phi = mapToTriangleRing Q
+
+         R[d, e, f]
+o3 = map(----------,Q,{d, f, x})
+            2   3
+          (d , e )
+
+             R[d, e, f]
+o3 : RingMap ---------- <--- Q
+                2   3
+              (d , e )
+
+i4 : T = target phi
+
+o4 = T
+
+o4 : QuotientRing
+
+i5 : degree \ {Q_0, Q_1}
+
+o5 = {{1, 2, 3, 0}, {10, 11, 12, 0}}
+
+o5 : List
+
+i6 : degree \ {T_0, T_1, T_2}
+
+o6 = {{2, 4, 6, 0}, {-9, -9, -9, 0}, {20, 22, 24, 0}}
+
+o6 : List
+
+i7 : 

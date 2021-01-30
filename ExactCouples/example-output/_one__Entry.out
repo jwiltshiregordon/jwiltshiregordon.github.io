@@ -1,0 +1,43 @@
+-- -*- M2-comint -*- hash: -594137498
+
+i1 : R = QQ[x]
+
+o1 = R
+
+o1 : PolynomialRing
+
+i2 : oneEntry({3},{5},x^2)
+
+o2 = {3} | x2 |
+
+             1       1
+o2 : Matrix R  <--- R
+
+i3 : oneEntry(,{5},x^2)
+
+o3 = {3} | x2 |
+
+             1       1
+o3 : Matrix R  <--- R
+
+i4 : oneEntry({3},,x^2)
+
+o4 = {3} | x2 |
+
+             1       1
+o4 : Matrix R  <--- R
+
+i5 : S = QQ[y,Degrees=>{{4,-5}}]
+
+o5 = S
+
+o5 : PolynomialRing
+
+i6 : oneEntry(3,,y)
+
+o6 = {12, -15} | y |
+
+             1       1
+o6 : Matrix S  <--- S
+
+i7 : 

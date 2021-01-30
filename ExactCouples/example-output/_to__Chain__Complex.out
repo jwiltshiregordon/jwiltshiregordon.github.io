@@ -1,0 +1,35 @@
+-- -*- M2-comint -*- hash: -1202284394
+
+i1 : R = ZZ[d,Degrees=>{2}]/d^2;
+
+i2 : M = cokernel map(R^(-{{0},{1},{2},{3}}),,{{4,0,d,0},{0,6,0,d},{0,0,8,0},{0,0,0,10}})
+
+o2 = cokernel {0} | 4 0 d 0  |
+              {1} | 0 6 0 d  |
+              {2} | 0 0 8 0  |
+              {3} | 0 0 0 10 |
+
+                            4
+o2 : R-module, quotient of R
+
+i3 : isHomogeneous M
+
+o3 = true
+
+i4 : prune toChainComplex M
+
+o4 = cokernel | 8 | <-- cokernel | 32 | <-- cokernel | 4 |
+                                             
+     -2                 -1                  0
+
+o4 : ChainComplex
+
+i5 : apply(10,d->prune evaluateInDegree({d},M))
+
+o5 = {cokernel | 4 |, cokernel | 6 |, cokernel | 32 |, cokernel | 60 |,
+     ------------------------------------------------------------------------
+     cokernel | 8 |, cokernel | 10 |, 0, 0, 0, 0}
+
+o5 : List
+
+i6 : 

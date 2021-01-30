@@ -1,0 +1,51 @@
+-- -*- M2-comint -*- hash: 503004403
+
+i1 : k = QQ[s, t, u]; R = k[x, y]; m = matrix {{s*x^2+t*x*y+u*y^2}}; M = coker m
+
+             1       1
+o3 : Matrix R  <--- R
+
+o4 = cokernel | sx2+txy+uy2 |
+
+                            1
+o4 : R-module, quotient of R
+
+i5 : phi = structureMap({4}, {7}, x^2*y, M)
+
+o5 = | 0 0 0 0 0 |
+     | 1 0 0 0 0 |
+     | 0 1 0 0 0 |
+     | 0 0 1 0 0 |
+     | 0 0 0 1 0 |
+     | 0 0 0 0 1 |
+     | 0 0 0 0 0 |
+     | 0 0 0 0 0 |
+
+o5 : Matrix
+
+i6 : source phi
+
+o6 = cokernel | s 0 0 |
+              | t s 0 |
+              | u t s |
+              | 0 u t |
+              | 0 0 u |
+
+                            5
+o6 : k-module, quotient of k
+
+i7 : target phi
+
+o7 = cokernel | s 0 0 0 0 0 |
+              | t s 0 0 0 0 |
+              | u t s 0 0 0 |
+              | 0 u t s 0 0 |
+              | 0 0 u t s 0 |
+              | 0 0 0 u t s |
+              | 0 0 0 0 u t |
+              | 0 0 0 0 0 u |
+
+                            8
+o7 : k-module, quotient of k
+
+i8 : 

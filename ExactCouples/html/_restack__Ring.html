@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>restackRing -- changes the order in which variables were adjoined</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="_sequence__Module.html">next</a> | <a href="_restack__Module.html">previous</a> | <a href="_sequence__Module.html">forward</a> | <a href="_restack__Module.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="changes the order in which variables were adjoined" href="_restack__Ring.html">restackRing</a>    </div>
+    <hr/>
+    <div>
+      <h1>restackRing -- changes the order in which variables were adjoined</h1>
+      <div>
+        <h2>Synopsis</h2>
+        <ul>
+          <li>
+            <dl class="element">
+              <dt>Usage: </dt>
+              <dd><tt>restackRing(p,R)</tt></dd>
+            </dl>
+          </li>
+          <li>
+Inputs:            <ul>
+              <li>
+<span><tt>R</tt>, <span>a <a title="the class of all rings" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Ring.html">ring</a></span>, whose coefficient ring has a coefficient ring, etc, for at least n levels</span>              </li>
+              <li>
+<span><tt>p</tt>, <span>a <a title="the class of all lists -- {...}" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___List.html">list</a></span>, the desired reordering of these levels as a permutation of the list {1..n}, or more generally, a list of length n that contains every number 1..m for some m &lt;= n.</span>              </li>
+            </ul>
+          </li>
+          <li>
+Outputs:            <ul>
+              <li>
+<span><span>a <a title="the class of all ring maps" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Ring__Map.html">ring map</a></span>, from R to a new ring S with m levels where the variables are adjoined in the order determined by p</span>              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h2>Description</h2>
+        <div>
+          <p>We explain the meaning of the argument p.</p>
+          <p>Suppose R looks like this:</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>R = k[ ... vars_0 ... ][ ... vars_1 ... ]...[ ... vars_(n-1) ... ]</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>and suppose that I_k = { i | p#i = k }. Then, the target ring S looks like this:</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>S = k[ ... vars_(I_1) ... ][ ... vars_(I_2) ... ]...[ ... vars_(I_m) ... ]
+
+where
+
+vars_I = { vars_i | i \in I }</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>The length of p must not exceed the number of levels of the ring tower R.</p>
+          <p></p>
+          <p>This is because its entries correspond to these levels.  The first entry, p#0, tells where to send the The meaning of the argument p is as follows.  Recall that m is the largest value that appears in p, appearing, say, in positions {i_1, ..., i_k}.  Then, the outermost variables in the target ring S will be those that were adjoined</p>
+          <p></p>
+          <p>Here's an example restacking a ring that is four levels deep.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : A=QQ[x,y, Degrees => {{1,2},{1,2}}]/(x^2+y^2);</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i2 : B=A[b];</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i3 : C=B[p,q]/(p^3-2*q^3);</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i4 : D=C[d];</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i5 : restackRing({2,3,4,1}, D)
+
+         QQ[d][x, y]
+         -----------[b][p, q]
+            2    2
+           x  + y
+o5 = map(--------------------,D,{d, p, q, b, x, y})
+                3     3
+               p  - 2q
+
+             QQ[d][x, y]
+             -----------[b][p, q]
+                2    2
+               x  + y
+o5 : RingMap -------------------- &lt;--- D
+                    3     3
+                   p  - 2q</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>The following command flattens D completely.  (The same can be accomplished with flattenRing.)</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i6 : restackRing({1,1,1,1}, D)
+
+         QQ[x, y, b, p, q, d]
+o6 = map(--------------------,D,{d, p, q, b, x, y})
+            2    2   3     3
+          (x  + y , p  - 2q )
+
+             QQ[x, y, b, p, q, d]
+o6 : RingMap -------------------- &lt;--- D
+                2    2   3     3
+              (x  + y , p  - 2q )</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>If the list is shorter than length four, then deeper levels are preserved in the coefficient ring</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i7 : restackRing({1,1}, D)
+
+         B[p, q, d]
+o7 = map(----------,D,{d, p, q, b, x, y})
+           3     3
+          p  - 2q
+
+             B[p, q, d]
+o7 : RingMap ---------- &lt;--- D
+               3     3
+              p  - 2q</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>A more complicated surjection</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i8 : restackRing({2,1,2,1}, D)
+
+         QQ[b, d][x, y, p, q]
+o8 = map(--------------------,D,{d, p, q, b, x, y})
+            2    2   3     3
+          (x  + y , p  - 2q )
+
+             QQ[b, d][x, y, p, q]
+o8 : RingMap -------------------- &lt;--- D
+                2    2   3     3
+              (x  + y , p  - 2q )</pre>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <h2>Caveat</h2>
+        <div>
+          <p>Each stage of R may only introduce relations among the most-recent variables.  So, in the example, C=B[p,q]/(p^3-2*q^3) was allowed, but C=B[p,q]/(x*p^3-2*y*q^3) would not be.</p>
+        </div>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="restacks the ring that acts on a module" href="_restack__Module.html">restackModule</a> -- restacks the ring that acts on a module</span>          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>Ways to use <tt>restackRing</tt>:</h2>
+        <ul>
+          <li>
+restackRing(List,Ring)          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>For the programmer</h2>
+        <p>The object <a title="changes the order in which variables were adjoined" href="_restack__Ring.html">restackRing</a> is <span>a <a title="a type of method function" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Method__Function.html">method function</a></span>.</p>
+      </div>
+    </div>
+  </body>
+
+</html>

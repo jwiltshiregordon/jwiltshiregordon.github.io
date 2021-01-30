@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>Elementary introduction: solving linear equations in abelian groups -- a discussion of the equation 3x+6y=0.</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="___Encoding_spdiagrams_spas_spmodules.html">next</a> | <a href="_eid.html">previous</a> | <a href="___Encoding_spdiagrams_spas_spmodules.html">forward</a> | <a href="_eid.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="a discussion of the equation 3x+6y=0." href="___Elementary_spintroduction_co_spsolving_splinear_spequations_spin_spabelian_spgroups.html">Elementary introduction: solving linear equations in abelian groups</a>    </div>
+    <hr/>
+    <div>
+      <h1>Elementary introduction: solving linear equations in abelian groups -- a discussion of the equation 3x+6y=0.</h1>
+      <div>
+        <div>
+          <p>Suppose we are interested in solving the equation $3a_1 + 6a_2 = 0$ for pairs of elements $a_1, a_2$ drawn from an abelian group $A$.  Introduce notation for the solution set</p>
+          <p>$GA := { (a_1, a_2) \in A^2 | 3a_1 + 6a_2 = 0 }$</p>
+          <p>We make three observations about G:</p>
+          <p>1) There is a natural abelian group structure on $GA$</p>
+          <p>2) If $f: A \to B$ is a map, then any solution $(a_1, a_2)$ for $A$ pushes along $f$ to a solution $(f(a_1), f(a_2))$ for $B$.  We call the resulting induced map $Gf : GA \to GB$. In fact, $Gf$ is a group homomorphism.</p>
+          <p>3) If $i : A \subseteq X$ is an inclusion of abelian groups, then any solution in $A$ is also a solution in $X$; in other words, the map $Gi : GA \subseteq GX$ is an inclusion. In fact, the maps from 2) give an exact sequence $0 \to GA \to GX \to G(X/A)$ so that $G$ is left exact.</p>
+          <p>Observation 3) leads to a divide-and-conquer strategy for understanding $GX$.  If $X$ is a complicated abelian group, and if $A \subseteq X$ is an easier subgroup, then the exact sequence from 3) says that every solution in $X$ is patched from solutions in $GA$ and $G(X/A)$.  One must bear in mind that the map $GX \to G(X/A)$ may not be surjective, so not all solutions in $X/A$ lift to solutions in $X$.  However, if we are able to find generators for $I = image(G(X) \to G(X/A))$, then we can lift each of these to a solution in $X$.  From these, every solution can be obtained by adding elements of $GA$.</p>
+          <p>To assist in our understanding of $I$, we enlist the extended sequence (called (*) below)</p>
+          <p>$0 \to GA \to GX \to G(X/A) \to (R^1G)A \to (R^1G)X \to (R^1G)(X/A) \to 0$    <b>(*) </b></p>
+          <p>which we will construct shortly.  (Here, $R^1G$ is an operation like $G$ in that it satisfies properties 1) and 2) above.  It is known as the &quot;first right derived functor of G&quot;.  The zeroth right derived functor of $G$ is $G$ itself: $R^0G = G$)</p>
+          <p>Then, $I = kernel(\delta : G(X/A) \to (R^1G)A)$, the kernel of the connecting homomorphism.</p>
+          <p><b>Description of the derived functor $R^1G$ and connecting homomorphism</b></p>
+          <p>By a short homological argument, we shall prove an isomorphism</p>
+          <p>$(R^1G)(A) = A / { 3a_1 + 6a_2 | a_1, a_2 \in A }$ for any abelian group $A$.</p>
+          <p>Proof:</p>
+          <p>Let $W$ be the abelian group $\ZZ^2 / (3,6)$. The functor $G$ is naturally isomorphic to $Hom(W,-)$, so $R^1G$ is naturally isomorphic to $Ext^1(W,-)$, which can be computed from a free resolution $0 \to \ZZ \to \ZZ^2 \to W$. This resolution also shows that $R^pG = 0$ for $p > 1$.</p>
+          <p>We now describe the connecting homomorphism.</p>
+          <p>Let $(x_1,x_2) \in X^2$ be a solution in $X/A$ so that $3x_1 + 6x_2 \in A$.  Then, the connecting homomorphism is given by the formula</p>
+          <p>$\delta(x_1,x_2) = 3x_1 + 6x_2 \in (R^1G)A$.</p>
+          <p>We must check that $\delta$ does not depend on the choice of representatives.  Suppose $(x_1', x_2')$ represents the same solution in $X/A$.  Then $x_1' - x_1 \in A$, $x_2' - x_2 \in A$, and so</p>
+          <p>$\delta(x_1',x_2') - \delta(x_1,x_2) = 3(x_1'-x_1) + 6(x_2'-x_2)$</p>
+          <p>is of the form $3a_1 + 6a_2$, thereby vanishing in $(R^1G)A$.</p>
+          <p><b>Multi-step filtrations</b></p>
+          <p>If $X$ is quite complicated, then subgroup $A$ may not be simple enough to analyze directly.  It is natural to iterate the procedure above, choosing subgroups $A' \subseteq A$, and $A'' \subseteq X/A$ to subdivide the filtration dyadically as needed. It is equivalent, and better- organized, to allow ourselves a filtration by a chain of subgroups</p>
+          <p>$A_0 \subseteq A_1 \subseteq \cdots \subseteq A_n = X$.</p>
+          <p>We want to choose enough subgroups so that the quotients $A_q / A_{q-1}$ are not too difficult.  Specifically, we assume that each $A_q / A_{q-1}$ is easy enough that we can obtain good information about the $(R^pG)(A_q / A_{q-1})$.</p>
+          <p>Of course, we would be happier to understand the quotients $G(A_q) / G(A_{a-1})$, since from these the procedure for computing $GX$ is quite clear: simply pick representatives for each group $G(A_q) / G(A_{q-1})$; then, each element of $GX$ expands uniquely as a sum of representatives, one drawn from each successive quotient.</p>
+          <p>In other words, we start with information about $(R^pG)(A_q/A_{q-1})$ with the goal of understanding each $G(A_q) / G(A_{q-1})$.</p>
+          <p><b>The spectral sequence</b></p>
+          <p>The proper tool for this is a spectral sequence, which is a sequence of two-dimensional arrays (&quot;pages&quot;) of abelian groups and maps in a certain pattern, and with certain compatibilities.  Spectral sequences can be notationally dense, but our example will remain light.</p>
+          <p>The first page of our spectral sequence looks like this:</p>
+          <p></p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>page 1, with differential of degree {1, -1}:
++----++----+-----------------+-----------------+---+
+|q=4 ||0   |       ...       |       ...       |0  |
++----++----+-----------------+-----------------+---+
+|q=3 ||0   |    G A_3/A_2    |  R^1G A_3/A_2   |0  |
++----++----+-----------------+-----------------+---+
+|q=2 ||0   |    G A_2/A_1    |  R^1G A_2/A_1   |0  |
++----++----+-----------------+-----------------+---+
+|q=1 ||0   |    G A_1/A_0    |  R^1G A_1/A_0   |0  |
++----++----+-----------------+-----------------+---+
+|q=0 ||0   |      G A_0      |    R^1G A_0     |0  |
++----++----+-----------------+-----------------+---+
+|q=-1||0   |0                |0                |0  |
++----++----+-----------------+-----------------+---+
+|    ||p=-1|p=0              |p=1              |p=2|
++----++----+-----------------+-----------------+---+</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>This is a table of (R^pG)(A_q / A_{q-1}), essentially.  There are maps (not pictured) of degree $(1,-1)$ relating the groups in the p=0 column to those in the p=1 column.  They are called differentials, and their degree changes depending on the page number.  The differentials on page one are given by the composite</p>
+          <p>$D_1 : G(A_{q+1} / A_q) \to (R^1G)(A_q) \to (R^1G)(A_q / A_{q-1})$</p>
+          <p>where the first map is the connecting homomorphism in the sequence (*) for the pair $A_q \subseteq A_{q+1}$, and the second map comes from property 2) for $R^1G$.</p>
+          <p>Note that $D_1$ squares to zero because our diagram has only two nonzero columns. The modules on page two can be computed as the homology of the differential $D_1$.</p>
+          <p>We think of the p=0 column as containing potential solutions, and the p=1 column as containing potential obstructions to solutions.  The differential's job is to cancel out potential solutions with potential obstructions as appropriate, so that these elements do not appear on the next page.</p>
+          <p>After turning the page enough times, (for an $n$-step filtration, $n$ turns is enough), the answer stabilizes to the &quot;infinity&quot; page, which looks like this</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>page r >> 0, with differential of degree {1, -r}:
++----++----+-----------------+------------------------+---+
+|q=4 ||0   |       ...       |       ...              |0  |
++----++----+-----------------+------------------------+---+
+|q=3 ||0   |  G A_3 / G A_2  |  R^1G A_3 / R^1G A_2   |0  |
++----++----+-----------------+------------------------+---+
+|q=2 ||0   |  G A_2 / G A_1  |  R^1G A_2 / R^1G A_1   |0  |
++----++----+-----------------+------------------------+---+
+|q=1 ||0   |  G A_1 / G A_0  |  R^1G A_1 / R^1G A_0   |0  |
++----++----+-----------------+------------------------+---+
+|q=0 ||0   |      G A_0      |        R^1G A_0        |0  |
++----++----+-----------------+------------------------+---+
+|q=-1||0   |0                |0                       |0  |
++----++----+-----------------+------------------------+---+
+|    ||p=-1|p=0              |p=1                     |p=2|
++----++----+-----------------+------------------------+---+</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Now the p=0 column consists of actual solutions, and the p=1 column consists of hibernating obstructions that might reawaken if $X$ maps somewhere else.</p>
+          <p>To see how this might be useful, we mention some general facts about spectral sequences. First, the differential on each page always squares to zero.  Second, the next page is isomorphic to to the homology of the differential on the previous page.  Consequently, any zero entry persists forever, and more generally, entries only get smaller (in the sense of subquotients) as the pages turn.</p>
+          <p>In our example, the r=1 page is concentrated in the columns p=0,1, so every subsequent page is similarly bounded; and the differential on page $r$ has degree $(1,-r)$, so degree considerations ensure the square-zero property. Taking homology replaces the p=0 groups with kernels and the p=1 groups with cokernels.  This operation is therefore responsible for removing the extraneous solutions that may be present on the first page.  Let's try it!</p>
+          <p><b>Running the spectral sequence on an example</b></p>
+          <p>Let $X$ be the abelian group with three generators $a,b,c$ and defining relations $4a=b$, $4b=c$, and $4c=a$.  Let $A_0 = span(a+b+c)$, $A_1 = span(a+b+c,9a)$, and $A_2=X$.  Using the natural isomorphism of $G$ and $Hom(W,-)$ mentioned earlier, we build the spectral sequence as follows:</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : declareGenerators(ZZ, {a=>{}, b=>{}, c=>{}}); -- degrees in X are empty</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i2 : X = cospan(4*a-b,4*b-c,4*c-a)
+
+o2 = cokernel | 0  -1 4  |
+              | 4  0  -1 |
+              | -1 4  0  |
+
+                              3
+o2 : ZZ-module, quotient of ZZ</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i3 : A0 = image map(X,,matrix {a+b+c})
+
+o3 = subquotient (| 1 |, | 0  -1 4  |)
+                  | 1 |  | 4  0  -1 |
+                  | 1 |  | -1 4  0  |
+
+                                 3
+o3 : ZZ-module, subquotient of ZZ</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i4 : A1 = image map(X,,matrix {a+b+c,9*a})
+
+o4 = subquotient (| 1 0 |, | 0  -1 4  |)
+                  | 1 9 |  | 4  0  -1 |
+                  | 1 0 |  | -1 4  0  |
+
+                                 3
+o4 : ZZ-module, subquotient of ZZ</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i5 : W = coker matrix {{3},{6}}
+
+o5 = cokernel | 3 |
+              | 6 |
+
+                              2
+o5 : ZZ-module, quotient of ZZ</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i6 : M = prune covariantExtCouple(W,{A0,A1,X});
+warning: clearing value of symbol f to allow access to subscripted variables based on it
+       : debug with expression   debug 3406   or with command line option   --debug 3406</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i7 : plotPages((-1..2,-1..4,1..3), prune @@ evaluateInDegree, M)
+warning: clearing value of symbol e to allow access to subscripted variables based on it
+       : debug with expression   debug 3903   or with command line option   --debug 3903
+warning: clearing value of symbol f to allow access to subscripted variables based on it
+       : debug with expression   debug 3406   or with command line option   --debug 3406
+page 1, with differential of degree {1, -1}:
++----++----+----------------+--------------+---+
+|q=4 ||0   |0               |0             |0  |
++----++----+----------------+--------------+---+
+|q=3 ||0   |0               |0             |0  |
++----++----+----------------+--------------+---+
+|q=2 ||0   |cokernel | 3 0 ||cokernel | 3 ||0  |
+|    ||    |         | 0 3 ||              |   |
++----++----+----------------+--------------+---+
+|q=1 ||0   |cokernel | 7 |  |0             |0  |
++----++----+----------------+--------------+---+
+|q=0 ||0   |cokernel | 3 0 ||cokernel | 3 ||0  |
+|    ||    |         | 0 3 ||              |   |
++----++----+----------------+--------------+---+
+|q=-1||0   |0               |0             |0  |
++----++----+----------------+--------------+---+
+|    ||p=-1|p=0             |p=1           |p=2|
++----++----+----------------+--------------+---+
+
+page 2, with differential of degree {1, -2}:
++----++----+----------------+--------------+---+
+|q=4 ||0   |0               |0             |0  |
++----++----+----------------+--------------+---+
+|q=3 ||0   |0               |0             |0  |
++----++----+----------------+--------------+---+
+|q=2 ||0   |cokernel | 3 0 ||cokernel | 3 ||0  |
+|    ||    |         | 0 3 ||              |   |
++----++----+----------------+--------------+---+
+|q=1 ||0   |cokernel | 7 |  |0             |0  |
++----++----+----------------+--------------+---+
+|q=0 ||0   |cokernel | 3 0 ||cokernel | 3 ||0  |
+|    ||    |         | 0 3 ||              |   |
++----++----+----------------+--------------+---+
+|q=-1||0   |0               |0             |0  |
++----++----+----------------+--------------+---+
+|    ||p=-1|p=0             |p=1           |p=2|
++----++----+----------------+--------------+---+
+
+page 3, with differential of degree {1, -3}:
++----++----+----------------+--------------+---+
+|q=4 ||0   |0               |0             |0  |
++----++----+----------------+--------------+---+
+|q=3 ||0   |0               |0             |0  |
++----++----+----------------+--------------+---+
+|q=2 ||0   |cokernel | 3 |  |cokernel | 3 ||0  |
++----++----+----------------+--------------+---+
+|q=1 ||0   |cokernel | 7 |  |0             |0  |
++----++----+----------------+--------------+---+
+|q=0 ||0   |cokernel | 3 0 ||0             |0  |
+|    ||    |         | 0 3 ||              |   |
++----++----+----------------+--------------+---+
+|q=-1||0   |0               |0             |0  |
++----++----+----------------+--------------+---+
+|    ||p=-1|p=0             |p=1           |p=2|
++----++----+----------------+--------------+---+</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Some things we can conclude just from the first page:</p>
+          <p>1) The differential on page 1 vanishes.  The only one with any potential maps from $\ZZ/7$ to $\ZZ/3$, and is therefore zero.</p>
+          <p>2) On later pages, there is only one potential nonzero differential, and it will happen (if it happens) on page 2. Moreover, since $R^1GA_0$ is a simple group, this differential is either zero or surjective. In either case, we have enough information to compute the order of $GX$: it will have size either $3^4 \cdot 7$ or $3^3 \cdot 7$.</p>
+          <p>3) For degree reasons, the entries in positions (0,0) and (0,1) survive to the infinity page. Practically speaking, this means that every potential solution in $G(A_1/A_0)$ lifts to a true solution.</p>
+          <p>4) We also know that $R^1GX$ is either $\ZZ/3$ or $\ZZ/3 \oplus \ZZ/3$, and this information would also tell us the order of $GX$.  ($\ZZ/9$ is not possible because $R^1G$ always has exponent 3)</p>
+          <p>5) We know that $GX$ is not cyclic because its subgroup $G(A_0)$ is not cyclic.</p>
+          <p>Let's try to understand $GX$ by hand using this information.</p>
+          <p>We start by finding the nine solutions in $A_0$.  This is easy, since $4(a+b+c)=a+b+c$ and so $3(a+b+c)=0$.  Therefore, $A_0 \cong \ZZ/3$ and so any pair in $A_0$ solves the equation.  Explicitly, setting $w=a+b+c$, we have nine solutions $(k*w,l*w) \in GA_0$ for $k,l \in \{0,1,2\}$.</p>
+          <p>Next, by observation 3), we know that solutions in $G(A_1/A_0)$ will lift and that $G(A_1)/G(A_0) = \ZZ / 7$.  Since $A_1$ is generated by $A_0$ together with one new element, we know $A_1/A_0$ is cyclic with generator $9a$. Its order must be prime to 3 because $R^1G$ vanishes on this group.  We may therefore divide the equation $3x+6y=0$ by three, obtaining $x+2y=0$ and $x=-2y$.  Taking $y=9a$ gives the solution $(-18a,9a)$ in $A_1/A_0$.  The group $A_1/A_0$ is nonzero since $G(A_1/A_0) = \ZZ/7$, and thus this solution is nonzero, since its second coordinate generates the nonzero cyclic group $A_1/A_0$. This proves that we have found a generator for $G(A_1)/G(A_0)$, since any nonzero element generates $\ZZ/7$. Observing that the solution $(-18a,9a)$ also works in $GA_1$, we find that we have fully computed $GA_1$: it is isomorphic to $(\ZZ/3)^2 \oplus \ZZ/7$, generated by $(a+b+c,0)$, $(0,a+b+c)$, and $(-18a,9a)$.</p>
+          <p>We could now contend with $G(X/A_1)$, which is isomorphic to $\ZZ/3 \oplus \ZZ/3$.  We know that either all nine or only three of these lift to solutions in GX.</p>
+          <p>Instead, let's compute $R^1GX$.  Since the p>1 derived functors vanish, $R^1G$ is right exact. Moreover, by the general calculation, it sends $\ZZ$ to $\ZZ/3$.  This proves that $R^1G$ coincides with $- \otimes \ZZ/3$. By right exactness, we may apply $R^1G$ directly to the presentation for $X$ to obtain a matrix over $\ZZ/3$:</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i8 : prune coker(map(ZZ/3,ZZ) ** (presentation X))
+
+      ZZ 1
+o8 = (--)
+       3
+
+     ZZ
+o8 : ---module, free
+      3</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>According to this calculation, the total $\ZZ/3$-dimension of the p=1 column at the infinity page must be 1.  The only way this could happen is if the differential on page 2 is surjective.</p>
+          <p>And indeed, that is what we see on pages 2 and 3.</p>
+          <p>(In fact, the author was aided by knowledge of pages 2 and 3 in the construction of the argument above.  Knowing the answer often makes proving it easier.)</p>
+          <p>Using this package, it is also possible to compute directly the differentials on these pages. First we compute the pages as modules</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i9 : E1 = prune pageModule(1, D, M)
+
+o9 = cokernel {0, 0} | 3 0 0 0 0 D_1 0   0   0   0 0   0 0   0   |
+              {0, 0} | 0 3 0 0 0 0   D_1 0   0   0 0   0 0   0   |
+              {0, 1} | 0 0 7 0 0 0   0   D_1 0   0 0   0 0   0   |
+              {0, 2} | 0 0 0 3 0 0   0   0   D_1 0 0   0 0   0   |
+              {1, 0} | 0 0 0 0 0 0   0   0   0   3 0   0 D_1 0   |
+              {0, 2} | 0 0 0 0 3 0   0   0   0   0 D_1 0 0   0   |
+              {1, 2} | 0 0 0 0 0 0   0   0   0   0 0   3 0   D_1 |
+
+     ZZ[D ]                     /ZZ[D ]\
+         1                      |    1 |7
+o9 : -------module, quotient of |------|
+        2                       |   2  |
+       D                        |  D   |
+        1                       \   1  /</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i10 : E2 = prune pageModule(2, D, M)
+
+o10 = cokernel {0, 2} | 3 0 0 0 0 0   0   0   0   0 0   |
+               {0, 0} | 0 3 0 0 0 D_2 0   0   0   0 0   |
+               {0, 0} | 0 0 3 0 0 0   D_2 0   0   0 0   |
+               {0, 1} | 0 0 0 7 0 0   0   D_2 0   0 0   |
+               {0, 2} | 0 0 0 0 3 0   0   0   D_2 0 0   |
+               {1, 2} | 0 0 0 0 0 0   0   0   0   3 D_2 |
+
+      ZZ[D ]                     /ZZ[D ]\
+          2                      |    2 |6
+o10 : -------module, quotient of |------|
+         2                       |   2  |
+        D                        |  D   |
+         2                       \   2  /</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i11 : E3 = prune pageModule(3, D, M)
+
+o11 = cokernel {0, 0} | 3 0 0 0 D_3 0   0   0   0 0   |
+               {0, 0} | 0 3 0 0 0   D_3 0   0   0 0   |
+               {0, 1} | 0 0 7 0 0   0   D_3 0   0 0   |
+               {0, 2} | 0 0 0 3 0   0   0   D_3 0 0   |
+               {1, 2} | 0 0 0 0 0   0   0   0   3 D_3 |
+
+      ZZ[D ]                     /ZZ[D ]\
+          3                      |    3 |5
+o11 : -------module, quotient of |------|
+         2                       |   2  |
+        D                        |  D   |
+         3                       \   3  /</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Each of these modules is over a different ring.  Specifically, page $r$ is a module for $\ZZ[D_r]/(D_r)^2$ where the degree of $D_r$ is $(1,-r)$.</p>
+          <p>We may compute the interesting differential on page two using the following command.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i12 : prune structureMap({0,2},{1,0},D_2,E2)
+
+o12 = | 1 0 |
+
+o12 : Matrix</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>So we see directly that this differential is a surjection.</p>
+          <p><b>A peek at the exact couple</b></p>
+          <p>One of the main headaches of a spectral sequence is that the modules and differentials on one page compute the next page of modules, but not the differentials.</p>
+          <p>However, there is another object, called an exact couple, that determines a spectral sequence but also has the property that each of its &quot;pages&quot; fully determines the next.  It may not be true that every spectral sequence is constructed by means of an exact couple, but certainly most of the common ones can.</p>
+          <p>An exact couple is a generalization of the exact sequence (*) only in that it consists in this sequence for every pair $A_{q-1} \subseteq A_q$.  In order to accommodate so many long exact sequences, and because these sequences overlap, we adjust the layout of (*) to a stackable N-shaped zig-zag</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>|
+|      GX        R^1GX
+|      ^ \        ^ \
+|      |  \       |  \
+|      |   \      |   \
+| 0    |  G(X/A)  |   R^1G(X/A)
+|  \   |     \    |     \
+|   \  |      \   |      \
+|    \ |       \  |       \
+|     GA       R^1GA       0</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>resulting in a larger, more complicated-looking diagram:</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>|      .        .
+|      :        :
+|     GA2     R1GA2
+|      ^\       ^\
+|      | \      | \
+|      |  \     |  \
+| 0    | GA2/A1 | R1GA2/A1
+|  \   |    \   |    \
+|   \  |     \  |     \
+|    \ |      \ |      \
+|     GA1     R1GA1     0
+|      ^\       ^\
+|      | \      | \
+|      |  \     |  \
+| 0    | GA1/A0 | R1GA1/A0
+|  \   |    \   |    \
+|   \  |     \  |     \
+|    \ |      \ |      \
+|     GA0     R1GA0     0
+|      ^\       ^\
+|      | \      | \
+|      |  \     |  \
+| 0    | *GA0*  |  R1GA0
+|  \   |    \   |    \
+|   \  |     \  |     \
+|    \ |      \ |      \
+|     0        0        0</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Let's put coordinates on this diagram.  The entry marked *GA0* is in position (0,0). The diagonal maps, which go downward and rightward, have degree (1,-1), and the upward maps have degree (0,2).  So the diagram is supported in degrees (x,y) where x+y is even.</p>
+          <p>If we introduce a ring R = \ZZ[e,f, Degrees=>{{1,-1},{0,2}}], then the diagram becomes a graded R-module where e acts by the diagonal maps, and f acts by the upwards maps.</p>
+          <p>In the example above, we named this module M.  Observe that M encodes an exact couple by setting $E$ to be the odd part and $A$ to be the even part. The purpose of this package is to make easy the calculation of couples like $M$, their derived couples, and the resulting spectral sequences.</p>
+        </div>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="building graded modules with specified modules in certain degrees, and with specified action maps" href="___Encoding_spdiagrams_spas_spmodules.html">Encoding diagrams as modules</a> -- building graded modules with specified modules in certain degrees, and with specified action maps</span>          </li>
+          <li>
+<span><a title="specifics on encoding exact couples as modules for a ring" href="___Conventions_spand_spfirst_spexamples.html">Conventions and first examples</a> -- specifics on encoding exact couples as modules for a ring</span>          </li>
+          <li>
+<span><a title="a singly-graded spectral sequence built from the chain self-map &quot;multiplication by p&quot;" href="___Bockstein_spspectral_spsequence.html">Bockstein spectral sequence</a> -- a singly-graded spectral sequence built from the chain self-map &quot;multiplication by p&quot;</span>          </li>
+          <li>
+<span><a title="exact couple associated to a fibration" href="___Serre_spspectral_spsequence_spin_sphomology.html">Serre spectral sequence in homology</a> -- exact couple associated to a fibration</span>          </li>
+          <li>
+<span><a title="building couples by applying Tor or Ext to a filtered module or a graded R[t]-module" href="___Exact_spcouples_spfor_sp__Tor_spand_sp__Ext.html">Exact couples for Tor and Ext</a> -- building couples by applying Tor or Ext to a filtered module or a graded R[t]-module</span>          </li>
+          <li>
+<span><a title="induced maps between couples and spectral sequences" href="___Functoriality_spfor_sp__Tor_spand_sp__Ext_spcouples.html">Functoriality for Tor and Ext couples</a> -- induced maps between couples and spectral sequences</span>          </li>
+          <li>
+<span><a title="restacks the ring that acts on a module" href="_restack__Module.html">restackModule</a> -- restacks the ring that acts on a module</span>          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+
+</html>

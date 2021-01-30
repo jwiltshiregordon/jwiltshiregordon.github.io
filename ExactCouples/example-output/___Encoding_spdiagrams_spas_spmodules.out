@@ -1,0 +1,151 @@
+-- -*- M2-comint -*- hash: 425518818
+
+i1 : R = QQ[x,y,Degrees=>{{1,2,3},{4,5,6}}]
+
+o1 = R
+
+o1 : PolynomialRing
+
+i2 : S = R[f,g,Degrees=>{{1,0},{0,1}}]
+
+o2 = S
+
+o2 : PolynomialRing
+
+i3 : internal = internalDegreeIndices S
+
+o3 = {2, 3, 4}
+
+o3 : List
+
+i4 : external = externalDegreeIndices S
+
+o4 = {0, 1}
+
+o4 : List
+
+i5 : deg = {2,3,4,5,6}
+
+o5 = {2, 3, 4, 5, 6}
+
+o5 : List
+
+i6 : deg_internal
+
+o6 = {4, 5, 6}
+
+o6 : List
+
+i7 : deg_external
+
+o7 = {2, 3}
+
+o7 : List
+
+i8 : R = QQ[z]
+
+o8 = R
+
+o8 : PolynomialRing
+
+i9 : S = R[f,g,Degrees=>{{1,0},{0,1}}]
+
+o9 = S
+
+o9 : PolynomialRing
+
+i10 : declareGenerators(S, {a => {0,0,3}, b => {0,1,1}, c => {1,0,2}, d => {1,1,0}})
+
+       4
+o10 = S
+
+o10 : S-module, free, degrees {{1, 0, 2}, {1, 1, 0}, {0, 0, 3}, {0, 1, 1}}
+
+i11 : M = cospan(z^13*a, z^15*b, z^6*c, z^8*d,
+                 g*a - z^2*b, g*c - z^2*d, f*a - z*c, f*b - z*d)
+
+o11 = cokernel {1, 0, 2} | 0   0   z6 0  0   g   -z 0  |
+               {1, 1, 0} | 0   0   0  z8 0   -z2 0  -z |
+               {0, 0, 3} | z13 0   0  0  g   0   f  0  |
+               {0, 1, 1} | 0   z15 0  0  -z2 0   0  f  |
+
+                             4
+o11 : S-module, quotient of S
+
+i12 : netList apply(2, r -> apply(2, c -> prune evaluateInDegree({r,c}, M)))
+
+      +--------------------+--------------------+
+o12 = |cokernel {3} | z13 ||cokernel {1} | z15 ||
+      +--------------------+--------------------+
+      |cokernel {2} | z6 | |cokernel | z8 |     |
+      +--------------------+--------------------+
+
+i13 : prune structureMap({0,0},,g,M)
+
+o13 = {1} | z2 |
+
+o13 : Matrix
+
+i14 : prune structureMap({1,0},,g,M)
+
+o14 = | z2 |
+
+o14 : Matrix
+
+i15 : prune structureMap({0,0},,f,M)
+
+o15 = {2} | z |
+
+o15 : Matrix
+
+i16 : prune structureMap({0,1},,f,M)
+
+o16 = | z |
+
+o16 : Matrix
+
+i17 : S' = R[f][g]
+
+o17 = S'
+
+o17 : PolynomialRing
+
+i18 : phi = map(S',S,DegreeMap=>deg->deg_{1,0,2})
+
+o18 = map(S',S,{f, g, z})
+
+o18 : RingMap S' <--- S
+
+i19 : isHomogeneous phi
+
+o19 = true
+
+i20 : M' = phi ** M
+
+o20 = cokernel {0, 1, 2} | 0   0   z6 0  0   g   -z 0  |
+               {1, 1, 0} | 0   0   0  z8 0   -z2 0  -z |
+               {0, 0, 3} | z13 0   0  0  g   0   f  0  |
+               {1, 0, 1} | 0   z15 0  0  -z2 0   0  f  |
+
+                               4
+o20 : S'-module, quotient of S'
+
+i21 : cokerg = coker structureMap({0},,g,M')
+
+o21 = cokernel {1, 2} | 1 0 0  1   -z 0   z6 0   |
+               {1, 0} | 0 0 -z -z2 0  0   0  0   |
+               {0, 3} | 0 1 0  0   f  1   0  z13 |
+               {0, 1} | 0 0 f  0   0  -z2 0  0   |
+
+                                     4
+o21 : R[f]-module, quotient of (R[f])
+
+i22 : ker structureMap({0},,f,cokerg)
+
+o22 = subquotient ({3} | 0 |, {3} | 1 0  |)
+                   {1} | z |  {1} | 0 z2 |
+
+                                2
+o22 : R-module, subquotient of R
+
+i23 : 

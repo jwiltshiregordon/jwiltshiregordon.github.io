@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>derivedCouple -- builds the derived couple of an exact couple</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="_derived__Couple__Ring.html">next</a> | <a href="_declare__Generators.html">previous</a> | <a href="_derived__Couple__Ring.html">forward</a> | <a href="_declare__Generators.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="builds the derived couple of an exact couple" href="_derived__Couple.html">derivedCouple</a>    </div>
+    <hr/>
+    <div>
+      <h1>derivedCouple -- builds the derived couple of an exact couple</h1>
+      <div>
+        <h2>Synopsis</h2>
+        <ul>
+          <li>
+            <dl class="element">
+              <dt>Usage: </dt>
+              <dd><tt>derivedCouple M</tt></dd>
+            </dl>
+          </li>
+          <li>
+Inputs:            <ul>
+              <li>
+<span><tt>M</tt>, <span>a <a title="the class of all modules" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span>, over a couple ring, and encoding an exact couple</span>              </li>
+            </ul>
+          </li>
+          <li>
+Outputs:            <ul>
+              <li>
+<span><span>a <a title="the class of all modules" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span>, over the derived couple ring, and encoding the derived couple</span>              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h2>Description</h2>
+        <div>
+          <p>Suppose the ring of M is the couple ring R[e, f].</p>
+          <p>Let S be the subring R[e^2, f].  Homogeneous elements of S are restricted to an index-two subgroup of the bidegrees of M; as an S-module, M splits as a direct sum of its even part and its odd part.  We write A for the odd part and E for the even part.  Multiplication by e induces maps from E to A and back again.  Since M encodes an exact couple, we have</p>
+          <p>image(f : A --> A) = kernel(e : A --> E)</p>
+          <p>image(e : A --> E) = kernel(e : E --> A)</p>
+          <p>image(e : E --> A) = kernel(f : A --> A).</p>
+          <p>The derived couple then replaces A with image(f : A --> A) and E with ker(e^2 : E --> E) / im(e^2 : E --> E).  Our grading convention is logical, if nonstandard.  Since the differential on E is e^2, which the the composite E -e-> A -e-> E, we place A at the midpoint of the differential.  Moreover, since the construction of the derived couple makes use of the first isomorphism theorem between the image and coimage of f, which therefore have equal claim to being A', we place A' at the midpoint of f.  We keep E' in the same degrees.</p>
+          <p>This all works well, except that the degree of f must be divisible by 2 so that A' can live at its midpoint.  The current implementation doubles all degrees of the input module so that these midpoints exist and are unique.  In a future version of M2 that allows grading by a general abelian group, the user would be expected to supply a degree that doubles to the degree of f.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : R = QQ[d,t,Degrees=>{{0,1},{1,0}}]/d^2;</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i2 : declareGenerators(R,{a=>{0,0},b=>{0,0},c=>{0,0},ab=>{0,1},ac=>{0,1},bc=>{0,1}});</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i3 : M = cospan(d*a+ab+ac, d*b-ab+bc, d*c-ac-bc, d*ab, d*ac, d*bc,
+                t*bc, t^2*ac, t^3*ab, t^4*c, t^5*b, t^6*a);</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i4 : Q = QQ[e_1,f_1,Degrees=>{{-1,1},{2,0}}];</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i5 : E1 = exactCouple(Q, M)
+
+o5 = cokernel {1, -1}  | e_1^2 e_1f_1 0 0   0     0    0 0   0     0 0     f_1^4 0 0   0     0 0     0 0   0 e_1^2 e_1f_1 0     0   0     0      0     0   0     0      0     0   0     0   |
+              {2, 0}   | 0     0      0 f_1 0     0    0 0   0     0 0     0     0 0   0     0 0     0 0   0 0     0      e_1^3 f_1 0     0      0     0   0     0      0     0   0     0   |
+              {5, -1}  | 0     0      0 0   e_1^2 f_1  0 0   0     0 0     0     0 0   0     0 0     0 0   0 0     0      0     0   e_1^2 e_1f_1 0     0   0     0      0     0   0     0   |
+              {8, -2}  | 0     0      0 0   0     -e_1 0 f_1 e_1^2 0 0     0     0 0   0     0 0     0 0   0 0     0      0     0   0     0      e_1^3 f_1 0     0      0     0   0     0   |
+              {7, -1}  | 0     0      0 0   0     0    0 0   0     0 e_1^2 -f_1  0 0   0     0 f_1^2 0 0   0 0     0      0     0   0     0      0     0   e_1^2 e_1f_1 0     0   0     0   |
+              {10, -2} | 0     0      0 0   0     0    0 0   0     0 0     -e_1  0 f_1 e_1^2 0 0     0 0   0 0     0      0     0   0     0      0     0   0     0      e_1^3 f_1 0     0   |
+              {12, -2} | 0     0      0 0   0     0    0 0   0     0 0     0     0 0   0     0 -e_1  0 f_1 0 0     0      0     0   0     0      0     0   0     0      0     0   e_1^3 f_1 |
+
+                            7
+o5 : Q-module, quotient of Q</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i6 : expectExactCouple E1;</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i7 : E2 = derivedCouple E1
+warning: clearing value of symbol e to allow access to subscripted variables based on it
+       : debug with expression   debug 3903   or with command line option   --debug 3903
+
+o7 = cokernel {8, -2}  | 0     0      f_2 e_2^3 0   0     0     0   |
+              {10, -2} | 0     0      0   0     f_2 e_2^3 0     0   |
+              {12, -2} | 0     0      0   0     0   0     -e_2  f_2 |
+              {2, -1}  | e_2^2 e_2f_2 0   0     0   0     f_2^4 0   |
+
+                                                4
+o7 : QQ[e , f ]-module, quotient of (QQ[e , f ])
+         2   2                           2   2</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i8 : expectExactCouple E2;</pre>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <h2>Caveat</h2>
+        <div>
+          <p></p>
+        </div>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="builds an exact couple from a R[d,f]/d^2-module" href="_exact__Couple.html">exactCouple</a> -- builds an exact couple from a R[d,f]/d^2-module</span>          </li>
+          <li>
+<span><a title="accepts a module if it encodes an exact couple" href="_expect__Exact__Couple.html">expectExactCouple</a> -- accepts a module if it encodes an exact couple</span>          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>Ways to use <tt>derivedCouple</tt>:</h2>
+        <ul>
+          <li>
+derivedCouple(Module)          </li>
+          <li>
+derivedCouple(ZZ,Module)          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>For the programmer</h2>
+        <p>The object <a title="builds the derived couple of an exact couple" href="_derived__Couple.html">derivedCouple</a> is <span>a <a title="a type of method function" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Method__Function.html">method function</a></span>.</p>
+      </div>
+    </div>
+  </body>
+
+</html>

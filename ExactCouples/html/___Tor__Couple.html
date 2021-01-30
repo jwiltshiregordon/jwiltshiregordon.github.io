@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>TorCouple -- the exact couple obtained by applying Tor(W,-) to a filtered module</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="___Tor__L__E__S.html">next</a> | <a href="_to__Chain__Complex.html">previous</a> | <a href="___Tor__L__E__S.html">forward</a> | <a href="_to__Chain__Complex.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="the exact couple obtained by applying Tor(W,-) to a filtered module" href="___Tor__Couple.html">TorCouple</a>    </div>
+    <hr/>
+    <div>
+      <h1>TorCouple -- the exact couple obtained by applying Tor(W,-) to a filtered module</h1>
+      <div>
+        <h2>Synopsis</h2>
+        <ul>
+          <li>
+            <dl class="element">
+              <dt>Usage: </dt>
+              <dd><tt>TorCouple(W,submods)</tt></dd>
+            </dl>
+          </li>
+          <li>
+Inputs:            <ul>
+              <li>
+<span><tt>W</tt>, <span>a <a title="the class of all modules" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span>, for some ring R, giving a functor Tor(W,-)</span>              </li>
+              <li>
+<span><tt>submods</tt>, <span>a <a title="the class of all lists -- {...}" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___List.html">list</a></span>, of R-modules {A_0, A_1, ..., A_m} with each A_i inside A_{i+1}</span>              </li>
+            </ul>
+          </li>
+          <li>
+Outputs:            <ul>
+              <li>
+<span><tt>M</tt>, <span>a <a title="the class of all modules" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span>, an exact couple</span>              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h2>Description</h2>
+        <div>
+          <p>For notational convenience, set $X = A_m$, and extend the sequence $A_i$ to all $i \in \ZZ$ by setting $A_i = 0$ for $i &lt; 0$, and $A_i = X$ for $i > m$.</p>
+          <p>The returned couple $M$ is a module for the ring R[e_1,f_1,Degrees=>{{-1,-1},{0,2}}]. We describe the module $M$ in every bidegree $(s,t)$.  The description depends on the parity of $s$ and $t$.</p>
+          <p></p>
+          <p>If $s$ and $t$ are both even, say $(s,t) = (2p, 2q)$, then</p>
+          <p>$M_{s,t} = Tor_p(W,A_q/A_{q-1})$;</p>
+          <p>if $s$ and $t$ are both odd, say $(s,t) = (2p+1,2q+1)$, then</p>
+          <p>$M_{s,t} = Tor_p(W,A_q)$;</p>
+          <p>and otherwise, if $s$ and $t$ sum to an odd number, then $M_{s,t} = 0$.</p>
+          <p>The variables $e_1$ and $f_1$ act by the maps in the various long exact sequences</p>
+          <p>$Tor_p(W, A_{q-1}) \to Tor_p(W, A_q) \to Tor_p(W, A_q / A_{q-1}) \to Tor_{p-1}(W, A_{q-1})$.</p>
+          <p><b>Associated spectral sequence</b></p>
+          <p>The spectral sequence associated to this couple converges to $Tor_p(W,X)$. The differential on page $r$ has bidegree $(-1,-r)$.  The first page has</p>
+          <p>$E^{pq}_1 = Tor_p(W,A_q/A_{q-1})$.</p>
+          <p>Setting $F^p_q = image(Tor_p(W,A_q) \to Tor_p(W,X))$, the infinity page has</p>
+          <p>$E^{p,q}_{\infty} = F^p_{q} / F^p_{q-1}$.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : R = QQ[x]
+
+o1 = R
+
+o1 : PolynomialRing</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i2 : X = R^1 / x^9
+
+o2 = cokernel | x9 |
+
+                            1
+o2 : R-module, quotient of R</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i3 : submods = apply(5,k->image map(X,,{{x^(8-2*k)}}));</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i4 : for m in submods do print m;
+subquotient (| x8 |, | x9 |)
+subquotient (| x6 |, | x9 |)
+subquotient (| x4 |, | x9 |)
+subquotient (| x2 |, | x9 |)
+subquotient (| 1 |, | x9 |)</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i5 : W = coker map(R^1,,{{x^3}})
+
+o5 = cokernel | x3 |
+
+                            1
+o5 : R-module, quotient of R</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i6 : couple = prune TorCouple(W,submods)
+warning: clearing value of symbol f to allow access to subscripted variables based on it
+       : debug with expression   debug 3406   or with command line option   --debug 3406
+
+o6 = cokernel {3, 1, 11} | x e_1^2 f_1 0     0 0   0   0   0     0      0     0  0   0   0     0  0   0   0     0  0   0   0     0   0     0     0     0     0     0      |
+              {3, 3, 9}  | 0 0     -x2 e_1^2 0 0   0   0   x2e_1 e_1f_1 0     0  0   0   0     0  0   0   0     0  0   0   0     0   0     0     0     0     0     0      |
+              {1, 1, 8}  | 0 0     0   0     x 0   0   0   0     0      e_1^2 0  0   f_1 0     0  0   0   0     0  0   0   0     0   0     0     0     0     0     0      |
+              {2, 4, 7}  | 0 0     0   0     0 e_1 0   0   0     0      0     x2 f_1 0   0     0  0   0   0     0  0   0   0     0   0     0     0     0     0     0      |
+              {1, 3, 6}  | 0 0     0   0     0 x   0   0   0     0      0     0  0   -x2 e_1^2 0  0   f_1 0     0  0   0   0     0   0     x2e_1 0     0     0     0      |
+              {2, 6, 5}  | 0 0     0   0     0 0   e_1 0   0     0      0     0  0   0   0     x2 f_1 0   0     0  0   0   0     0   0     0     0     0     0     0      |
+              {1, 5, 4}  | 0 0     0   0     0 0   x   0   0     0      0     0  0   0   0     0  0   -x2 e_1^2 0  0   f_1 0     0   0     0     x2e_1 0     0     0      |
+              {2, 8, 3}  | 0 0     0   0     0 0   0   e_1 0     0      0     0  0   0   0     0  0   0   0     x2 f_1 0   0     0   0     0     0     0     0     0      |
+              {1, 7, 2}  | 0 0     0   0     0 0   0   x   0     0      0     0  0   0   0     0  0   0   0     0  0   -x2 e_1^2 f_1 0     0     0     x2e_1 0     0      |
+              {1, 9, 0}  | 0 0     0   0     0 0   0   0   0     0      0     0  0   0   0     0  0   0   0     0  0   0   0     -x2 e_1^2 0     0     0     x2e_1 e_1f_1 |
+
+                                              10
+o6 : R[e , f ]-module, quotient of (R[e , f ])
+        1   1                          1   1</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i7 : expectExactCouple couple</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i8 : plotPages((-1..2,-1..5,1..3), prune @@ evaluateInDegree, couple)
+warning: clearing value of symbol e to allow access to subscripted variables based on it
+       : debug with expression   debug 3903   or with command line option   --debug 3903
+warning: clearing value of symbol f to allow access to subscripted variables based on it
+       : debug with expression   debug 3406   or with command line option   --debug 3406
+page 1, with differential of degree {-1, -1}:
++----++----+-------------------+-------------------+---+
+|q=5 ||0   |0                  |0                  |0  |
++----++----+-------------------+-------------------+---+
+|q=4 ||0   |cokernel | x2 |    |cokernel {3} | x2 ||0  |
++----++----+-------------------+-------------------+---+
+|q=3 ||0   |cokernel {2} | x2 ||cokernel {5} | x2 ||0  |
++----++----+-------------------+-------------------+---+
+|q=2 ||0   |cokernel {4} | x2 ||cokernel {7} | x2 ||0  |
++----++----+-------------------+-------------------+---+
+|q=1 ||0   |cokernel {6} | x2 ||cokernel {9} | x2 ||0  |
++----++----+-------------------+-------------------+---+
+|q=0 ||0   |cokernel {8} | x | |cokernel {11} | x ||0  |
++----++----+-------------------+-------------------+---+
+|q=-1||0   |0                  |0                  |0  |
++----++----+-------------------+-------------------+---+
+|    ||p=-1|p=0                |p=1                |p=2|
++----++----+-------------------+-------------------+---+
+
+page 2, with differential of degree {-1, -2}:
++----++----+------------------+-------------------+---+
+|q=5 ||0   |0                 |0                  |0  |
++----++----+------------------+-------------------+---+
+|q=4 ||0   |cokernel | x2 |   |cokernel {4} | x | |0  |
++----++----+------------------+-------------------+---+
+|q=3 ||0   |cokernel {2} | x ||cokernel {6} | x | |0  |
++----++----+------------------+-------------------+---+
+|q=2 ||0   |cokernel {4} | x ||cokernel {8} | x | |0  |
++----++----+------------------+-------------------+---+
+|q=1 ||0   |cokernel {6} | x ||cokernel {9} | x2 ||0  |
++----++----+------------------+-------------------+---+
+|q=0 ||0   |cokernel {8} | x ||cokernel {11} | x ||0  |
++----++----+------------------+-------------------+---+
+|q=-1||0   |0                 |0                  |0  |
++----++----+------------------+-------------------+---+
+|    ||p=-1|p=0               |p=1                |p=2|
++----++----+------------------+-------------------+---+
+
+page 3, with differential of degree {-1, -3}:
++----++----+------------------+-------------------+---+
+|q=5 ||0   |0                 |0                  |0  |
++----++----+------------------+-------------------+---+
+|q=4 ||0   |cokernel | x2 |   |0                  |0  |
++----++----+------------------+-------------------+---+
+|q=3 ||0   |cokernel {2} | x ||0                  |0  |
++----++----+------------------+-------------------+---+
+|q=2 ||0   |0                 |0                  |0  |
++----++----+------------------+-------------------+---+
+|q=1 ||0   |0                 |cokernel {9} | x2 ||0  |
++----++----+------------------+-------------------+---+
+|q=0 ||0   |0                 |cokernel {11} | x ||0  |
++----++----+------------------+-------------------+---+
+|q=-1||0   |0                 |0                  |0  |
++----++----+------------------+-------------------+---+
+|    ||p=-1|p=0               |p=1                |p=2|
++----++----+------------------+-------------------+---+</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i9 : A = i -> if i &lt; 0 then image(0*id_X) else if i >= #submods then X else submods#i;</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i10 : E1 = (q,p) -> prune Tor_p(W,A(q)/A(q-1));</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i11 : netList reverse table(5,2,E1)
+
+      +-------------------+-------------------+
+o11 = |cokernel | x2 |    |cokernel {3} | x2 ||
+      +-------------------+-------------------+
+      |cokernel {2} | x2 ||cokernel {5} | x2 ||
+      +-------------------+-------------------+
+      |cokernel {4} | x2 ||cokernel {7} | x2 ||
+      +-------------------+-------------------+
+      |cokernel {6} | x2 ||cokernel {9} | x2 ||
+      +-------------------+-------------------+
+      |cokernel {8} | x | |cokernel {11} | x ||
+      +-------------------+-------------------+</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i12 : inc = q -> inducedMap(X,A(q));</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i13 : filt = (p,q) -> image Tor_p(W,inc q); --no method for this?</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i14 : Einfty = (q,p) -> prune(filt(p,q)/filt(p,q-1));</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>There is also a more-general method available where the argument submods is replaced by a module for a ring of the form R[f].  If f acts by inclusions, we recover the case above, but if not, then we still obtain an exact couple from relative homology.</p>
+        </div>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="the exact couple obtained by applying Ext(W,-) to a filtered module" href="_covariant__Ext__Couple.html">covariantExtCouple</a> -- the exact couple obtained by applying Ext(W,-) to a filtered module</span>          </li>
+          <li>
+<span><a title="the exact couple obtained by applying Ext(-,Y) to a filtered module" href="_contravariant__Ext__Couple.html">contravariantExtCouple</a> -- the exact couple obtained by applying Ext(-,Y) to a filtered module</span>          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>Ways to use <tt>TorCouple</tt>:</h2>
+        <ul>
+          <li>
+<span><tt>&quot;TorCouple(Module,Module)&quot;</tt> -- see <span><a title="building couples by applying Tor or Ext to a filtered module or a graded R[t]-module" href="___Exact_spcouples_spfor_sp__Tor_spand_sp__Ext.html">Exact couples for Tor and Ext</a> -- building couples by applying Tor or Ext to a filtered module or a graded R[t]-module</span></span>          </li>
+          <li>
+<span><tt>&quot;TorCouple(Symbol,Module,Module)&quot;</tt> -- see <span><a title="building couples by applying Tor or Ext to a filtered module or a graded R[t]-module" href="___Exact_spcouples_spfor_sp__Tor_spand_sp__Ext.html">Exact couples for Tor and Ext</a> -- building couples by applying Tor or Ext to a filtered module or a graded R[t]-module</span></span>          </li>
+          <li>
+TorCouple(Module,List)          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>For the programmer</h2>
+        <p>The object <a title="the exact couple obtained by applying Tor(W,-) to a filtered module" href="___Tor__Couple.html">TorCouple</a> is <span>a <a title="a type of method function" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Method__Function.html">method function</a></span>.</p>
+      </div>
+    </div>
+  </body>
+
+</html>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>filtrationModule -- converts a filtered module to an R[t]-module</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="___Functoriality_spfor_sp__Tor_spand_sp__Ext_spcouples.html">next</a> | <a href="_external__Degree__Indices.html">previous</a> | <a href="___Functoriality_spfor_sp__Tor_spand_sp__Ext_spcouples.html">forward</a> | <a href="_external__Degree__Indices.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="converts a filtered module to an R[t]-module" href="_filtration__Module.html">filtrationModule</a>    </div>
+    <hr/>
+    <div>
+      <h1>filtrationModule -- converts a filtered module to an R[t]-module</h1>
+      <div>
+        <h2>Synopsis</h2>
+        <ul>
+          <li>
+            <dl class="element">
+              <dt>Usage: </dt>
+              <dd><tt>filtrationModule(Q, L)</tt></dd>
+            </dl>
+          </li>
+          <li>
+Inputs:            <ul>
+              <li>
+<span><tt>Q</tt>, <span>a <a title="the class of all rings" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Ring.html">ring</a></span>, of the form R[t] for some coefficient ring R and variable t</span>              </li>
+              <li>
+<span><tt>L</tt>, <span>a <a title="the class of all lists -- {...}" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___List.html">list</a></span>, of the form { M_0, M_1, ..., M_k }  for some k > 0 with each M_i $\subseteq$ M_{i+1} an inclusion of R-modules</span>              </li>
+            </ul>
+          </li>
+          <li>
+Outputs:            <ul>
+              <li>
+<span><span>a <a title="the class of all modules" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span>, graded, with M_0 sitting in degree zero, and where t acts by inclusions</span>              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h2>Description</h2>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : R = QQ[x]
+
+o1 = R
+
+o1 : PolynomialRing</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i2 : X = R^1 / x^9
+
+o2 = cokernel | x9 |
+
+                            1
+o2 : R-module, quotient of R</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i3 : submods = apply(5,k->image map(X,,{{x^(8-2*k)}}))
+
+o3 = {subquotient (| x8 |, | x9 |), subquotient (| x6 |, | x9 |), subquotient
+     ------------------------------------------------------------------------
+     (| x4 |, | x9 |), subquotient (| x2 |, | x9 |), subquotient (| 1 |, | x9
+     ------------------------------------------------------------------------
+     |)}
+
+o3 : List</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i4 : Q = R[t]
+
+o4 = Q
+
+o4 : PolynomialRing</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i5 : filtrationModule(Q, submods)
+
+o5 = subquotient ({0, 0} | x8 0  0  0  0 |, {0, 0} | x8t 0   0   0   x9 0  0  0  0  |)
+                  {1, 0} | 0  x6 0  0  0 |  {1, 0} | -x8 x6t 0   0   0  x9 0  0  0  |
+                  {2, 0} | 0  0  x4 0  0 |  {2, 0} | 0   -x6 x4t 0   0  0  x9 0  0  |
+                  {3, 0} | 0  0  0  x2 0 |  {3, 0} | 0   0   -x4 x2t 0  0  0  x9 0  |
+                  {4, 0} | 0  0  0  0  1 |  {4, 0} | 0   0   0   -x2 0  0  0  0  x9 |
+
+                               5
+o5 : Q-module, subquotient of Q</pre>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <h2>Caveat</h2>
+        <div>
+          <p>The ring Q should be valid for expectSequenceRing. The list L should be valid for expectFiltrationList.</p>
+        </div>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="builds a graded R[t]-module from a sequence of maps" href="_sequence__Module.html">sequenceModule</a> -- builds a graded R[t]-module from a sequence of maps</span>          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>Ways to use <tt>filtrationModule</tt>:</h2>
+        <ul>
+          <li>
+filtrationModule(Ring,List)          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>For the programmer</h2>
+        <p>The object <a title="converts a filtered module to an R[t]-module" href="_filtration__Module.html">filtrationModule</a> is <span>a <a title="a type of method function" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Method__Function.html">method function</a></span>.</p>
+      </div>
+    </div>
+  </body>
+
+</html>

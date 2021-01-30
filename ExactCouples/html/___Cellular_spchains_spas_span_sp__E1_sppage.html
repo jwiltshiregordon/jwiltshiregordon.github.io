@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>Cellular chains as an E1 page -- A spectral sequence construction of the usual cellular differential</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="_chain__Module.html">next</a> | <a href="_canonical__Filtration.html">previous</a> | <a href="_chain__Module.html">forward</a> | <a href="_canonical__Filtration.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="A spectral sequence construction of the usual cellular differential" href="___Cellular_spchains_spas_span_sp__E1_sppage.html">Cellular chains as an E1 page</a>    </div>
+    <hr/>
+    <div>
+      <h1>Cellular chains as an E1 page -- A spectral sequence construction of the usual cellular differential</h1>
+      <div>
+        <div>
+          <p>One way to define the cellular chain complex of a CW-complex uses the spectral sequence associated to its skeletal filtration.</p>
+          <p>Consider, for example, an empty cube with its usual CW-structure: 8 vertices, 12 edges, and 6 faces.  We depict the cube unfolded.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>|   1 ________ 2
+|    |        |
+|    |        |
+|    |        |
+|    |________|________ 2
+|   3|       4|        |
+|    |        |        |
+|    |        |        |
+|    |________|________|________ 2
+|   5        6|       8|        |
+|             |        |        |
+|             |        |        |
+|             |________|________|
+|            5        7|        |1
+|                      |        |
+|                      |        |
+|                      |________|
+|                     5          3</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>By introducing diagonals on every square facet (crudely indicated below), we obtain a simplicial complex with 8 vertices, 18 edges, and 12 faces.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>|   1 ________ 2
+|    |\       |
+|    |   \    |
+|    |      \ |
+|    |________|________ 2
+|   3|\      4|\       |
+|    |   \    |   \    |
+|    |      \ |      \ |
+|    |________|________|________ 2
+|   5        6|\      8|\       |
+|             |   \    |   \    |
+|             |      \ |      \ |
+|             |________|________|
+|            5        7|\       |1
+|                      |   \    |
+|                      |      \ |
+|                      |________|
+|                     5          3</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>The facets are now triangles.  We list these, and use them to populate the lists of edges and vertices.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : face2 = {{1,2,4},{1,3,4},{3,4,6},{3,5,6},{2,4,8},{4,6,8},{5,6,7},{6,7,8},
+                           {1,2,8},{1,7,8},{1,3,7},{3,5,7}};</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i2 : face1 = unique(flatten(apply(subsets({0,1,2},2), s-> apply(face2, f->f_s))));</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i3 : face0 = unique(flatten(apply(subsets({0,1,2},1), s-> apply(face2, f->f_s))));</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Here are the diagonal edges that we added</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i4 : diags = {{1,4},{3,6},{4,8},{6,7},{1,8},{3,7}};</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>We now write the function that takes a simplex and returns the CW-skeleton to which it belongs.  The vertices are in the 0-skeleton, and the faces are in the 2-skeleton, but the diagonal edges we added are not actually present in the 1-skeleton of the original CW-structure on the cube.  So these edges have skeletal degree 2.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i5 : skel = f -> if #f != 2 then #f-1 else if member(f,diags) then 2 else 1;</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Let t be the variable that's in charge of recording filtration degree.  We build free modules for the 0-, 1-, and 2-chains for simplicial homology using the function skel to determine degrees:</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i6 : R = ZZ[t]
+
+o6 = R
+
+o6 : PolynomialRing</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i7 : free0 = R^(-apply(face0,skel))
+
+      8
+o7 = R
+
+o7 : R-module, free</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i8 : free1 = R^(-apply(face1,skel))
+
+      18
+o8 = R
+
+o8 : R-module, free, degrees {7:1, 2, 1..2, 2, 1..2, 2:1, 2:2, 1}</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i9 : free2 = R^(-apply(face2,skel))
+
+      12
+o9 = R
+
+o9 : R-module, free, degrees {12:2}</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>The usual differential for simplicial chains must be modified by powers of t to maintain homogeneity. These powers appear when a simplex has a face of lower filtration degree.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i10 : omega = (a,b)->if isSubset(a,b) then (-1)^(position(b, v->not member(v,a))) * t^(skel(b)-skel(a)) else 0
+
+o10 = omega
+
+o10 : FunctionClosure</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i11 : d12 = map(free1, free2, matrix table(face1,face2,omega))
+
+o11 = {1} | t  0  0  0  0  0  0  0  t  0  0  0  |
+      {1} | 0  t  0  0  0  0  0  0  0  0  t  0  |
+      {1} | 0  t  t  0  0  0  0  0  0  0  0  0  |
+      {1} | 0  0  0  t  0  0  0  0  0  0  0  t  |
+      {1} | t  0  0  0  t  0  0  0  0  0  0  0  |
+      {1} | 0  0  t  0  0  t  0  0  0  0  0  0  |
+      {1} | 0  0  0  t  0  0  t  0  0  0  0  0  |
+      {2} | 0  0  0  0  0  0  1  1  0  0  0  0  |
+      {1} | 0  0  0  0  0  0  0  0  0  t  -t 0  |
+      {2} | -1 -1 0  0  0  0  0  0  0  0  0  0  |
+      {2} | 0  0  -1 -1 0  0  0  0  0  0  0  0  |
+      {1} | 0  0  0  0  -t 0  0  0  t  0  0  0  |
+      {2} | 0  0  0  0  1  -1 0  0  0  0  0  0  |
+      {1} | 0  0  0  0  0  0  -t 0  0  0  0  t  |
+      {1} | 0  0  0  0  0  t  0  -t 0  0  0  0  |
+      {2} | 0  0  0  0  0  0  0  0  -1 -1 0  0  |
+      {2} | 0  0  0  0  0  0  0  0  0  0  1  -1 |
+      {1} | 0  0  0  0  0  0  0  t  0  t  0  0  |
+
+              18       12
+o11 : Matrix R   &lt;--- R</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i12 : d01 = map(free0, free1, matrix table(face0,face1,omega))
+
+o12 = | -t -t 0  0  0  0  0  0   -t -t2 0   0  0   0  0  -t2 0   0  |
+      | 0  t  -t -t 0  0  0  0   0  0   -t2 0  0   0  0  0   -t2 0  |
+      | t  0  0  0  -t 0  0  0   0  0   0   -t 0   0  0  0   0   0  |
+      | 0  0  t  0  t  -t 0  0   0  t2  0   0  -t2 0  0  0   0   0  |
+      | 0  0  0  t  0  0  -t 0   0  0   0   0  0   -t 0  0   0   0  |
+      | 0  0  0  0  0  t  t  -t2 0  0   t2  0  0   0  -t 0   0   0  |
+      | 0  0  0  0  0  0  0  t2  t  0   0   0  0   t  0  0   t2  -t |
+      | 0  0  0  0  0  0  0  0   0  0   0   t  t2  0  t  t2  0   t  |
+
+              8       18
+o12 : Matrix R  &lt;--- R</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>We build the chain complex, shift it appropriately, and restack until it is a module for the ring $\ZZ[d,t]/d^2$.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i13 : sm = sequenceModule(R[d,Degrees=>{{-1}}]/d^2,{d12,d01,map(R^{},free0,{})});</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i14 : sm = sm ** (ring sm)^{{-2,0}};</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i15 : smm = restackModule({2,1},sm);</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i16 : M = restackModule({1,1},smm)
+
+o16 = cokernel {2, 2} | d  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0   0  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {2, 2} | 0  d  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0   0  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {2, 2} | 0  0  d  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0   0  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {2, 2} | 0  0  0  d  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0   0  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {2, 2} | 0  0  0  0  d  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0   0  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {2, 2} | 0  0  0  0  0  d  0  0  0  0  0  0  0  0  0  0  0  0  0  0   0  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {2, 2} | 0  0  0  0  0  0  d  0  0  0  0  0  0  0  0  0  0  0  0  0   0  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {2, 2} | 0  0  0  0  0  0  0  d  0  0  0  0  0  0  0  0  0  0  0  0   0  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {2, 2} | 0  0  0  0  0  0  0  0  d  0  0  0  0  0  0  0  0  0  0  0   0  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {2, 2} | 0  0  0  0  0  0  0  0  0  d  0  0  0  0  0  0  0  0  0  0   0  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {2, 2} | 0  0  0  0  0  0  0  0  0  0  d  0  0  0  0  0  0  0  0  0   0  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {2, 2} | 0  0  0  0  0  0  0  0  0  0  0  d  0  0  0  0  0  0  0  0   0  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {1, 1} | -t 0  0  0  0  0  0  0  -t 0  0  0  d  0  0  0  0  0  0  0   0  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {1, 1} | 0  -t 0  0  0  0  0  0  0  0  -t 0  0  d  0  0  0  0  0  0   0  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {1, 1} | 0  -t -t 0  0  0  0  0  0  0  0  0  0  0  d  0  0  0  0  0   0  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {1, 1} | 0  0  0  -t 0  0  0  0  0  0  0  -t 0  0  0  d  0  0  0  0   0  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {1, 1} | -t 0  0  0  -t 0  0  0  0  0  0  0  0  0  0  0  d  0  0  0   0  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {1, 1} | 0  0  -t 0  0  -t 0  0  0  0  0  0  0  0  0  0  0  d  0  0   0  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {1, 1} | 0  0  0  -t 0  0  -t 0  0  0  0  0  0  0  0  0  0  0  d  0   0  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {1, 2} | 0  0  0  0  0  0  -1 -1 0  0  0  0  0  0  0  0  0  0  0  d   0  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {1, 1} | 0  0  0  0  0  0  0  0  0  -t t  0  0  0  0  0  0  0  0  0   d  0   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {1, 2} | 1  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0   0  d   0   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {1, 2} | 0  0  1  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0   0  0   d   0  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {1, 1} | 0  0  0  0  t  0  0  0  -t 0  0  0  0  0  0  0  0  0  0  0   0  0   0   d  0   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {1, 2} | 0  0  0  0  -1 1  0  0  0  0  0  0  0  0  0  0  0  0  0  0   0  0   0   0  d   0  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {1, 1} | 0  0  0  0  0  0  t  0  0  0  0  -t 0  0  0  0  0  0  0  0   0  0   0   0  0   d  0  0   0   0  0 0 0 0 0 0 0 0 |
+               {1, 1} | 0  0  0  0  0  -t 0  t  0  0  0  0  0  0  0  0  0  0  0  0   0  0   0   0  0   0  d  0   0   0  0 0 0 0 0 0 0 0 |
+               {1, 2} | 0  0  0  0  0  0  0  0  1  1  0  0  0  0  0  0  0  0  0  0   0  0   0   0  0   0  0  d   0   0  0 0 0 0 0 0 0 0 |
+               {1, 2} | 0  0  0  0  0  0  0  0  0  0  -1 1  0  0  0  0  0  0  0  0   0  0   0   0  0   0  0  0   d   0  0 0 0 0 0 0 0 0 |
+               {1, 1} | 0  0  0  0  0  0  0  -t 0  -t 0  0  0  0  0  0  0  0  0  0   0  0   0   0  0   0  0  0   0   d  0 0 0 0 0 0 0 0 |
+               {0, 0} | 0  0  0  0  0  0  0  0  0  0  0  0  t  t  0  0  0  0  0  0   t  t2  0   0  0   0  0  t2  0   0  d 0 0 0 0 0 0 0 |
+               {0, 0} | 0  0  0  0  0  0  0  0  0  0  0  0  0  -t t  t  0  0  0  0   0  0   t2  0  0   0  0  0   t2  0  0 d 0 0 0 0 0 0 |
+               {0, 0} | 0  0  0  0  0  0  0  0  0  0  0  0  -t 0  0  0  t  0  0  0   0  0   0   t  0   0  0  0   0   0  0 0 d 0 0 0 0 0 |
+               {0, 0} | 0  0  0  0  0  0  0  0  0  0  0  0  0  0  -t 0  -t t  0  0   0  -t2 0   0  t2  0  0  0   0   0  0 0 0 d 0 0 0 0 |
+               {0, 0} | 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  -t 0  0  t  0   0  0   0   0  0   t  0  0   0   0  0 0 0 0 d 0 0 0 |
+               {0, 0} | 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  -t -t t2  0  0   -t2 0  0   0  t  0   0   0  0 0 0 0 0 d 0 0 |
+               {0, 0} | 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  -t2 -t 0   0   0  0   -t 0  0   -t2 t  0 0 0 0 0 0 d 0 |
+               {0, 0} | 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0   0  0   0   -t -t2 0  -t -t2 0   -t 0 0 0 0 0 0 0 d |
+
+      ZZ[d, t]                     /ZZ[d, t]\38
+o16 : ---------module, quotient of |--------|
+          2                        |    2   |
+         d                         \   d    /</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>The module M records the simplicial chain complex of the (empty interior, faces triangulated) cube with t acting by the filtration inclusions coming from the usual CW structure of the empty cube.</p>
+          <p>To build the corresponding exact couple, use <a title="builds an exact couple from a R[d,f]/d^2-module" href="_exact__Couple.html">exactCouple</a>.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i17 : couple = prune exactCouple M
+warning: clearing value of symbol t to allow access to subscripted variables based on it
+       : debug with expression   debug 5504   or with command line option   --debug 5504
+
+o17 = cokernel {5, 5} | e_1^2 e_1t_1 0   0   0   0   0   0     0     0     0     0     0   0   0   0   0   0   0   0     0     0     0     0     0     0     0     0      |
+               {4, 4} | 0     0      t_1 0   0   0   0   e_1^3 0     0     0     0     0   0   0   0   0   0   0   0     0     0     0     0     0     0     0     0      |
+               {4, 4} | 0     0      0   t_1 0   0   0   0     e_1^3 0     0     0     0   0   0   0   0   0   0   0     0     0     0     0     0     0     0     0      |
+               {4, 4} | 0     0      0   0   t_1 0   0   0     0     e_1^3 0     0     0   0   0   0   0   0   0   0     0     0     0     0     0     0     0     0      |
+               {4, 4} | 0     0      0   0   0   t_1 0   0     0     0     e_1^3 0     0   0   0   0   0   0   0   0     0     0     0     0     0     0     0     0      |
+               {4, 4} | 0     0      0   0   0   0   t_1 0     0     0     0     e_1^3 0   0   0   0   0   0   0   0     0     0     0     0     0     0     0     0      |
+               {2, 2} | 0     0      0   0   0   0   0   0     0     0     0     0     t_1 0   0   0   0   0   0   e_1^3 0     0     0     0     0     0     0     0      |
+               {2, 2} | 0     0      0   0   0   0   0   0     0     0     0     0     0   t_1 0   0   0   0   0   0     e_1^3 0     0     0     0     0     0     0      |
+               {2, 2} | 0     0      0   0   0   0   0   0     0     0     0     0     0   0   t_1 0   0   0   0   0     0     e_1^3 0     0     0     0     0     0      |
+               {2, 2} | 0     0      0   0   0   0   0   0     0     0     0     0     0   0   0   t_1 0   0   0   0     0     0     e_1^3 0     0     0     0     0      |
+               {2, 2} | 0     0      0   0   0   0   0   0     0     0     0     0     0   0   0   0   t_1 0   0   0     0     0     0     e_1^3 0     0     0     0      |
+               {2, 2} | 0     0      0   0   0   0   0   0     0     0     0     0     0   0   0   0   0   t_1 0   0     0     0     0     0     e_1^3 0     0     0      |
+               {2, 2} | 0     0      0   0   0   0   0   0     0     0     0     0     0   0   0   0   0   0   t_1 0     0     0     0     0     0     e_1^3 0     0      |
+               {1, 1} | 0     0      0   0   0   0   0   0     0     0     0     0     0   0   0   0   0   0   0   0     0     0     0     0     0     0     e_1^2 e_1t_1 |
+
+                                                 14
+o17 : ZZ[e , t ]-module, quotient of (ZZ[e , t ])
+          1   1                           1   1</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i18 : plotPages((-1..3,-1..3,1..2), prune @@ evaluateInDegree, couple)
+warning: clearing value of symbol e to allow access to subscripted variables based on it
+       : debug with expression   debug 3903   or with command line option   --debug 3903
+warning: clearing value of symbol t to allow access to subscripted variables based on it
+       : debug with expression   debug 5504   or with command line option   --debug 5504
+page 1, with differential of degree {-1, -1}:
++----++----+---+----+---+---+
+|q=3 ||0   |0  |0   |0  |0  |
++----++----+---+----+---+---+
+|    ||    |   |    |  6|   |
+|q=2 ||0   |0  |0   |ZZ |0  |
++----++----+---+----+---+---+
+|    ||    |   |  12|   |   |
+|q=1 ||0   |0  |ZZ  |0  |0  |
++----++----+---+----+---+---+
+|    ||    |  8|    |   |   |
+|q=0 ||0   |ZZ |0   |0  |0  |
++----++----+---+----+---+---+
+|q=-1||0   |0  |0   |0  |0  |
++----++----+---+----+---+---+
+|    ||p=-1|p=0|p=1 |p=2|p=3|
++----++----+---+----+---+---+
+
+page 2, with differential of degree {-1, -2}:
++----++----+---+---+---+---+
+|q=3 ||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|    ||    |   |   |  1|   |
+|q=2 ||0   |0  |0  |ZZ |0  |
++----++----+---+---+---+---+
+|q=1 ||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|    ||    |  1|   |   |   |
+|q=0 ||0   |ZZ |0  |0  |0  |
++----++----+---+---+---+---+
+|q=-1||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|    ||p=-1|p=0|p=1|p=2|p=3|
++----++----+---+---+---+---+</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Page 1 consists of the CW-chains, and page 2 consists of the CW-homology, which is therefore isomorphic to the simplicial homology.</p>
+        </div>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="restacks the ring that acts on a module" href="_restack__Module.html">restackModule</a> -- restacks the ring that acts on a module</span>          </li>
+          <li>
+<span><a title="builds an exact couple from a R[d,f]/d^2-module" href="_exact__Couple.html">exactCouple</a> -- builds an exact couple from a R[d,f]/d^2-module</span>          </li>
+          <li>
+<span><a title="displays a few pages of a spectral sequence" href="_plot__Pages.html">plotPages</a> -- displays a few pages of a spectral sequence</span>          </li>
+          <li>
+<span><a title="building graded modules with specified modules in certain degrees, and with specified action maps" href="___Encoding_spdiagrams_spas_spmodules.html">Encoding diagrams as modules</a> -- building graded modules with specified modules in certain degrees, and with specified action maps</span>          </li>
+          <li>
+<span><a title="specifics on encoding exact couples as modules for a ring" href="___Conventions_spand_spfirst_spexamples.html">Conventions and first examples</a> -- specifics on encoding exact couples as modules for a ring</span>          </li>
+          <li>
+<span><a title="a singly-graded spectral sequence built from the chain self-map &quot;multiplication by p&quot;" href="___Bockstein_spspectral_spsequence.html">Bockstein spectral sequence</a> -- a singly-graded spectral sequence built from the chain self-map &quot;multiplication by p&quot;</span>          </li>
+          <li>
+<span><a title="exact couple associated to a fibration" href="___Serre_spspectral_spsequence_spin_sphomology.html">Serre spectral sequence in homology</a> -- exact couple associated to a fibration</span>          </li>
+          <li>
+<span><a title="building couples by applying Tor or Ext to a filtered module or a graded R[t]-module" href="___Exact_spcouples_spfor_sp__Tor_spand_sp__Ext.html">Exact couples for Tor and Ext</a> -- building couples by applying Tor or Ext to a filtered module or a graded R[t]-module</span>          </li>
+          <li>
+<span><a title="induced maps between couples and spectral sequences" href="___Functoriality_spfor_sp__Tor_spand_sp__Ext_spcouples.html">Functoriality for Tor and Ext couples</a> -- induced maps between couples and spectral sequences</span>          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+
+</html>

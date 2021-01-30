@@ -1,0 +1,39 @@
+-- -*- M2-comint -*- hash: -696531769
+
+i1 : R = QQ[x,y]
+
+o1 = R
+
+o1 : PolynomialRing
+
+i2 : Q = R[s,t]
+
+o2 = Q
+
+o2 : PolynomialRing
+
+i3 : degree s
+
+o3 = {1, 0}
+
+o3 : List
+
+i4 : degree t
+
+o4 = {1, 0}
+
+o4 : List
+
+i5 : external = externalDegreeIndices Q
+
+o5 = {0}
+
+o5 : List
+
+i6 : (degree s)_external
+
+o6 = {1}
+
+o6 : List
+
+i7 : 

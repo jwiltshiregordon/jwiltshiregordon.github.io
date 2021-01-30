@@ -1,0 +1,7 @@
+-- -*- M2-comint -*- hash: 13917396
+
+i1 : Q = QQ[t];
+
+i2 : expectSequenceRing Q
+
+i3 : 

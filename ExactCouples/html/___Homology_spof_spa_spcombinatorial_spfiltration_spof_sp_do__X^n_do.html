@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>Homology of a combinatorial filtration of $X^n$ -- A spectral sequence that assembles absolute homology from relative</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="_internal__Degree__Indices.html">next</a> | <a href="___Functoriality_spfor_sp__Tor_spand_sp__Ext_spcouples.html">previous</a> | <a href="_internal__Degree__Indices.html">forward</a> | <a href="___Functoriality_spfor_sp__Tor_spand_sp__Ext_spcouples.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="A spectral sequence that assembles absolute homology from relative" href="___Homology_spof_spa_spcombinatorial_spfiltration_spof_sp_do__X^n_do.html">Homology of a combinatorial filtration of $X^n$</a>    </div>
+    <hr/>
+    <div>
+      <h1>Homology of a combinatorial filtration of $X^n$ -- A spectral sequence that assembles absolute homology from relative</h1>
+      <div>
+        <div>
+          <p>Let $X$ be a simplicial complex, and let $n \in \NN$.  The n-fold product $X^n$ is filtered by $(x_1, ..., x_n) \mapsto  |\{x_1, ..., x_n\}|-1$, one less than the number of unique points of $X$ that appear in an $n$-tuple. We compute the resulting homology spectral sequence.</p>
+          <p>First, give the n and facets of $X$.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : n = 2;</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i2 : facets = {{1,2},{1,3},{2,3}};</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Now we compute the dimension and a list of all the faces.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i3 : d = -1 + max apply(facets, f -> #f);</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i4 : faces = k -> unique flatten apply(facets, f -> subsets(f, k));</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i5 : ff = flatten apply(2 + d, faces);</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>The next functions build the product complex.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i6 : nextsteps = f -> select(unique flatten select(facets, g -> isSubset(f, g)), v -> #f == 0 or v >= last f);</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i7 : pe = mat -> (
+         q := numrows mat;
+         nxts := apply(q, r -> nextsteps unique first entries mat^{r});
+         prod := apply(fold((a,b)->a**b,nxts), flatten);
+         ret := {mat};
+         for p in prod do (
+             col := map(ZZ^q,ZZ^1,apply(p,v->{v}));
+             if numcols mat == 0 or col != mat_{-1 + numcols mat} then (
+                 ret = ret | pe(mat | col);
+                 );
+             );
+         ret
+         );</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i8 : cs = m -> apply(numcols m, c -> m_{c});</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i9 : prod = apply(pe(map(ZZ^n,ZZ^0,{})),cs)
+
+o9 = {{}, {| 1 |}, {| 1 |, | 2 |}, {| 1 |, | 2 |, | 2 |}, {| 1 |, | 2 |, | 2
+           | 1 |    | 1 |  | 1 |    | 1 |  | 1 |  | 2 |    | 1 |  | 1 |  | 3
+     ------------------------------------------------------------------------
+     |}, {| 1 |, | 3 |}, {| 1 |, | 3 |, | 3 |}, {| 1 |, | 3 |, | 3 |}, {| 1
+     |    | 1 |  | 1 |    | 1 |  | 1 |  | 2 |    | 1 |  | 1 |  | 3 |    | 1
+     ------------------------------------------------------------------------
+     |, | 1 |}, {| 1 |, | 1 |, | 2 |}, {| 1 |, | 1 |, | 3 |}, {| 1 |, | 2 |},
+     |  | 2 |    | 1 |  | 2 |  | 2 |    | 1 |  | 2 |  | 2 |    | 1 |  | 2 |  
+     ------------------------------------------------------------------------
+     {| 1 |, | 3 |}, {| 1 |, | 1 |}, {| 1 |, | 1 |, | 2 |}, {| 1 |, | 1 |, |
+      | 1 |  | 2 |    | 1 |  | 3 |    | 1 |  | 3 |  | 3 |    | 1 |  | 3 |  |
+     ------------------------------------------------------------------------
+     3 |}, {| 1 |, | 2 |}, {| 1 |, | 3 |}, {| 2 |}, {| 2 |, | 3 |}, {| 2 |, |
+     3 |    | 1 |  | 3 |    | 1 |  | 3 |    | 1 |    | 1 |  | 1 |    | 1 |  |
+     ------------------------------------------------------------------------
+     3 |, | 3 |}, {| 2 |, | 3 |, | 3 |}, {| 2 |, | 2 |}, {| 2 |, | 2 |, | 3
+     1 |  | 2 |    | 1 |  | 1 |  | 3 |    | 1 |  | 2 |    | 1 |  | 2 |  | 2
+     ------------------------------------------------------------------------
+     |}, {| 2 |, | 3 |}, {| 2 |, | 2 |}, {| 2 |, | 2 |, | 3 |}, {| 2 |, | 3
+     |    | 1 |  | 2 |    | 1 |  | 3 |    | 1 |  | 3 |  | 3 |    | 1 |  | 3
+     ------------------------------------------------------------------------
+     |}, {| 3 |}, {| 3 |, | 3 |}, {| 3 |, | 3 |}, {| 1 |}, {| 1 |, | 2 |}, {|
+     |    | 1 |    | 1 |  | 2 |    | 1 |  | 3 |    | 2 |    | 2 |  | 2 |    |
+     ------------------------------------------------------------------------
+     1 |, | 2 |, | 2 |}, {| 1 |, | 3 |}, {| 1 |, | 3 |, | 3 |}, {| 1 |, | 1
+     2 |  | 2 |  | 3 |    | 2 |  | 2 |    | 2 |  | 2 |  | 3 |    | 2 |  | 3
+     ------------------------------------------------------------------------
+     |}, {| 1 |, | 1 |, | 2 |}, {| 1 |, | 1 |, | 3 |}, {| 1 |, | 2 |}, {| 1
+     |    | 2 |  | 3 |  | 3 |    | 2 |  | 3 |  | 3 |    | 2 |  | 3 |    | 2
+     ------------------------------------------------------------------------
+     |, | 3 |}, {| 2 |}, {| 2 |, | 3 |}, {| 2 |, | 3 |, | 3 |}, {| 2 |, | 2
+     |  | 3 |    | 2 |    | 2 |  | 2 |    | 2 |  | 2 |  | 3 |    | 2 |  | 3
+     ------------------------------------------------------------------------
+     |}, {| 2 |, | 2 |, | 3 |}, {| 2 |, | 3 |}, {| 3 |}, {| 3 |, | 3 |}, {| 1
+     |    | 2 |  | 3 |  | 3 |    | 2 |  | 3 |    | 2 |    | 2 |  | 3 |    | 3
+     ------------------------------------------------------------------------
+     |}, {| 1 |, | 2 |}, {| 1 |, | 3 |}, {| 2 |}, {| 2 |, | 3 |}, {| 3 |}}
+     |    | 3 |  | 3 |    | 3 |  | 3 |    | 3 |    | 3 |  | 3 |    | 3 |
+
+o9 : List</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>We compute the dimension of $X^n$, and check that it matches $n * d$:</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i10 : pd = -1 + max apply(prod, f -> #f);</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i11 : assert(pd == n * d)</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Now we build the intended filtration, which we compute by counting the number of unique rows in a matrix.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i12 : filt = f -> (
+          m = fold((a,b)->a|b,f);
+          urows = unique apply(numrows m, r -> m^{r});
+          -1 + #urows
+          );</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Now comes the hard computational work.  We generate the faces of $X^n$, build the chain groups, compute the differentials, and return a module $M$ that encodes the filtered complex.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i13 : R = ZZ[t];</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i14 : prodfaces = apply(1 + pd, k -> select(prod, f -> #f - 1 == k));</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i15 : chains = apply(1+pd,k->R^(-apply(prodfaces#k, filt)));</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i16 : omega = (a,b)->if isSubset(a,b) then (-1)^(position(b, v->not member(v,a))) * t^(filt(b)-filt(a)) else 0;</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i17 : diffs = apply(pd,k->map(chains#k, chains#(k+1), matrix table(prodfaces#k,prodfaces#(k+1),omega)));</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i18 : cx = chainComplex diffs;</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i19 : sm = sequenceModule(R[D,Degrees=>{{-1}}]/D^2,(reverse diffs) | {map(R^{}, first chains, {})});</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i20 : sm = sm ** (ring sm)^{{-pd,0}};</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i21 : smm = restackModule({2,1},sm);</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i22 : M = prune restackModule({1,1},smm);</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>From here, we build the exact couple and plot the frist two pages of the spectral sequence:</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i23 : couple = prune exactCouple M;
+warning: clearing value of symbol t to allow access to subscripted variables based on it
+       : debug with expression   debug 5504   or with command line option   --debug 5504</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i24 : plotPages((-1..(pd+1),-1..n,1..2), prune @@ evaluateInDegree, couple)
+warning: clearing value of symbol e to allow access to subscripted variables based on it
+       : debug with expression   debug 3903   or with command line option   --debug 3903
+warning: clearing value of symbol t to allow access to subscripted variables based on it
+       : debug with expression   debug 5504   or with command line option   --debug 5504
+page 1, with differential of degree {-1, -1}:
++----++----+---+---+---+---+
+|q=2 ||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|    ||    |   |  1|  1|   |
+|q=1 ||0   |0  |ZZ |ZZ |0  |
++----++----+---+---+---+---+
+|    ||    |  1|  1|   |   |
+|q=0 ||0   |ZZ |ZZ |0  |0  |
++----++----+---+---+---+---+
+|q=-1||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|    ||p=-1|p=0|p=1|p=2|p=3|
++----++----+---+---+---+---+
+
+page 2, with differential of degree {-1, -2}:
++----++----+---+---+---+---+
+|q=2 ||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|    ||    |   |  1|  1|   |
+|q=1 ||0   |0  |ZZ |ZZ |0  |
++----++----+---+---+---+---+
+|    ||    |  1|  1|   |   |
+|q=0 ||0   |ZZ |ZZ |0  |0  |
++----++----+---+---+---+---+
+|q=-1||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|    ||p=-1|p=0|p=1|p=2|p=3|
++----++----+---+---+---+---+</pre>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </body>
+
+</html>

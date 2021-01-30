@@ -1,0 +1,27 @@
+-- -*- M2-comint -*- hash: -259743816
+
+i1 : Q = coupleRing(ZZ,1,e,f,Degrees=>{{-1,0},{2,-2}})
+
+o1 = Q
+
+o1 : PolynomialRing
+
+i2 : Q' = derivedCoupleRing Q
+
+o2 = Q'
+
+o2 : PolynomialRing
+
+i3 : degree Q'_0
+
+o3 = {-2, 1}
+
+o3 : List
+
+i4 : degree Q'_1
+
+o4 = {2, -2}
+
+o4 : List
+
+i5 : 

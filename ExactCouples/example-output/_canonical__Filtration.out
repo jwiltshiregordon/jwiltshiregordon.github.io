@@ -1,0 +1,35 @@
+-- -*- M2-comint -*- hash: 1073061502
+
+i1 : R = QQ[x,y,z];
+
+i2 : C = chainModule res coker vars R;
+
+i3 : phi = map(R[d,f,Degrees=>{{1,0},{0,1}}]/d^2, ring C)
+
+         R[d, f] R[d]
+o3 = map(-------,----,{d, x, y, z})
+             2     2
+            d     d
+
+             R[d, f]      R[d]
+o3 : RingMap ------- <--- ----
+                 2          2
+                d          d
+
+i4 : canonicalFiltration(target phi, C)
+
+o4 = cokernel {-3, -3, 3} | df 0  0  0  0  0  0  0  |
+              {-2, -2, 2} | -z df 0  0  0  0  0  0  |
+              {-2, -2, 2} | y  0  df 0  0  0  0  0  |
+              {-2, -2, 2} | -x 0  0  df 0  0  0  0  |
+              {-1, -1, 1} | 0  y  z  0  df 0  0  0  |
+              {-1, -1, 1} | 0  -x 0  z  0  df 0  0  |
+              {-1, -1, 1} | 0  0  -x -y 0  0  df 0  |
+              {0, 0, 0}   | 0  0  0  0  -x -y -z df |
+
+     R[d, f]                     /R[d, f]\8
+o4 : --------module, quotient of |-------|
+         2                       |    2  |
+        d                        \   d   /
+
+i5 : 

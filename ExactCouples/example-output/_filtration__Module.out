@@ -1,0 +1,43 @@
+-- -*- M2-comint -*- hash: 1443454533
+
+i1 : R = QQ[x]
+
+o1 = R
+
+o1 : PolynomialRing
+
+i2 : X = R^1 / x^9
+
+o2 = cokernel | x9 |
+
+                            1
+o2 : R-module, quotient of R
+
+i3 : submods = apply(5,k->image map(X,,{{x^(8-2*k)}}))
+
+o3 = {subquotient (| x8 |, | x9 |), subquotient (| x6 |, | x9 |), subquotient
+     ------------------------------------------------------------------------
+     (| x4 |, | x9 |), subquotient (| x2 |, | x9 |), subquotient (| 1 |, | x9
+     ------------------------------------------------------------------------
+     |)}
+
+o3 : List
+
+i4 : Q = R[t]
+
+o4 = Q
+
+o4 : PolynomialRing
+
+i5 : filtrationModule(Q, submods)
+
+o5 = subquotient ({0, 0} | x8 0  0  0  0 |, {0, 0} | x8t 0   0   0   x9 0  0  0  0  |)
+                  {1, 0} | 0  x6 0  0  0 |  {1, 0} | -x8 x6t 0   0   0  x9 0  0  0  |
+                  {2, 0} | 0  0  x4 0  0 |  {2, 0} | 0   -x6 x4t 0   0  0  x9 0  0  |
+                  {3, 0} | 0  0  0  x2 0 |  {3, 0} | 0   0   -x4 x2t 0  0  0  x9 0  |
+                  {4, 0} | 0  0  0  0  1 |  {4, 0} | 0   0   0   -x2 0  0  0  0  x9 |
+
+                               5
+o5 : Q-module, subquotient of Q
+
+i6 : 

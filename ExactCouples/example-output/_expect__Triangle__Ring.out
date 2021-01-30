@@ -1,0 +1,11 @@
+-- -*- M2-comint -*- hash: -726825760
+
+i1 : Q = triangleRing(QQ, d, e, f)
+
+o1 = Q
+
+o1 : QuotientRing
+
+i2 : expectTriangleRing Q
+
+i3 : 

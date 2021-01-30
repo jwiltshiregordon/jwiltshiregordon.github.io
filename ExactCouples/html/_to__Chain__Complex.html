@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>toChainComplex -- converts a module for R[d]/d^2 to a chain complex</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="___Tor__Couple.html">next</a> | <a href="_structure__Map.html">previous</a> | <a href="___Tor__Couple.html">forward</a> | <a href="_structure__Map.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="converts a module for R[d]/d^2 to a chain complex" href="_to__Chain__Complex.html">toChainComplex</a>    </div>
+    <hr/>
+    <div>
+      <h1>toChainComplex -- converts a module for R[d]/d^2 to a chain complex</h1>
+      <div>
+        <h2>Synopsis</h2>
+        <ul>
+          <li>
+            <dl class="element">
+              <dt>Usage: </dt>
+              <dd><tt>toChainComplex M</tt></dd>
+            </dl>
+          </li>
+          <li>
+Inputs:            <ul>
+              <li>
+<span><tt>M</tt>, <span>a <a title="the class of all modules" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span>, for a ring of the form R[d]/d^2</span>              </li>
+            </ul>
+          </li>
+          <li>
+Outputs:            <ul>
+              <li>
+<span><tt>C</tt>, <span>a <a title="the class of all chain complexes" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Chain__Complex.html">chain complex</a></span>, consisting of the the degrees of M that are multiples of (degree d), together with a differential reflecting the action of d.</span>              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h2>Description</h2>
+        <div>
+          <p>Suppose d has degree v.  The output chain complex C has C_0 = M_{0*v}, and since the differential in a chain complex has degree -1, it has generally</p>
+          <p></p>
+          <p>$C_i = M_{-iv}$.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : R = ZZ[d,Degrees=>{2}]/d^2;</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i2 : M = cokernel map(R^(-{{0},{1},{2},{3}}),,{{4,0,d,0},{0,6,0,d},{0,0,8,0},{0,0,0,10}})
+
+o2 = cokernel {0} | 4 0 d 0  |
+              {1} | 0 6 0 d  |
+              {2} | 0 0 8 0  |
+              {3} | 0 0 0 10 |
+
+                            4
+o2 : R-module, quotient of R</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i3 : isHomogeneous M
+
+o3 = true</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i4 : prune toChainComplex M
+
+o4 = cokernel | 8 | &lt;-- cokernel | 32 | &lt;-- cokernel | 4 |
+                                             
+     -2                 -1                  0
+
+o4 : ChainComplex</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i5 : apply(10,d->prune evaluateInDegree({d},M))
+
+o5 = {cokernel | 4 |, cokernel | 6 |, cokernel | 32 |, cokernel | 60 |,
+     ------------------------------------------------------------------------
+     cokernel | 8 |, cokernel | 10 |, 0, 0, 0, 0}
+
+o5 : List</pre>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <h2>Caveat</h2>
+        <div>
+          <p>M must be homogeneous</p>
+        </div>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="writes a chain complex of R-modules as an R[d]/d^2-module" href="_chain__Module.html">chainModule</a> -- writes a chain complex of R-modules as an R[d]/d^2-module</span>          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>Ways to use <tt>toChainComplex</tt>:</h2>
+        <ul>
+          <li>
+toChainComplex(Module)          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>For the programmer</h2>
+        <p>The object <a title="converts a module for R[d]/d^2 to a chain complex" href="_to__Chain__Complex.html">toChainComplex</a> is <span>a <a title="a type of method function" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Method__Function.html">method function</a></span>.</p>
+      </div>
+    </div>
+  </body>
+
+</html>

@@ -1,0 +1,18 @@
+-- -*- M2-comint -*- hash: -1201690346
+
+i1 : Q = triangleRing(QQ,d,e,f)
+
+o1 = Q
+
+o1 : QuotientRing
+
+i2 : describe Q
+
+     QQ[d, e, f]
+o2 = -----------
+         2   3
+       (d , e )
+
+i3 : expectTriangleRing Q
+
+i4 : 

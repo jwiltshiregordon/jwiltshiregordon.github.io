@@ -1,0 +1,755 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>Functoriality for Tor and Ext couples -- induced maps between couples and spectral sequences</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="___Homology_spof_spa_spcombinatorial_spfiltration_spof_sp_do__X^n_do.html">next</a> | <a href="_filtration__Module.html">previous</a> | <a href="___Homology_spof_spa_spcombinatorial_spfiltration_spof_sp_do__X^n_do.html">forward</a> | <a href="_filtration__Module.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="induced maps between couples and spectral sequences" href="___Functoriality_spfor_sp__Tor_spand_sp__Ext_spcouples.html">Functoriality for Tor and Ext couples</a>    </div>
+    <hr/>
+    <div>
+      <h1>Functoriality for Tor and Ext couples -- induced maps between couples and spectral sequences</h1>
+      <div>
+        <div>
+          <p>The exact couples described in <a title="building couples by applying Tor or Ext to a filtered module or a graded R[t]-module" href="___Exact_spcouples_spfor_sp__Tor_spand_sp__Ext.html">Exact couples for Tor and Ext</a> are functorial in a sense that we explain here.</p>
+          <p>As a basic first example, suppose we have two R-modules, $X$ and $Y$, two submodules $A \subseteq X$ and $B \subseteq Y$, and a map $g : X \to Y$ with $g(A) \subseteq B$.</p>
+          <p>Fix some other R-module W.  Applying Hom(W,-), we obtain two long exact sequences in Ext</p>
+          <p>$0 \to Hom(W,A) \to Hom(W,X) \to Hom(W,X/A) \to Ext^1(W,A) \to \cdots $</p>
+          <p>$0 \to Hom(W,B) \to Hom(W,Y) \to Hom(W,Y/B) \to Ext^1(W,B) \to \cdots $</p>
+          <p>and downwards maps induced by $g$ that give a commuting ladder.</p>
+          <p>The pages <a title="building couples by applying Tor or Ext to a filtered module or a graded R[t]-module" href="___Exact_spcouples_spfor_sp__Tor_spand_sp__Ext.html">Exact couples for Tor and Ext</a> and <a title="the exact couple obtained by applying Ext(W,-) to a filtered module" href="_covariant__Ext__Couple.html">covariantExtCouple</a> explain how to build each row of this ladder individually, but how can we obtain the downward maps?</p>
+          <p>In brief, we encode the action of g by introducing a ring R[g] and reformulate the ladder as a long exact sequence over this larger ring.  Each vertical rung becomes a snippet of a graded R[g]-module (since there are two rows, we only care about g-degrees 0 and 1).  So the final output is a long exact sequence of R[g]-modules recording the two sequences in degrees 0 and 1 and the map as multiplication by g.</p>
+          <p>Shapiro's lemma allows us to compute this new sequence in terms of a single covariant Ext couple over R[g].  Specifically, we replace W with an appropriate R[g]-module W', and replace X, Y, A, B with a single R[g][t]-module M encoding their comparison maps, and then call covariantExtCouple(W',M).</p>
+          <p><b>A small example</b></p>
+          <p>Set R = $\QQ[z]$, and build the commuting square</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>|   A - - t - -> X
+|   |            |
+|   g            g
+|   |            |
+|   v            v
+|   B - - t - -> Y</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>by giving a presentation over the ring R[g][t], placing A in bidegree $(0,0)$.  The example square we have in mind:</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>|  cokernel {3} | z13 | - z^2 -> cokernel {1} | z15 |
+|           |                             |
+|           z                             z
+|           |                             |
+|           v                             v
+|  cokernel {2} | z6 |  - x^2 -> cokernel {0} | z8 |</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Building it is a matter of naming generators, specifying degrees, and imposing relations.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : R = QQ[z]; S = R[g][t]; declareGenerators(S,{a=>{0,0,3},x=>{1,0,1},b=>{0,1,2},y=>{1,1,0}});</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i4 : M = cospan(z^13*a,z^15*x,z^6*b,z^8*y,g*a-z*b,g*x-z*y,t*a-z^2*x,t*b-z^2*y); isHomogeneous M
+
+o5 = true</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i6 : (dt, dg) = degree \ (S_0, S_1);</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i7 : {A,X,B,Y} = (deg -> prune eid({deg#1},eid({deg#0},M))) \ ({0,0},dt,dg,dt+dg);</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i8 : netList {{A, X}, {B, Y}}
+
+     +--------------------+--------------------+
+o8 = |cokernel {3} | z13 ||cokernel {1} | z15 ||
+     +--------------------+--------------------+
+     |cokernel {2} | z6 | |cokernel | z8 |     |
+     +--------------------+--------------------+</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>We also need another module W.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i9 : W = R^1 / (R_0^10);</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Since R[g] is projective as an R-module, Shapiro's lemma applies, and Ext can be computed over R[g] if we replace W with its extension.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i10 : W' = extensionInDegree({0}, coefficientRing S, W)
+
+o10 = cokernel | z10 |
+
+                                     1
+o10 : R[g]-module, quotient of (R[g])</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>And now we can build the couple.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i11 : couple = prune covariantExtCouple(W',M)
+warning: clearing value of symbol t to allow access to subscripted variables based on it
+       : debug with expression   debug 5504   or with command line option   --debug 5504
+
+o11 = cokernel {1, 3, 0, -9}  | -g 0  e_1^2 0     -z2 0     -zg 0     z2e_1 zge_1 e_1t_1 0      0   0     0   0     0    0   0      0  0  0   0   0     0  0      0   |
+               {1, 3, 1, -10} | z  0  0     e_1^2 0   0     0   0     0     0     0      e_1t_1 0   0     0   0     0    0   0      0  0  0   0   0     0  0      0   |
+               {1, 1, 0, -7}  | 0  -g 0     0     t_1 e_1^2 0   0     0     0     0      0      z5g 0     0   0     0    -z8 0      0  0  0   0   0     0  0      0   |
+               {1, 1, 1, -8}  | 0  z  0     0     0   0     t_1 e_1^2 0     0     0      0      0   0     0   0     0    0   0      0  0  0   0   0     0  0      0   |
+               {-1, 3, 1, 0}  | 0  0  0     0     0   0     0   0     0     0     0      0      0   e_1^2 -z2 0     ze_1 0   e_1t_1 0  0  0   0   0     0  0      0   |
+               {-1, 1, 1, 2}  | 0  0  0     0     0   0     0   0     0     0     0      0      0   0     t_1 e_1^2 0    0   0      0  0  0   -z4 0     z6 0      0   |
+               {0, 2, 0, 1}   | 0  0  0     0     0   0     0   0     0     0     0      0      0   0     0   0     -g   e_1 0      z2 zg t_1 0   0     0  0      0   |
+               {-1, 1, 0, 6}  | 0  0  0     0     0   0     0   0     0     0     0      0      0   0     0   0     0    0   0      0  0  0   g   e_1^2 0  e_1t_1 z10 |
+
+                                                     8
+o11 : R[g][e , t ]-module, quotient of (R[g][e , t ])
+            1   1                             1   1</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i12 : expectExactCouple couple</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>To view the long exact sequence, we use <a title="displays one of the long exact sequences in an exact couple" href="_excerpt__Couple.html">excerptCouple</a>.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i13 : excerptCouple({-2,2},4,couple)
+
+o13 =                    .- ->                0                                                                                                                             
+               0        (      
+                         \     
+
+                                                                                                                            0                                             \ 
+                         .- ->                0                       - - ->                       0                      - - ->                       0               - -' 
+               0        (                                               0
+                         \     
+
+                                                                                                                            0                                             \ 
+                         .- -> cokernel {0, -9}  | g  0  z10 | - - - - - - - - - -> cokernel {0, -9}  | g  z2 0  |        - - ->                       0               - -' 
+      {0, -9}  | z2 0  |(               {1, -10} | -z z8 0   |   {0, -9}  | 1 0 |            {1, -10} | -z 0  z2 |
+      {1, -10} | 0  z2 | \                                       {1, -10} | 0 1 |
+
+                                                                                                                     {0, -7} | 0 z8 |
+                                                                                                                     {1, -8} | 0 0  |                                     \ 
+                         .- ->  cokernel {1, 0} | -z6 z8 0   |  - - - - - - - - ->   cokernel {1, 0} | -z z2 0  |  - - - - - - - - - -> cokernel {0, -7} | g  0  z10 | - -' 
+        {1, 0} | z2 0 | (                {0, 6} | g   0  z10 |    {1, 0} | 1 0 |              {0, 1} | g  0  z2 |                                {1, -8} | -z z6 0   |
+        {0, 6} | 0  1 |  \                                        {0, 1} | 0 0 |
+
+                                                                                                                            0                                             \ 
+                         .- ->                0                       - - ->                       0                      - - ->        cokernel {1, 2} | -z4 z6 0   | - -' 
+               0        (                                               0                                                                        {0, 6} | g   0  z10 |
+                         \     
+
+                                                                                                                                                                          \ 
+                                                                                                                                                       0               - -' </pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Note that each entry in this long exact sequence is still an R[g]-module. This is by design!  The long exact ladder is now encoded as an exact sequence of R[g]-modules whose degree 0 part and degree 1 part make up the two exact rows, and where the action of g gives the ladder's rungs.</p>
+          <p><b>Interpreting the output</b></p>
+          <p>As an example, we focus on the bottom nonzero entry in the middle column:</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i14 : relHom = eid({0,2},couple)
+
+o14 = cokernel {1, 0} | -z z2 0  |
+               {0, 1} | g  0  z2 |
+
+                                     2
+o14 : R[g]-module, quotient of (R[g])</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>The degree $(0,2)$ comes from the conventions explained at <a title="the exact couple obtained by applying Ext(W,-) to a filtered module" href="_covariant__Ext__Couple.html">covariantExtCouple</a>, which also explains that relHom, when expanded along its g action, should look like this:</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>|   Hom(W,X/A)
+|       |
+|       g
+|       |
+|       v
+|   Hom(W,Y/B)</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>By evaluating in degrees 0 and 1, we verify that relHom has these expected values.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i15 : (eid({0},relHom), Hom(W,coker map(X,A,{{z^2}})))
+
+o15 = (cokernel {1} | z2 |, cokernel {1} | z2 |)
+
+o15 : Sequence</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i16 : (eid({1},relHom), Hom(W,coker map(Y,B,{{z^2}})))
+
+o16 = (cokernel | z2 |, cokernel | z2 |)
+
+o16 : Sequence</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>We can also compute the action of g on relHom in these degrees:</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i17 : structureMap({0},{1},g,relHom)
+
+o17 = {0} | 0 |
+      {1} | 1 |
+
+o17 : Matrix</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p><b>Contravariant functoriality</b></p>
+          <p>We give a similar example for <a title="the exact couple obtained by applying Ext(-,Y) to a filtered module" href="_contravariant__Ext__Couple.html">contravariantExtCouple</a>, evaluating on a cofiltration (surjections instead of inclusions). See <a title="building couples by applying Tor or Ext to a filtered module or a graded R[t]-module" href="___Exact_spcouples_spfor_sp__Tor_spand_sp__Ext.html">Exact couples for Tor and Ext</a> for more details on this way of using contravariantExtCouple.</p>
+          <p>Start with a commuting square of R-modules</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>|   X - - t - ->> C
+|   |             |
+|   g             g
+|   |             |
+|   v             v
+|   Y - - t - ->> D</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>For convenience, set A = ker(t : X - -> C) and B = ker(t : Y - -> D).  If Z is some other module, we have a ladder</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>|   0 - - -> Hom(D,Z) - - -> Hom(Y,Z) - - -> Hom(B,Z) - - -> Ext^1(D,Z) - - -> ...
+|   |            |               |               |                 |
+|   g            g               g               g                 g
+|   |            |               |               |                 |
+|   v            v               v               v                 v
+|   0 - - -> Hom(C,Z) - - -> Hom(X,Z) - - -> Hom(A,Z) - - -> Ext^1(C,Z) - - -> ...</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>To use Shapiro's lemma in this setting, we would like to replace the R-module Z with an R[g]-module Z' that captures the action of g on these Ext groups.  Such a Z' exists, but it is usually not finitely generated.  In this case, Z' would have a copy of Z in every non-positive degree.</p>
+          <p>In order to maintain finite generation, we replace $R[g]$ with a quotient ring $R[g]/g^n$ for some $n$ large enough to accommodate the maps we care about.  (In our case, we have a two-row ladder, so $R[g]/g^2$ suffices.  If we had other action maps, a similar truncation trick would work for larger rings $R[g,h,...]$.)</p>
+          <p>Using the ring $R[g]/g^n$, we may take</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>Z' = extensionInDegree({-n+1},Z)</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>since this module is isomorphic to the right Kan extension of Z to the ring $R[g]/g^n$; this module is also known as a &quot;coinduced module&quot;.</p>
+          <p><b>A small example</b></p>
+          <p>Set $R=\QQ[z]$, and build the commuting square</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>|  cokernel {5} | z6 |  - - ->> cokernel {5} | z3 |
+|           |                             |
+|           z5                            z5
+|           |                             |
+|           v                             v
+|  cokernel {0} | z10 | - - ->> cokernel {0} | z7 |</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>As indicated above, since we only care about the map induced by the matrix</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>{0} | g |</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>and not the action of g in other degrees, we may take n=2 since this number exceeds the row- and column-degrees of this matrix.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i18 : erase(symbol x); erase(symbol y);</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i20 : n = 2;</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i21 : R = QQ[z]; S = (R[g]/g^n)[t]; declareGenerators(S,{x=>{0,0,5},y=>{0,1,0}});</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i24 : M = cospan(z^6*x,z^3*t*x,z^10*y,z^7*t*y,g*x-z^5*y,t^2*x,t^2*y); isHomogeneous M
+
+o25 = true</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i26 : (dt, dg) = degree \ (S_0, S_1);</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i27 : {X,C,Y,D} = (deg -> prune eid({deg#1},eid({deg#0},M))) \ ({0,0},dt,dg,dt+dg);</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i28 : netList {{X, C}, {Y, D}}
+
+      +-------------------+-------------------+
+o28 = |cokernel {5} | z6 ||cokernel {5} | z3 ||
+      +-------------------+-------------------+
+      |cokernel | z10 |   |cokernel | z7 |    |
+      +-------------------+-------------------+</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Set Z to be $\QQ[z]/z^7$, and build the coinduced/Hom/right-Kan-extension module Z'</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i29 : Z = R^1 / (R_0^7);</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i30 : Z' = extensionInDegree({-n+1}, coefficientRing S, Z)
+
+o30 = cokernel {-1, 0} | z7 |
+
+      R[g]                     /R[g]\1
+o30 : -----module, quotient of |----|
+        2                      |  2 |
+       g                       \ g  /</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>We are now ready to build the couple using the larger ring.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i31 : couple = prune contravariantExtCouple(M,Z')
+warning: clearing value of symbol e to allow access to subscripted variables based on it
+       : debug with expression   debug 3903   or with command line option   --debug 3903
+warning: clearing value of symbol t to allow access to subscripted variables based on it
+       : debug with expression   debug 5504   or with command line option   --debug 5504
+
+o31 = cokernel {1, 1, 0, -11}  | g -z e_1^2 0     0 0  e_1t_1 0      -z3 0     0   0     0  z3e_1 0     0     0 0      0     0    0   0 0  0      0   0   0     0     0 0  0   0  0  0   0      0     0     0     0 0  0      0      0      0     0     0   0   0      0     0     0     0  0      0      0  0  0  0  0  0  |
+               {1, 1, -1, -10} | 0 g  0     e_1^2 0 0  0      e_1t_1 0   0     -z3 0     0  0     z3e_1 0     0 0      0     0    0   0 0  0      0   0   0     0     0 0  0   0  0  0   0      0     0     0     0 0  0      0      0      0     0     0   0   0      0     0     0     0  0      0      0  0  0  0  0  0  |
+               {1, -1, 0, -8}  | 0 0  0     0     g -z 0      0      t_1 e_1^2 0   0     0  0     0     0     0 0      0     0    0   0 0  0      0   0   0     0     0 0  0   0  0  0   0      0     0     0     0 0  0      0      0      0     0     0   0   0      0     0     0     0  0      0      0  0  0  0  0  0  |
+               {1, -1, -1, -7} | 0 0  0     0     0 g  0      0      0   0     t_1 e_1^2 z2 0     0     0     0 0      0     0    z4  0 0  0      0   0   0     0     0 0  0   0  0  0   0      0     0     0     0 0  0      0      0      0     0     0   0   0      0     0     0     0  0      0      0  0  0  0  0  0  |
+               {1, -1, -2, -5} | 0 0  0     0     0 0  0      0      0   0     0   0     g  0     0     e_1^2 0 e_1t_1 0     0    0   0 0  0      0   0   0     0     0 0  0   z5 0  0   0      0     0     0     0 0  0      0      0      0     0     0   0   0      0     0     0     0  0      0      0  0  0  0  0  0  |
+               {-1, 1, 0, -4}  | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     g 0      e_1^2 ze_1 0   0 0  e_1t_1 0   -z3 0     0     0 0  0   0  0  0   0      0     0     0     0 0  0      0      0      0     0     0   0   0      0     0     0     0  0      0      0  0  0  0  0  0  |
+               {0, 0, -1, -3}  | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     0 0      0     -g   e_1 0 0  0      t_1 0   0     0     0 0  0   0  z3 z2g 0      0     0     0     0 0  0      0      0      0     0     0   0   0      0     0     0     0  0      0      0  0  0  0  0  0  |
+               {-1, -1, 0, -1} | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     0 0      0     0    0   g -z 0      0   t_1 e_1^2 0     0 0  0   0  0  0   0      0     0     0     0 0  0      0      0      0     0     0   0   0      0     0     0     0  0      0      0  0  0  0  0  0  |
+               {-1, -1, -1, 0} | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     0 0      0     0    0   0 g  0      0   0   0     e_1^2 0 0  -z2 0  0  0   e_1t_1 0     0     0     0 0  0      0      0      0     0     0   0   0      0     0     0     0  0      0      0  0  0  0  0  0  |
+               {5, 1, -3, -11} | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     0 0      0     0    0   0 0  0      0   0   0     0     g -z 0   0  0  0   0      e_1^2 0     0     0 0  e_1t_1 0      0      0     0     -z3 0   -z3e_1 0     0     0     0  0      0      z7 0  0  0  0  0  |
+               {5, 1, -4, -10} | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     0 0      0     0    0   0 0  0      0   0   0     0     0 g  0   0  0  0   0      0     e_1^2 0     0 0  0      e_1t_1 0      0     0     0   -z3 0      0     z3e_1 0     0  0      0      0  z7 0  0  0  0  |
+               {-1, -1, -2, 2} | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     0 0      0     0    0   0 0  0      0   0   0     0     0 0  g   0  0  0   0      0     0     e_1^2 0 0  0      0      e_1t_1 0     0     0   0   0      0     0     0     z5 0      0      0  0  0  0  0  0  |
+               {5, -1, -3, -8} | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     0 0      0     0    0   0 0  0      0   0   0     0     0 0  0   0  0  0   0      0     0     0     g -z 0      0      0      e_1^2 0     t_1 0   0      0     0     0     0  0      0      0  0  z7 0  0  0  |
+               {5, -1, -4, -7} | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     0 0      0     0    0   0 0  0      0   0   0     0     0 0  0   0  0  0   0      0     0     0     0 g  0      0      0      0     e_1^2 0   t_1 0      0     0     0     0  0      0      0  0  0  z7 0  0  |
+               {5, 1, -4, -8}  | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     0 0      0     0    0   0 0  0      0   0   0     0     0 0  0   0  0  0   0      0     0     0     0 0  0      0      0      0     0     g   z   ge_1   e_1^2 -ze_1 0     0  e_1t_1 0      0  0  0  0  z7 0  |
+               {5, 1, -5, -7}  | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     0 0      0     0    0   0 0  0      0   0   0     0     0 0  0   0  0  0   0      0     0     0     0 0  0      0      0      0     0     0   -g  0      0     ge_1  e_1^2 0  0      e_1t_1 0  0  0  0  0  z7 |
+
+      R[g]                             /R[g]        \16
+o31 : ----[e , t ]-module, quotient of |----[e , t ]|
+        2   1   1                      |  2   1   1 |
+       g                               \ g          /</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i32 : excerptCouple({-2,0},4,couple)
+
+o32 =                       .- -> cokernel {-3, -11} | g -z z7 0  0  0  |                                                                                                                       
+       {-3, -11} | z3 0  | (               {-4, -10} | 0 g  0  z7 0  0  |
+       {-4, -10} | 0  z3 |  \              {-4, -8}  | 0 0  0  0  z7 0  |
+       {-4, -8}  | -g -z |                 {-5, -7}  | 0 0  0  0  0  z7 |
+       {-5, -7}  | 0  g  |
+
+                                                                                                                                             0                                                \ 
+                            .- ->                    0                            - - ->                         0                         - - ->         cokernel {-3, -8} | g -z z7 0  | - -' 
+                0          (                                                        0                                                                              {-4, -7} | 0 g  0  z7 |
+                            \     
+
+                                                                                                                                             0                                                \ 
+                            .- ->   cokernel {0, -11}  | g -z 0  0  0  |  - - - - - - - - - - -> cokernel {0, -11}  | g -z z3 0  |         - - ->                         0                - -' 
+      {0, -11}  | z3 0  0 |(                 {-1, -10} | 0 g  z5 z7 0  |   {0, -11}  | 1 0 0 |            {-1, -10} | 0 g  0  z3 |
+      {-1, -10} | 0  z3 0 | \                {-2, -5}  | 0 0  g  0  z5 |   {-1, -10} | 0 1 0 |
+      {-2, -5}  | 0  0  1 |
+
+                                                                                                                                     {0, -8}  | 0 0   |
+                                                                                                                                     {-1, -7} | 0 -z4 |
+                                                                                                                                     {-2, -5} | 0 0   |                                       \ 
+                            .- ->    cokernel {0, -4} | g -z4 0   0  |    - - - - - - - - - - ->  cokernel {0, -4}  | g -z z3 0  | - - - - - - - - - - -> cokernel {0, -8}  | g -z 0  0  | - -' 
+        {0, -4} | z3 0 0 | (                  {-1, 0} | 0 g   -z2 0  |      {0, -4}  | 1 0 0 |             {-1, -3} | 0 g  0  z3 |                                 {-1, -7} | 0 g  z2 0  |
+        {-1, 0} | 0  1 0 |  \                 {-2, 2} | 0 0   g   z5 |      {-1, -3} | 0 0 0 |                                                                     {-2, -5} | 0 0  g  z5 |
+        {-2, 2} | 0  0 1 |
+
+                                                                                                                                             0                                                \ 
+                            .- ->                    0                            - - ->                         0                         - - ->         cokernel {0, -1} | g -z 0   0  | - -' 
+                0          (                                                        0                                                                              {-1, 0} | 0 g  -z2 0  |
+                            \                                                                                                                                      {-2, 2} | 0 0  g   z5 |
+
+                                                                                                                                                                                              \ 
+                                                                                                                                                                          0                - -' </pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>It may be alarming to see non-zero entries in positions that appear at the point in the sequence that should hold Ext^3.  Fortunately, these entries disappear after evaluation at the two degrees $(0)$ and $(-1)$, which are the two long exact sequences we are trying to relate.  (The degrees are negated because of contravariance.  Alternatively, we could have set the degree of g to be -1)</p>
+          <p>To check this, we restack and evaluate to see both rows.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i33 : C = restackModule({2,1},couple)
+warning: clearing value of symbol e to allow access to subscripted variables based on it
+       : debug with expression   debug 3903   or with command line option   --debug 3903
+warning: clearing value of symbol t to allow access to subscripted variables based on it
+       : debug with expression   debug 5504   or with command line option   --debug 5504
+
+o33 = cokernel {0, 1, 1, -11}  | g -z e_1^2 0     0 0  e_1t_1 0      -z3 0     0   0     0  z3e_1 0     0     0 0      0     0    0   0 0  0      0   0   0     0     0 0  0   0  0  0   0      0     0     0     0 0  0      0      0      0     0     0   0   0      0     0     0     0  0      0      0  0  0  0  0  0  |
+               {-1, 1, 1, -10} | 0 g  0     e_1^2 0 0  0      e_1t_1 0   0     -z3 0     0  0     z3e_1 0     0 0      0     0    0   0 0  0      0   0   0     0     0 0  0   0  0  0   0      0     0     0     0 0  0      0      0      0     0     0   0   0      0     0     0     0  0      0      0  0  0  0  0  0  |
+               {0, 1, -1, -8}  | 0 0  0     0     g -z 0      0      t_1 e_1^2 0   0     0  0     0     0     0 0      0     0    0   0 0  0      0   0   0     0     0 0  0   0  0  0   0      0     0     0     0 0  0      0      0      0     0     0   0   0      0     0     0     0  0      0      0  0  0  0  0  0  |
+               {-1, 1, -1, -7} | 0 0  0     0     0 g  0      0      0   0     t_1 e_1^2 z2 0     0     0     0 0      0     0    z4  0 0  0      0   0   0     0     0 0  0   0  0  0   0      0     0     0     0 0  0      0      0      0     0     0   0   0      0     0     0     0  0      0      0  0  0  0  0  0  |
+               {-2, 1, -1, -5} | 0 0  0     0     0 0  0      0      0   0     0   0     g  0     0     e_1^2 0 e_1t_1 0     0    0   0 0  0      0   0   0     0     0 0  0   z5 0  0   0      0     0     0     0 0  0      0      0      0     0     0   0   0      0     0     0     0  0      0      0  0  0  0  0  0  |
+               {0, -1, 1, -4}  | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     g 0      e_1^2 ze_1 0   0 0  e_1t_1 0   -z3 0     0     0 0  0   0  0  0   0      0     0     0     0 0  0      0      0      0     0     0   0   0      0     0     0     0  0      0      0  0  0  0  0  0  |
+               {-1, 0, 0, -3}  | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     0 0      0     -g   e_1 0 0  0      t_1 0   0     0     0 0  0   0  z3 z2g 0      0     0     0     0 0  0      0      0      0     0     0   0   0      0     0     0     0  0      0      0  0  0  0  0  0  |
+               {0, -1, -1, -1} | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     0 0      0     0    0   g -z 0      0   t_1 e_1^2 0     0 0  0   0  0  0   0      0     0     0     0 0  0      0      0      0     0     0   0   0      0     0     0     0  0      0      0  0  0  0  0  0  |
+               {-1, -1, -1, 0} | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     0 0      0     0    0   0 g  0      0   0   0     e_1^2 0 0  -z2 0  0  0   e_1t_1 0     0     0     0 0  0      0      0      0     0     0   0   0      0     0     0     0  0      0      0  0  0  0  0  0  |
+               {-3, 5, 1, -11} | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     0 0      0     0    0   0 0  0      0   0   0     0     g -z 0   0  0  0   0      e_1^2 0     0     0 0  e_1t_1 0      0      0     0     -z3 0   -z3e_1 0     0     0     0  0      0      z7 0  0  0  0  0  |
+               {-4, 5, 1, -10} | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     0 0      0     0    0   0 0  0      0   0   0     0     0 g  0   0  0  0   0      0     e_1^2 0     0 0  0      e_1t_1 0      0     0     0   -z3 0      0     z3e_1 0     0  0      0      0  z7 0  0  0  0  |
+               {-2, -1, -1, 2} | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     0 0      0     0    0   0 0  0      0   0   0     0     0 0  g   0  0  0   0      0     0     e_1^2 0 0  0      0      e_1t_1 0     0     0   0   0      0     0     0     z5 0      0      0  0  0  0  0  0  |
+               {-3, 5, -1, -8} | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     0 0      0     0    0   0 0  0      0   0   0     0     0 0  0   0  0  0   0      0     0     0     g -z 0      0      0      e_1^2 0     t_1 0   0      0     0     0     0  0      0      0  0  z7 0  0  0  |
+               {-4, 5, -1, -7} | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     0 0      0     0    0   0 0  0      0   0   0     0     0 0  0   0  0  0   0      0     0     0     0 g  0      0      0      0     e_1^2 0   t_1 0      0     0     0     0  0      0      0  0  0  z7 0  0  |
+               {-4, 5, 1, -8}  | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     0 0      0     0    0   0 0  0      0   0   0     0     0 0  0   0  0  0   0      0     0     0     0 0  0      0      0      0     0     g   z   e_1g   e_1^2 -ze_1 0     0  e_1t_1 0      0  0  0  0  z7 0  |
+               {-5, 5, 1, -7}  | 0 0  0     0     0 0  0      0      0   0     0   0     0  0     0     0     0 0      0     0    0   0 0  0      0   0   0     0     0 0  0   0  0  0   0      0     0     0     0 0  0      0      0      0     0     0   -g  0      0     e_1g  e_1^2 0  0      e_1t_1 0  0  0  0  0  z7 |
+
+      R[e , t ][g]                     /R[e , t ][g]\
+         1   1                         |   1   1    |16
+o33 : -------------module, quotient of |------------|
+            2                          |      2     |
+           g                           \     g      /</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i34 : C0 = evaluateInDegree({0},C)
+
+o34 = cokernel {1, 1, -11}  | -z e_1^2 0     0  e_1t_1 0      -z3 0     0   0     0  z3e_1 0     0     0    0   0  0      0   0   0     0     0   0  0  0      |
+               {1, 1, -10}  | 1  0     e_1^2 0  0      e_1t_1 0   0     -z3 0     0  0     z3e_1 0     0    0   0  0      0   0   0     0     0   0  0  0      |
+               {1, -1, -8}  | 0  0     0     -z 0      0      t_1 e_1^2 0   0     0  0     0     0     0    0   0  0      0   0   0     0     0   0  0  0      |
+               {1, -1, -7}  | 0  0     0     1  0      0      0   0     t_1 e_1^2 z2 0     0     0     0    z4  0  0      0   0   0     0     0   0  0  0      |
+               {-1, 1, -4}  | 0  0     0     0  0      0      0   0     0   0     0  0     0     e_1^2 ze_1 0   0  e_1t_1 0   -z3 0     0     0   0  0  0      |
+               {0, 0, -3}   | 0  0     0     0  0      0      0   0     0   0     0  0     0     0     -1   e_1 0  0      t_1 0   0     0     0   z3 z2 0      |
+               {-1, -1, -1} | 0  0     0     0  0      0      0   0     0   0     0  0     0     0     0    0   -z 0      0   t_1 e_1^2 0     0   0  0  0      |
+               {-1, -1, 0}  | 0  0     0     0  0      0      0   0     0   0     0  0     0     0     0    0   1  0      0   0   0     e_1^2 -z2 0  0  e_1t_1 |
+
+                                               8
+o34 : R[e , t ]-module, quotient of (R[e , t ])
+         1   1                          1   1</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i35 : expectExactCouple C0</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i36 : C1 = evaluateInDegree({-1},C)
+
+o36 = cokernel {1, 1, -10} | e_1^2 e_1t_1 -z3 0     0  z3e_1 0     0      0   0   0     0 0   0  0  0      0     0 0      0  |
+               {1, -1, -7} | 0     0      t_1 e_1^2 z2 0     0     0      z4  0   0     0 0   0  0  0      0     0 0      0  |
+               {1, -1, -5} | 0     0      0   0     1  0     e_1^2 e_1t_1 0   0   0     0 0   z5 0  0      0     0 0      0  |
+               {0, 0, -3}  | 0     0      0   0     0  0     0     0      e_1 t_1 0     0 0   0  z3 0      0     0 0      0  |
+               {-1, -1, 0} | 0     0      0   0     0  0     0     0      0   0   e_1^2 0 -z2 0  0  e_1t_1 0     0 0      0  |
+               {-1, -1, 2} | 0     0      0   0     0  0     0     0      0   0   0     0 1   0  0  0      e_1^2 0 e_1t_1 z5 |
+
+                                               6
+o36 : R[e , t ]-module, quotient of (R[e , t ])
+         1   1                          1   1</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i37 : expectExactCouple C1</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i38 : excerptCouple({-2,0},4,C0)
+
+o38 =              .- ->           0                                                                                 
+            0     (      
+                   \     
+
+                                                                                      0                            \ 
+                   .- ->           0               - - ->               0           - - ->           0          - -' 
+            0     (                                  0
+                   \     
+
+                                                                                      0                            \ 
+                   .- -> cokernel {-11} | z6 | - - - - - - -> cokernel {-11} | z3 | - - ->           0          - -' 
+      {-11} | z3 |(                             {-11} | 1 |
+                   \     
+
+                                                                                      0                            \ 
+                   .- ->  cokernel {-4} | z6 | - - - - - - ->  cokernel {-4} | z3 | - - -> cokernel {-8} | z3 | - -' 
+       {-4} | z3 |(                              {-4} | 1 |
+                   \     
+
+                                                                                      0                            \ 
+                   .- ->           0               - - ->               0           - - -> cokernel {-1} | z3 | - -' 
+            0     (                                  0
+                   \     
+
+                                                                                                                   \ 
+                                                                                                     0          - -' </pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i39 : excerptCouple({-2,0},4,C1)
+
+o39 =              .- ->           0                                                                                           
+            0     (      
+                   \     
+
+                                                                                           0                                 \ 
+                   .- ->           0               - - ->               0                - - ->                0          - -' 
+            0     (                                  0
+                   \     
+
+                                                                                           0                                 \ 
+                   .- -> cokernel {-10} | z7 | - - - - - - -> cokernel {-10} | z3 |      - - ->                0          - -' 
+      {-10} | z3 |(                             {-10} | 1 |
+                   \     
+
+                                                                                      {-7} | -z4 |                           \ 
+                   .- ->    cokernel | z7 |        - - ->      cokernel {-3} | z3 | - - - - - - - -> cokernel {-7} | z7 | - -' 
+          | 1 |   (                                  0
+                   \     
+
+                                                                                           0                                 \ 
+                   .- ->           0               - - ->               0                - - ->         cokernel | z7 |   - -' 
+            0     (                                  0
+                   \     
+
+                                                                                                                             \ 
+                                                                                                               0          - -' </pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>We can verify by recomputing these two sequences directly.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i40 : A = image map(X,,{{z^3}});</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i41 : B = image map(Y,,{{z^7}});</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i42 : contravariantExtLES(4,X,A,Z)
+warning: clearing value of symbol f to allow access to subscripted variables based on it
+       : debug with expression   debug 3406   or with command line option   --debug 3406
+
+o42 =              .- ->           0                                                                                 
+            0     (      
+                   \     
+
+                                                                                      0                            \ 
+                   .- ->           0               - - ->               0           - - ->           0          - -' 
+            0     (                                  0
+                   \     
+
+                                                                                      0                            \ 
+                   .- -> cokernel {-11} | z6 | - - - - - - -> cokernel {-11} | z3 | - - ->           0          - -' 
+      {-11} | z3 |(                             {-11} | 1 |
+                   \     
+
+                                                                                      0                            \ 
+                   .- ->  cokernel {-4} | z6 | - - - - - - ->  cokernel {-4} | z3 | - - -> cokernel {-8} | z3 | - -' 
+       {-4} | z3 |(                              {-4} | 1 |
+                   \     
+
+                                                                                      0                            \ 
+                   .- ->           0               - - ->               0           - - -> cokernel {-1} | z3 | - -' 
+            0     (                                  0
+                   \     
+
+                                                                                                                   \ 
+                                                                                                     0          - -' </pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i43 : contravariantExtLES(4,Y,B,Z)
+warning: clearing value of symbol e to allow access to subscripted variables based on it
+       : debug with expression   debug 3903   or with command line option   --debug 3903
+warning: clearing value of symbol f to allow access to subscripted variables based on it
+       : debug with expression   debug 3406   or with command line option   --debug 3406
+
+o43 =              .- ->           0                                                                                         
+            0     (      
+                   \     
+
+                                                                                          0                                \ 
+                   .- ->           0               - - ->               0               - - ->               0          - -' 
+            0     (                                  0
+                   \     
+
+                                                                                          0                                \ 
+                   .- -> cokernel {-10} | z7 | - - - - - - -> cokernel {-10} | z3 |     - - ->               0          - -' 
+      {-10} | z3 |(                             {-10} | 1 |
+                   \     
+
+                                                                                     {-7} | z4 |                           \ 
+                   .- ->    cokernel | z7 |        - - ->      cokernel {-3} | z3 | - - - - - - -> cokernel {-7} | z7 | - -' 
+          | 1 |   (                                  0
+                   \     
+
+                                                                                          0                                \ 
+                   .- ->           0               - - ->               0               - - ->        cokernel | z7 |   - -' 
+            0     (                                  0
+                   \     
+
+                                                                                                                           \ 
+                                                                                                             0          - -' </pre>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="restacks the ring that acts on a module" href="_restack__Module.html">restackModule</a> -- restacks the ring that acts on a module</span>          </li>
+          <li>
+<span><a title="building graded modules with specified modules in certain degrees, and with specified action maps" href="___Encoding_spdiagrams_spas_spmodules.html">Encoding diagrams as modules</a> -- building graded modules with specified modules in certain degrees, and with specified action maps</span>          </li>
+          <li>
+<span><a title="building couples by applying Tor or Ext to a filtered module or a graded R[t]-module" href="___Exact_spcouples_spfor_sp__Tor_spand_sp__Ext.html">Exact couples for Tor and Ext</a> -- building couples by applying Tor or Ext to a filtered module or a graded R[t]-module</span>          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+
+</html>

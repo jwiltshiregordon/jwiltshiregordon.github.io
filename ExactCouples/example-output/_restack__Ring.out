@@ -1,0 +1,65 @@
+-- -*- M2-comint -*- hash: 923052354
+
+i1 : A=QQ[x,y, Degrees => {{1,2},{1,2}}]/(x^2+y^2);
+
+i2 : B=A[b];
+
+i3 : C=B[p,q]/(p^3-2*q^3);
+
+i4 : D=C[d];
+
+i5 : restackRing({2,3,4,1}, D)
+
+         QQ[d][x, y]
+         -----------[b][p, q]
+            2    2
+           x  + y
+o5 = map(--------------------,D,{d, p, q, b, x, y})
+                3     3
+               p  - 2q
+
+             QQ[d][x, y]
+             -----------[b][p, q]
+                2    2
+               x  + y
+o5 : RingMap -------------------- <--- D
+                    3     3
+                   p  - 2q
+
+i6 : restackRing({1,1,1,1}, D)
+
+         QQ[x, y, b, p, q, d]
+o6 = map(--------------------,D,{d, p, q, b, x, y})
+            2    2   3     3
+          (x  + y , p  - 2q )
+
+             QQ[x, y, b, p, q, d]
+o6 : RingMap -------------------- <--- D
+                2    2   3     3
+              (x  + y , p  - 2q )
+
+i7 : restackRing({1,1}, D)
+
+         B[p, q, d]
+o7 = map(----------,D,{d, p, q, b, x, y})
+           3     3
+          p  - 2q
+
+             B[p, q, d]
+o7 : RingMap ---------- <--- D
+               3     3
+              p  - 2q
+
+i8 : restackRing({2,1,2,1}, D)
+
+         QQ[b, d][x, y, p, q]
+o8 = map(--------------------,D,{d, p, q, b, x, y})
+            2    2   3     3
+          (x  + y , p  - 2q )
+
+             QQ[b, d][x, y, p, q]
+o8 : RingMap -------------------- <--- D
+                2    2   3     3
+              (x  + y , p  - 2q )
+
+i9 : 

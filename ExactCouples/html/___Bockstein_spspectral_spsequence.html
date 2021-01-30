@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>Bockstein spectral sequence -- a singly-graded spectral sequence built from the chain self-map &quot;multiplication by p&quot;</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="_canonical__Filtration.html">next</a> | <a href="___An_spexact_spcouple_spassociated_spto_spa_sp__Young_sptableau.html">previous</a> | <a href="_canonical__Filtration.html">forward</a> | <a href="___An_spexact_spcouple_spassociated_spto_spa_sp__Young_sptableau.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="a singly-graded spectral sequence built from the chain self-map &quot;multiplication by p&quot;" href="___Bockstein_spspectral_spsequence.html">Bockstein spectral sequence</a>    </div>
+    <hr/>
+    <div>
+      <h1>Bockstein spectral sequence -- a singly-graded spectral sequence built from the chain self-map &quot;multiplication by p&quot;</h1>
+      <div>
+        <div>
+          <p><b>Bockstein Spectral Sequence</b></p>
+          <p>Let p be a prime number, and suppose C is a chain complex over the integers; then multiplication by p induces a chain map $C --> C$, and so we have a chain complex with a self-map, placing us in the algebraic context to obtain an exact couple.</p>
+          <p>For example, let C be the cellular cochain complex for the real projective space $\mathbb{R}P^3$ and its usual cell structure with a single cell in each degree:</p>
+          <p>Z --0--> Z --2--> Z --0--> Z —-> 0</p>
+          <p>Name the classes p0, p1, p2, and p3, specify the differential by imposing relations of the form d*pk = d(pk), and set t to act by 2 by tensoring with R^1/(t-2) (this is a convenient way to impose the relation that every generator g has t*g = 2*g):</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : Q = ZZ[d, f, Degrees => {1,0}]/d^2;</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i2 : declareGenerators(Q, {p0 => 0, p1 => 1, p2 => 2, p3 => 3});</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i3 : C = cospan(d*p0, d*p1-2*p2, d*p2, d*p3) ** Q^1/(f-2); C
+
+o4 = cokernel {3} | f-2 0   0   0   0 0  0 d |
+              {0} | 0   f-2 0   0   d 0  0 0 |
+              {1} | 0   0   f-2 0   0 d  0 0 |
+              {2} | 0   0   0   f-2 0 -2 d 0 |
+
+                            4
+o4 : Q-module, quotient of Q</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i5 : isHomogeneous C
+
+o5 = true</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>This C is the right sort of module to give to exactCouple since it carries an action of a ring of the form R[d,f]/d^2</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i6 : bock = exactCouple C
+warning: clearing value of symbol f to allow access to subscripted variables based on it
+       : debug with expression   debug 3406   or with command line option   --debug 3406
+
+o6 = cokernel {5}  | f_1-2 2e_1 0 e_1^2 0     0    0 0     0 0   0 0     0       0 0 e_1^2 e_1f_1 0     0      0     0   |
+              {-1} | 0     0    0 0     f_1-2 2e_1 0 e_1^2 0 0   0 0     0       0 0 0     0      e_1^2 e_1f_1 0     0   |
+              {2}  | 0     0    0 0     0     0    0 0     2 f_1 0 -2e_1 -e_1f_1 0 0 0     0      0     0      e_1^3 f_1 |
+
+                                                3
+o6 : ZZ[e , f ]-module, quotient of (ZZ[e , f ])
+         1   1                           1   1</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i7 : expectExactCouple bock</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i8 : P1 = prune pageModule(1,D,bock)
+
+o8 = cokernel {3} | 0 0   0 2 D_1 |
+              {0} | 2 D_1 0 0 0   |
+              {1} | 0 0   2 0 0   |
+
+     ZZ[D ]                     /ZZ[D ]\
+         1                      |    1 |3
+o8 : -------module, quotient of |------|
+        2                       |   2  |
+       D                        |  D   |
+        1                       \   1  /</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Since the generators of the E_1-page are annihilated by 2, the same will be true on subsequent pages.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i9 : P2 = prune pageModule(2,D,bock)
+warning: clearing value of symbol e to allow access to subscripted variables based on it
+       : debug with expression   debug 3903   or with command line option   --debug 3903
+warning: clearing value of symbol f to allow access to subscripted variables based on it
+       : debug with expression   debug 3406   or with command line option   --debug 3406
+
+o9 = cokernel {3} | 0 0   2 D_2 |
+              {0} | 2 D_2 0 0   |
+
+     ZZ[D ]                     /ZZ[D ]\
+         2                      |    2 |2
+o9 : -------module, quotient of |------|
+        2                       |   2  |
+       D                        |  D   |
+        2                       \   2  /</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i10 : P3 = prune pageModule(3,D,bock)
+
+o10 = cokernel {3} | 0 0   2 D_3 |
+               {0} | 2 D_3 0 0   |
+
+      ZZ[D ]                     /ZZ[D ]\
+          3                      |    3 |2
+o10 : -------module, quotient of |------|
+         2                       |   2  |
+        D                        |  D   |
+         3                       \   3  /</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>It is always the case that the the pages of the Bockstein spectral sequence are defined over the field ZZ/p; indeed this is its main useful property.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i11 : P1' = prune(map((ZZ/2)[D_1],ring P1) ** P1)
+
+o11 = cokernel {3} | 0   D_1 |
+               {0} | D_1 0   |
+               {1} | 0   0   |
+
+      ZZ                          ZZ     3
+o11 : --[D ]-module, quotient of (--[D ])
+       2  1                        2  1</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i12 : P2' = prune(map((ZZ/2)[D_2],ring P1) ** P1)
+
+       ZZ     3
+o12 = (--[D ])
+        2  2
+
+      ZZ
+o12 : --[D ]-module, free, degrees {3, 0..1}
+       2  2</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i13 : P3' = prune(map((ZZ/2)[D_3],ring P1) ** P1)
+
+       ZZ     3
+o13 = (--[D ])
+        2  3
+
+      ZZ
+o13 : --[D ]-module, free, degrees {3, 0..1}
+       2  3</pre>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="gives a page of a spectral sequence as a module for R[d]/d^2 where d is the differential" href="_page__Module.html">pageModule</a> -- gives a page of a spectral sequence as a module for R[d]/d^2 where d is the differential</span>          </li>
+          <li>
+<span><a title="builds the derived couple of an exact couple" href="_derived__Couple.html">derivedCouple</a> -- builds the derived couple of an exact couple</span>          </li>
+          <li>
+<span><a title="accepts a module if it encodes an exact couple" href="_expect__Exact__Couple.html">expectExactCouple</a> -- accepts a module if it encodes an exact couple</span>          </li>
+          <li>
+<span><a title="specifics on encoding exact couples as modules for a ring" href="___Conventions_spand_spfirst_spexamples.html">Conventions and first examples</a> -- specifics on encoding exact couples as modules for a ring</span>          </li>
+          <li>
+<span><a title="exact couple associated to a fibration" href="___Serre_spspectral_spsequence_spin_sphomology.html">Serre spectral sequence in homology</a> -- exact couple associated to a fibration</span>          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+
+</html>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>excerptLES -- displays a few entries of a long exact sequence</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="_expect__Chain__Ring.html">next</a> | <a href="_excerpt__Couple.html">previous</a> | <a href="_expect__Chain__Ring.html">forward</a> | <a href="_excerpt__Couple.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="displays a few entries of a long exact sequence" href="_excerpt__L__E__S.html">excerptLES</a>    </div>
+    <hr/>
+    <div>
+      <h1>excerptLES -- displays a few entries of a long exact sequence</h1>
+      <div>
+        <h2>Synopsis</h2>
+        <ul>
+          <li>
+            <dl class="element">
+              <dt>Usage: </dt>
+              <dd><tt>excerptLES(k, l, M)</tt></dd>
+            </dl>
+          </li>
+          <li>
+Inputs:            <ul>
+              <li>
+<span><tt>M</tt>, <span>a <a title="the class of all modules" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span>, over a couple ring, encoding a long exact sequence</span>              </li>
+              <li>
+<span><tt>k</tt>, <span>an <a title="the class of all integers" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Z__Z.html">integer</a></span>, the first cohomological degree to be examined</span>              </li>
+              <li>
+<span><tt>l</tt>, <span>an <a title="the class of all integers" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Z__Z.html">integer</a></span>, the last (and if omitted, l=k)</span>              </li>
+            </ul>
+          </li>
+          <li>
+Outputs:            <ul>
+              <li>
+<span><span>a <a title="the class of all nets and strings" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Net.html">net</a></span>, depicting rows k..l of the long exact sequence, as well as the entries just before and after this row.  There is also some ASCII art showing the snaking paths of the connecting maps.</span>              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h2>Description</h2>
+        <div>
+          <p>The encoding of a long exact sequence as a module is described in detail in <a title="finds the long exact sequence associated to a map of R[d]/d^2-modules" href="_long__Exact__Sequence.html">longExactSequence</a></p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : R = QQ[d]/d^2;</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i2 : M = coker map(R^{-1,-1,-1,-1,-1,0,0,0,0},R^{-1,-1,-1,-2,-2,-2,-2,-2},
+         {{0,0,0,d,0,0,0,0},{0,0,0,0,d,0,0,0},{0,0,0,0,0,d,0,0},
+          {0,0,0,0,0,0,d,0},{0,0,0,0,0,0,0,d},{-4*d,4*d,4*d,0,0,0,0,0},
+          {5*d,0,0,0,0,0,0,0},{0,5*d,0,0,0,0,0,0},{0,0,5*d,0,0,0,0,0}});</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i3 : N = coker map(R^{-1,-1,0,0,0,1,1},R^{0,-1,-1,-2,-2},
+         {{0,0,0,d,0},{0,0,0,0,d},{0,0,-4*d,0,0},{0,d,0,0,0},
+          {0,0,3*d,0,0},{0,0,0,0,0},{d,0,0,0,0}});</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i4 : f = map(N, M, {{1,1,1,1,1,0,0,0,0},{1,1,1,1,1,0,0,0,0},{d,d,d,d,d,-14,-12,4,4},
+                    {0,0,0,0,0,1,1,1,1},{0,0,0,0,0,3,3,3,3},{0,0,0,0,0,d,d,d,0},
+                    {0,0,0,0,0,0,0,0,0}});
+
+o4 : Matrix</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i5 : LES = longExactSequence f;
+warning: clearing value of symbol f to allow access to subscripted variables based on it
+       : debug with expression   debug 3406   or with command line option   --debug 3406</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i6 : expectExactCouple LES;</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i7 : excerptLES(0,2,LES)
+
+o7 =               .- ->  0                                           
+           0      (      
+                   \     
+
+                           2              1        0                \ 
+                   .- -> QQ  - - - - -> QQ       - - ->       0  - -' 
+     | 0 0 0 0 1 |(           | 0 1 |
+     | 0 0 0 0 0 | \     
+
+                                             | 0 1 0 0 0 |
+                                             | 0 0 1 0 0 |
+                                             | 0 0 0 1 0 |
+                                             | 0 0 0 0 1 |
+                           2              5  | 0 0 0 0 0 |     5    \ 
+                   .- -> QQ  - - - - -> QQ  - - - - - - - -> QQ  - -' 
+       | 0 0 1 |  (           | 0 1 |
+       | 0 0 0 |   \          | 0 0 |
+                              | 0 0 |
+                              | 0 0 |
+                              | 0 0 |
+
+                                               | 0 1 0 |
+                                               | 0 0 1 |
+                           1              3    | 0 0 0 |       3    \ 
+                   .- -> QQ   - - - ->  QQ    - - - - - ->   QQ  - -' 
+           0      (            | 1 |
+                   \           | 0 |
+                               | 0 |
+
+                                                                    \ 
+                                                              0  - -' </pre>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="finds the long exact sequence associated to a map of R[d]/d^2-modules" href="_long__Exact__Sequence.html">longExactSequence</a> -- finds the long exact sequence associated to a map of R[d]/d^2-modules</span>          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>Ways to use <tt>excerptLES</tt>:</h2>
+        <ul>
+          <li>
+excerptLES(ZZ,Module)          </li>
+          <li>
+excerptLES(ZZ,ZZ,Module)          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>For the programmer</h2>
+        <p>The object <a title="displays a few entries of a long exact sequence" href="_excerpt__L__E__S.html">excerptLES</a> is <span>a <a title="a type of method function" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Method__Function.html">method function</a></span>.</p>
+      </div>
+    </div>
+  </body>
+
+</html>

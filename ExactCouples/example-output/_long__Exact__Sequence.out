@@ -1,0 +1,49 @@
+-- -*- M2-comint -*- hash: 1232858877
+
+i1 : R = QQ[x]; S = R[d] / ideal(d^2); declareGenerators(S, {a => {0,0}}); A = cospan(x^2*a, d*x*a)
+
+o4 = cokernel | x2 xd |
+
+                            1
+o4 : S-module, quotient of S
+
+i5 : declareGenerators(S, {b => {0,0}}); B = cospan(x^2*b, d*b)
+
+o6 = cokernel | x2 d |
+
+                            1
+o6 : S-module, quotient of S
+
+i7 : m = map(B, A, matrix {b});
+
+o7 : Matrix
+
+i8 : LES = longExactSequence m;
+warning: clearing value of symbol f to allow access to subscripted variables based on it
+       : debug with expression   debug 3406   or with command line option   --debug 3406
+
+i9 : excerptLES(0,2,LES)
+
+o9 =       .- ->        0                                                               
+       0  (      
+           \     
+
+                                                           0                          \ 
+           .- ->        0         - - ->         0       - - ->          0         - -' 
+       0  (                         0
+           \     
+
+                                                           0                          \ 
+           .- -> cokernel | x2 | - - - -> cokernel | x | - - ->          0         - -' 
+     | x |(                       | 1 |
+           \     
+
+                                                           0                          \ 
+           .- ->        0         - - ->         0       - - -> cokernel {1} | x | - -' 
+       0  (                         0
+           \     
+
+                                                                                      \ 
+                                                                         0         - -' 
+
+i10 : 

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>structureMap -- computes the action of a ring element on a particular degree</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="_to__Chain__Complex.html">next</a> | <a href="___Serre_spspectral_spsequence_spin_sphomology.html">previous</a> | <a href="_to__Chain__Complex.html">forward</a> | <a href="___Serre_spspectral_spsequence_spin_sphomology.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="computes the action of a ring element on a particular degree" href="_structure__Map.html">structureMap</a>    </div>
+    <hr/>
+    <div>
+      <h1>structureMap -- computes the action of a ring element on a particular degree</h1>
+      <div>
+        <h2>Synopsis</h2>
+        <ul>
+          <li>
+            <dl class="element">
+              <dt>Usage: </dt>
+              <dd><tt>structureMap(x,y,r,M)</tt></dd>
+            </dl>
+          </li>
+          <li>
+Inputs:            <ul>
+              <li>
+<span><tt>M</tt>, <span>a <a title="the class of all modules" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span>, over some ring R with coefficient ring $k$</span>              </li>
+              <li>
+<span><tt>x</tt>, <span>a <a title="the class of all lists -- {...}" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___List.html">list</a></span>, an external R-degree</span>              </li>
+              <li>
+<span><tt>y</tt>, <span>a <a title="the class of all lists -- {...}" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___List.html">list</a></span>, an external R-degree</span>              </li>
+              <li>
+<span><tt>r</tt>, <span>a <a title="the class of all ring elements handled by the engine" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Ring__Element.html">ring element</a></span>, of degree y-x</span>              </li>
+            </ul>
+          </li>
+          <li>
+Outputs:            <ul>
+              <li>
+<span><span>a <a title="the class of all matrices" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Matrix.html">matrix</a></span>, the $k$-linear map $M_x \to M_y$, $m \mapsto r \cdot m$</span>              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h2>Description</h2>
+        <div>
+          <p>An &quot;external&quot; R-degree is a list of integers of length equal to (degreeLength R) - (degreeLength k). See <a title="building graded modules with specified modules in certain degrees, and with specified action maps" href="___Encoding_spdiagrams_spas_spmodules.html">Encoding diagrams as modules</a> for more discussion about internal and external degrees for a ring.</p>
+          <p>A graded R-module has a component $R_x$ in every external degree $x$, and this component is a $k$-module. If $r \in R$ has degree $y-x$, then multiplication by $r$ gives a $k$-linear map $R_x \to R_y$.  This is the map that is returned by structureMap.</p>
+          <p>Only one of $x$ and $y$ needs to be supplied if $r$ is nonzero, since then the other degree can be inferred.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : k = QQ[s, t, u]; R = k[x, y]; m = matrix {{s*x^2+t*x*y+u*y^2}}; M = coker m
+
+             1       1
+o3 : Matrix R  &lt;--- R
+
+o4 = cokernel | sx2+txy+uy2 |
+
+                            1
+o4 : R-module, quotient of R</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i5 : phi = structureMap({4}, {7}, x^2*y, M)
+
+o5 = | 0 0 0 0 0 |
+     | 1 0 0 0 0 |
+     | 0 1 0 0 0 |
+     | 0 0 1 0 0 |
+     | 0 0 0 1 0 |
+     | 0 0 0 0 1 |
+     | 0 0 0 0 0 |
+     | 0 0 0 0 0 |
+
+o5 : Matrix</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i6 : source phi
+
+o6 = cokernel | s 0 0 |
+              | t s 0 |
+              | u t s |
+              | 0 u t |
+              | 0 0 u |
+
+                            5
+o6 : k-module, quotient of k</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i7 : target phi
+
+o7 = cokernel | s 0 0 0 0 0 |
+              | t s 0 0 0 0 |
+              | u t s 0 0 0 |
+              | 0 u t s 0 0 |
+              | 0 0 u t s 0 |
+              | 0 0 0 u t s |
+              | 0 0 0 0 u t |
+              | 0 0 0 0 0 u |
+
+                            8
+o7 : k-module, quotient of k</pre>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="evaluates a module in a particular degree" href="_evaluate__In__Degree.html">evaluateInDegree</a> -- evaluates a module in a particular degree</span>          </li>
+          <li>
+<span><a title="places a copy of a module in a certain degree" href="_extension__In__Degree.html">extensionInDegree</a> -- places a copy of a module in a certain degree</span>          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>Ways to use <tt>structureMap</tt>:</h2>
+        <ul>
+          <li>
+structureMap(List,List,RingElement,Module)          </li>
+          <li>
+structureMap(List,Nothing,RingElement,Module)          </li>
+          <li>
+structureMap(Nothing,List,RingElement,Module)          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>For the programmer</h2>
+        <p>The object <a title="computes the action of a ring element on a particular degree" href="_structure__Map.html">structureMap</a> is <span>a <a title="a type of method function" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Method__Function.html">method function</a></span>.</p>
+      </div>
+    </div>
+  </body>
+
+</html>

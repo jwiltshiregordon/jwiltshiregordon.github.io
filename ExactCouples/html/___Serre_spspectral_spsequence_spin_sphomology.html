@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>Serre spectral sequence in homology -- exact couple associated to a fibration</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="_structure__Map.html">next</a> | <a href="_sequence__Module.html">previous</a> | <a href="_structure__Map.html">forward</a> | <a href="_sequence__Module.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="exact couple associated to a fibration" href="___Serre_spspectral_spsequence_spin_sphomology.html">Serre spectral sequence in homology</a>    </div>
+    <hr/>
+    <div>
+      <h1>Serre spectral sequence in homology -- exact couple associated to a fibration</h1>
+      <div>
+        <div>
+          <p><b>Homology Serre spectral sequence for the Hopf fibration</b></p>
+          <p>The Serre spectral sequence can be constructed by choosing a cell structure on the base space, and looking at the induced filtration on the total space.  In the case of the Hopf fibration $p: S^3 \to S^2$, and making use of the easy cell structure on S^2 with only two cells, we obtain the following filtration:</p>
+          <p>$X_k = \emptyset$ for $k \leq 0$</p>
+          <p>$X_0 = X_1 = S^1$</p>
+          <p>$X_k = S^3$ for $k \geq 2$</p>
+          <p>The homology exact couple of a filtered space is built from the various long exact sequences associated to the pairs $(X_p , X_{p-1})$.</p>
+          <p>Its first page is the relative homology, and its first auxiliary is the (absolute) homology.  The variables act as follows:</p>
+          <p>$f : H_n X_p \to H_n X_{p+1}$</p>
+          <p>$e : H_n X_p \to H_n(X_p , X_{p-1})$</p>
+          <p>$e : H_n(X_p , X_{p-1}) \to  H_{n-1} X_{p-1}$,</p>
+          <p>where this last map is the usual connecting homomorphism.  In our example, the most interesting long exact sequence concerns the pair $(S^3,S^1)$.  Since the homology of $S^3$ and $S^1$ are pretty sparse, the homology of the pair is determined by isomorphisms</p>
+          <p>$e : H_3 S^3 \to H_3(S^3,S^1)$ since $H_3$ and $H_2$ vanish on $S^1$</p>
+          <p>$e : H_2(S^3,S^1) \to H_1 S^1$ since $H_2$ and $H_1$ vanish on $S^3$</p>
+          <p>$H_1(S^3,S^1) = 0$ since $H_1 S^3 = 0$ and $H_0 S^1 \to H_0 S^3$ is an injection</p>
+          <p>$H_0(S^3,S^1) = 0$ since $H_0 S^1 \to H_0 S^3$ is a surjection.</p>
+          <p>This analysis shows that the four groups $H_0 X_0$, $H_1 X_0$, $H_2(X_2, X_1)$, and $H_3 X_2$ are free abelian of rank one. Let $x \in H_0 X_0$, $y \in H_1 X_0$, $z \in H_2(X_2,X_1)$, and $w \in H_3 X_2$ be generating classes for these groups.</p>
+          <p>By the general properties of exact couples, we have that $e^2$ annihilates auxiliary generators and $f$ annihilates page generators.  It turns out that the only remaining relation in the exact couple is $e*z - f*y$, which says that the connecting map $H_2(X_2,X_1) \to H_1(X_1)$ sends $z$ to the same place as the filtration map $H_1(X_0) \to H_1(X_1)$ sends $y$.  (Depending on your choices for generators, this relation may read $e*z + f*y$.)</p>
+          <p>It is straightforward to give all this information to M2, but determining degrees does take a bit of thought the first time you do it.  We continue the example by <b>analyzing degrees ...</b></p>
+          <p>Since we have specific degree preferences (exactly double the usual ones for a Serre spectral sequence) we will do this by hand rather than relying on the default degrees provided by <a title="builds a couple ring" href="_couple__Ring.html">coupleRing</a>.</p>
+          <p>The usual Serre spectral sequence has $E^1_{pq} = H_{p+q}(X_p , X_{p-1})$, so we place this module in degree $(2p,2q)$.  The module $A^1_{pq} = H_{p+q} X_p$ sits halfway along the map $E^1_{pq} \to E^1_{(p-1)q}$, so it has degree $(2p-1,2q)$.</p>
+          <p>In usual indexing, the differential has degree $(-1,0)$, so our differential has degree $(-2,0)$.  On the other hand, since the differential is given by $e^2$, this means that the degree of $e$ itself is $(-1,0)$.  (And in general, the degree of e in our conventions should be the degree of the differential in the usual conventions.)</p>
+          <p>Everything so far has been about the first page, $E^1$.  However, the easiest way to determine the degree of $f$ is to consider the second page.  The usual conventions give that the differential on $E^2$ has degree $(-2,1)$, and so (by the same argument as above) this is the degree of $e_2$.  We have generally $deg e_{k+1} = deg e_k - (deg f_k)/2$. Solving, we see that the degree of $f = f_1$ is $2 ((-1,0) - (-2,1)) = (2,-2)$.</p>
+          <p>We conclude the general rule that<b>... the degree of e_k in our convention equals the degree of the page-k differential in the standard convention; the degree of f_k is then given by  * (deg e_k - deg e_{k+1})$.</b></p>
+          <p>We are now able to set up the couple ring.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : R = QQ;</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i2 : Q = R[e_1,f_1,Degrees=>{{-1,0},{2,-2}}];</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Now it is time to build the couple.  We give our couple ring to the function <a title="initializes generating classes for an exact couple" href="_declare__Couple.html">declareCouple</a>, together with names and degrees for our generating classes.  The page generators are always given first, and the auxiliary generators second.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i3 : declareCouple(Q, {z => {4,0}}, {x => {1,0}, y => {1,2}, w => {5,2}})
+
+o3 = cokernel {5, 2} | e_1^2 e_1f_1 0     0      0     0      0     0   |
+              {1, 0} | 0     0      e_1^2 e_1f_1 0     0      0     0   |
+              {1, 2} | 0     0      0     0      e_1^2 e_1f_1 0     0   |
+              {4, 0} | 0     0      0     0      0     0      e_1^3 f_1 |
+
+                            4
+o3 : Q-module, quotient of Q</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>The couple we have built is &quot;free&quot; in the sense that the only relations imposed are the tautologous ones that hold in every exact couple (f acts by zero on the page, and e^2 acts by zero on the auxiliary).  To obtain our couple, we must impose the relation $e*z-f*y$.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i4 : C = cospan(e_1*z-f_1*y)
+
+o4 = cokernel {5, 2} | 0    e_1^2 e_1f_1 0     0      0     0      0     0   |
+              {1, 0} | 0    0     0      e_1^2 e_1f_1 0     0      0     0   |
+              {1, 2} | -f_1 0     0      0     0      e_1^2 e_1f_1 0     0   |
+              {4, 0} | e_1  0     0      0     0      0     0      e_1^3 f_1 |
+
+                            4
+o4 : Q-module, quotient of Q</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i5 : isHomogeneous C
+
+o5 = true</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i6 : expectExactCouple C</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Since <a title="accepts a module if it encodes an exact couple" href="_expect__Exact__Couple.html">expectExactCouple</a> accepts C without an error, we truly have an exact couple, and are ready to compute its spectral sequence.</p>
+          <p>The next line displays the some entries in the first four pages of the spectral sequence determined by C.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i7 : plotPages((-2..4,-2..3,1..4), prune @@ evaluateInDegree,C)
+page 1, with differential of degree {-1, 0}:
++----++----+----+---+---+---+---+---+
+|q=3 ||0   |0   |0  |0  |0  |0  |0  |
++----++----+----+---+---+---+---+---+
+|q=2 ||0   |0   |0  |0  |0  |0  |0  |
++----++----+----+---+---+---+---+---+
+|    ||    |    |  1|   |  1|   |   |
+|q=1 ||0   |0   |QQ |0  |QQ |0  |0  |
++----++----+----+---+---+---+---+---+
+|    ||    |    |  1|   |  1|   |   |
+|q=0 ||0   |0   |QQ |0  |QQ |0  |0  |
++----++----+----+---+---+---+---+---+
+|q=-1||0   |0   |0  |0  |0  |0  |0  |
++----++----+----+---+---+---+---+---+
+|q=-2||0   |0   |0  |0  |0  |0  |0  |
++----++----+----+---+---+---+---+---+
+|    ||p=-2|p=-1|p=0|p=1|p=2|p=3|p=4|
++----++----+----+---+---+---+---+---+
+
+page 2, with differential of degree {-2, 1}:
++----++----+----+---+---+---+---+---+
+|q=3 ||0   |0   |0  |0  |0  |0  |0  |
++----++----+----+---+---+---+---+---+
+|q=2 ||0   |0   |0  |0  |0  |0  |0  |
++----++----+----+---+---+---+---+---+
+|    ||    |    |  1|   |  1|   |   |
+|q=1 ||0   |0   |QQ |0  |QQ |0  |0  |
++----++----+----+---+---+---+---+---+
+|    ||    |    |  1|   |  1|   |   |
+|q=0 ||0   |0   |QQ |0  |QQ |0  |0  |
++----++----+----+---+---+---+---+---+
+|q=-1||0   |0   |0  |0  |0  |0  |0  |
++----++----+----+---+---+---+---+---+
+|q=-2||0   |0   |0  |0  |0  |0  |0  |
++----++----+----+---+---+---+---+---+
+|    ||p=-2|p=-1|p=0|p=1|p=2|p=3|p=4|
++----++----+----+---+---+---+---+---+
+
+page 3, with differential of degree {-3, 2}:
++----++----+----+---+---+---+---+---+
+|q=3 ||0   |0   |0  |0  |0  |0  |0  |
++----++----+----+---+---+---+---+---+
+|q=2 ||0   |0   |0  |0  |0  |0  |0  |
++----++----+----+---+---+---+---+---+
+|    ||    |    |   |   |  1|   |   |
+|q=1 ||0   |0   |0  |0  |QQ |0  |0  |
++----++----+----+---+---+---+---+---+
+|    ||    |    |  1|   |   |   |   |
+|q=0 ||0   |0   |QQ |0  |0  |0  |0  |
++----++----+----+---+---+---+---+---+
+|q=-1||0   |0   |0  |0  |0  |0  |0  |
++----++----+----+---+---+---+---+---+
+|q=-2||0   |0   |0  |0  |0  |0  |0  |
++----++----+----+---+---+---+---+---+
+|    ||p=-2|p=-1|p=0|p=1|p=2|p=3|p=4|
++----++----+----+---+---+---+---+---+
+
+page 4, with differential of degree {-4, 3}:
++----++----+----+---+---+---+---+---+
+|q=3 ||0   |0   |0  |0  |0  |0  |0  |
++----++----+----+---+---+---+---+---+
+|q=2 ||0   |0   |0  |0  |0  |0  |0  |
++----++----+----+---+---+---+---+---+
+|    ||    |    |   |   |  1|   |   |
+|q=1 ||0   |0   |0  |0  |QQ |0  |0  |
++----++----+----+---+---+---+---+---+
+|    ||    |    |  1|   |   |   |   |
+|q=0 ||0   |0   |QQ |0  |0  |0  |0  |
++----++----+----+---+---+---+---+---+
+|q=-1||0   |0   |0  |0  |0  |0  |0  |
++----++----+----+---+---+---+---+---+
+|q=-2||0   |0   |0  |0  |0  |0  |0  |
++----++----+----+---+---+---+---+---+
+|    ||p=-2|p=-1|p=0|p=1|p=2|p=3|p=4|
++----++----+----+---+---+---+---+---+</pre>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="builds an exact couple from a R[d,f]/d^2-module" href="_exact__Couple.html">exactCouple</a> -- builds an exact couple from a R[d,f]/d^2-module</span>          </li>
+          <li>
+<span><a title="accepts a module if it encodes an exact couple" href="_expect__Exact__Couple.html">expectExactCouple</a> -- accepts a module if it encodes an exact couple</span>          </li>
+          <li>
+<span><a title="builds the derived couple of an exact couple" href="_derived__Couple.html">derivedCouple</a> -- builds the derived couple of an exact couple</span>          </li>
+          <li>
+<span><a title="gives a page of a spectral sequence as a module for R[d]/d^2 where d is the differential" href="_page__Module.html">pageModule</a> -- gives a page of a spectral sequence as a module for R[d]/d^2 where d is the differential</span>          </li>
+          <li>
+<span><a title="builds the derived couple of an exact couple" href="_derived__Couple.html">derivedCouple</a> -- builds the derived couple of an exact couple</span>          </li>
+          <li>
+<span><a title="accepts a module if it encodes an exact couple" href="_expect__Exact__Couple.html">expectExactCouple</a> -- accepts a module if it encodes an exact couple</span>          </li>
+          <li>
+<span><a title="specifics on encoding exact couples as modules for a ring" href="___Conventions_spand_spfirst_spexamples.html">Conventions and first examples</a> -- specifics on encoding exact couples as modules for a ring</span>          </li>
+          <li>
+<span><a title="a singly-graded spectral sequence built from the chain self-map &quot;multiplication by p&quot;" href="___Bockstein_spspectral_spsequence.html">Bockstein spectral sequence</a> -- a singly-graded spectral sequence built from the chain self-map &quot;multiplication by p&quot;</span>          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+
+</html>

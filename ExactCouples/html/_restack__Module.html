@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>restackModule -- restacks the ring that acts on a module</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="_restack__Ring.html">next</a> | <a href="_plot__Pages.html">previous</a> | <a href="_restack__Ring.html">forward</a> | <a href="_plot__Pages.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="restacks the ring that acts on a module" href="_restack__Module.html">restackModule</a>    </div>
+    <hr/>
+    <div>
+      <h1>restackModule -- restacks the ring that acts on a module</h1>
+      <div>
+        <h2>Synopsis</h2>
+        <ul>
+          <li>
+            <dl class="element">
+              <dt>Usage: </dt>
+              <dd><tt>restackModule(p,M)</tt></dd>
+            </dl>
+          </li>
+          <li>
+Inputs:            <ul>
+              <li>
+<span><tt>M</tt>, <span>a <a title="the class of all modules" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span>, whose ring has a coefficient ring, which has a coefficient ring, etc, for at least n levels</span>              </li>
+              <li>
+<span><tt>p</tt>, <span>a <a title="the class of all lists -- {...}" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___List.html">list</a></span>, the desired reordering of these levels as a permutation of the list {1..n}, or more generally, a list of length n that contains every number 1..m for some m &lt;= n.</span>              </li>
+            </ul>
+          </li>
+          <li>
+Outputs:            <ul>
+              <li>
+<span><span>a <a title="the class of all modules" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span>, for a new ring with m levels where the variables are adjoined in the order determined by p</span>              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h2>Description</h2>
+        <div>
+          <p>Sometimes a module has multiple ways of being considered as a diagram.  For example, set</p>
+          <p>$A = \QQ[a]/a^2$</p>
+          <p>$B = \QQ[b]/b^2$</p>
+          <p>$AB = A[b]/b^2$</p>
+          <p>$BA = B[a]/a^2$.</p>
+          <p>An $AB$-modules is then the same as a cochain complex of $A$-modules where the differential is named &quot;b&quot;.  It may be useful to recast this data as a cochain complex of $B$-modules with differential &quot;a&quot;.  This is certainly possible because the rings $AB$ and $BA$ are isomorphic.  In fact, the isomorphism $\phi$ between these rings can be computed with <a title="changes the order in which variables were adjoined" href="_restack__Ring.html">restackRing</a>, and the present function is then computed by</p>
+          <p>tensorFlat(phi, M)</p>
+          <p>For example, suppose we have an exact couple of $\QQ[x,y,z]$-modules, and we wish to evaluate it in degree $0$ to obtain an exact couple of $\QQ$-modules.  Let's build an example couple</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : R = QQ[x,y,z];</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i2 : p = y^2*z-x^3+17*z^3;</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i3 : filt = {module ideal(p^2), module ideal(p), R^1};</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i4 : k = max({0} | apply(filt,regularity));</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i5 : W = module ideal(x^k,y^k,z^k);</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i6 : couple = prune covariantExtCouple(W, filt)
+warning: clearing value of symbol f to allow access to subscripted variables based on it
+       : debug with expression   debug 3406   or with command line option   --debug 3406
+
+o6 = cokernel {3, 5, -18} | e_1^2 e_1f_1 x3-y2z-17z3 0     (x3-y2z-17z3)e_1 0           0     0                z6 y6 x6 0                             0  0  0  0   0                             0  0  0  0           0   0          0                0           0  0   0   0          0                0   0  0   0   0   0     0      0           0     0                0           0     0                |
+              {3, 3, -15} | 0     0      f_1         e_1^2 0                x3-y2z-17z3 0     (x3-y2z-17z3)e_1 0  0  0  -x3y2-y4z+34x3z2+17y2z3+578z5 z6 y6 x6 0   0                             0  0  0  0           0   -x3z4-y2z5 0                0           0  0   0   0          0                0   0  0   0   0   0     0      0           0     0                0           0     0                |
+              {3, 1, -12} | 0     0      0           0     0                f_1         e_1^2 0                0  0  0  0                             0  0  0  0   -x3y2-y4z+34x3z2+17y2z3+578z5 z6 y6 x6 0           0   0          0                0           0  0   0   -x3z4-y2z5 0                0   0  0   0   0   0     0      0           0     0                0           0     0                |
+              {2, 4, -10} | 0     0      0           0     0                0           0     0                0  0  0  e_1                           0  0  0  f_1 0                             0  0  0  x3-y2z-17z3 0   0          y4+34y2z2+1156z4 0           0  -z4 0   0          0                -z5 0  0   0   0   0     0      0           0     0                0           0     0                |
+              {2, 2, -7}  | 0     0      0           0     0                0           0     0                0  0  0  0                             0  0  0  0   e_1                           0  0  0  0           f_1 0          0                x3-y2z-17z3 0  0   0   0          y4+34y2z2+1156z4 0   0  -z4 0   -z5 0     0      0           0     0                0           0     0                |
+              {2, 4, -8}  | 0     0      0           0     0                0           0     0                0  0  0  0                             0  0  0  0   0                             0  0  0  0           0   e_1        0                0           z2 y2  f_1 0          0                x3  0  0   0   0   0     0      0           0     0                0           0     0                |
+              {2, 2, -5}  | 0     0      0           0     0                0           0     0                0  0  0  0                             0  0  0  0   0                             0  0  0  0           0   0          0                0           0  0   0   e_1        0                0   z2 y2  f_1 x3  0     0      0           0     0                0           0     0                |
+              {-1, 5, 0}  | 0     0      0           0     0                0           0     0                0  0  0  0                             0  0  0  0   0                             0  0  0  0           0   0          0                0           0  0   0   0          0                0   0  0   0   0   e_1^2 e_1f_1 x3-y2z-17z3 0     (x3-y2z-17z3)e_1 0           0     0                |
+              {-1, 3, 3}  | 0     0      0           0     0                0           0     0                0  0  0  0                             0  0  0  0   0                             0  0  0  0           0   0          0                0           0  0   0   0          0                0   0  0   0   0   0     0      f_1         e_1^2 0                x3-y2z-17z3 0     (x3-y2z-17z3)e_1 |
+              {-1, 1, 6}  | 0     0      0           0     0                0           0     0                0  0  0  0                             0  0  0  0   0                             0  0  0  0           0   0          0                0           0  0   0   0          0                0   0  0   0   0   0     0      0           0     0                f_1         e_1^2 0                |
+
+                                              10
+o6 : R[e , f ]-module, quotient of (R[e , f ])
+        1   1                          1   1</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>We wish to evaluate this couple in $(x,y,z)$-degree 0, obtaining another couple. However, the function <a title="evaluates a module in a particular degree" href="_evaluate__In__Degree.html">evaluateInDegree</a> always eliminates the outermost level of the acting ring.  So in this case, we can evaluate at an external bidegree of (ring couple).  This will return one of the constituent modules of the couple.  For example, the page entry $E_1^{1,2}$ may be computed</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i7 : prune evaluateInDegree(2*{1,2},couple)
+
+o7 = cokernel {-10} | x3-y2z-17z3 0  z4  y4+34y2z2 0      |
+              {-8}  | 0           z2 -y2 1156y2    x3-y2z |
+
+                            2
+o7 : R-module, quotient of R</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>but this is not the sort of evaluation we want.</p>
+          <p>In order to evaluate in $(x,y,z)$-degree 0, we must restack the module so that these variables are external and the couple variables are internal.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i8 : coupleRestacked = restackModule({2,1},couple)
+warning: clearing value of symbol e to allow access to subscripted variables based on it
+       : debug with expression   debug 3903   or with command line option   --debug 3903
+warning: clearing value of symbol f to allow access to subscripted variables based on it
+       : debug with expression   debug 3406   or with command line option   --debug 3406
+
+o8 = cokernel {-18, 3, 5} | e_1^2 e_1f_1 x3-y2z-17z3 0     e_1x3-e_1y2z-17e_1z3 0           0     0                    z6 y6 x6 0                             0  0  0  0   0                             0  0  0  0           0   0          0                0           0  0   0   0          0                0   0  0   0   0   0     0      0           0     0                    0           0     0                    |
+              {-15, 3, 3} | 0     0      f_1         e_1^2 0                    x3-y2z-17z3 0     e_1x3-e_1y2z-17e_1z3 0  0  0  -x3y2-y4z+34x3z2+17y2z3+578z5 z6 y6 x6 0   0                             0  0  0  0           0   -x3z4-y2z5 0                0           0  0   0   0          0                0   0  0   0   0   0     0      0           0     0                    0           0     0                    |
+              {-12, 3, 1} | 0     0      0           0     0                    f_1         e_1^2 0                    0  0  0  0                             0  0  0  0   -x3y2-y4z+34x3z2+17y2z3+578z5 z6 y6 x6 0           0   0          0                0           0  0   0   -x3z4-y2z5 0                0   0  0   0   0   0     0      0           0     0                    0           0     0                    |
+              {-10, 2, 4} | 0     0      0           0     0                    0           0     0                    0  0  0  e_1                           0  0  0  f_1 0                             0  0  0  x3-y2z-17z3 0   0          y4+34y2z2+1156z4 0           0  -z4 0   0          0                -z5 0  0   0   0   0     0      0           0     0                    0           0     0                    |
+              {-7, 2, 2}  | 0     0      0           0     0                    0           0     0                    0  0  0  0                             0  0  0  0   e_1                           0  0  0  0           f_1 0          0                x3-y2z-17z3 0  0   0   0          y4+34y2z2+1156z4 0   0  -z4 0   -z5 0     0      0           0     0                    0           0     0                    |
+              {-8, 2, 4}  | 0     0      0           0     0                    0           0     0                    0  0  0  0                             0  0  0  0   0                             0  0  0  0           0   e_1        0                0           z2 y2  f_1 0          0                x3  0  0   0   0   0     0      0           0     0                    0           0     0                    |
+              {-5, 2, 2}  | 0     0      0           0     0                    0           0     0                    0  0  0  0                             0  0  0  0   0                             0  0  0  0           0   0          0                0           0  0   0   e_1        0                0   z2 y2  f_1 x3  0     0      0           0     0                    0           0     0                    |
+              {0, -1, 5}  | 0     0      0           0     0                    0           0     0                    0  0  0  0                             0  0  0  0   0                             0  0  0  0           0   0          0                0           0  0   0   0          0                0   0  0   0   0   e_1^2 e_1f_1 x3-y2z-17z3 0     e_1x3-e_1y2z-17e_1z3 0           0     0                    |
+              {3, -1, 3}  | 0     0      0           0     0                    0           0     0                    0  0  0  0                             0  0  0  0   0                             0  0  0  0           0   0          0                0           0  0   0   0          0                0   0  0   0   0   0     0      f_1         e_1^2 0                    x3-y2z-17z3 0     e_1x3-e_1y2z-17e_1z3 |
+              {6, -1, 1}  | 0     0      0           0     0                    0           0     0                    0  0  0  0                             0  0  0  0   0                             0  0  0  0           0   0          0                0           0  0   0   0          0                0   0  0   0   0   0     0      0           0     0                    f_1         e_1^2 0                    |
+
+                                                                  10
+o8 : QQ[e , f ][x, y, z]-module, quotient of (QQ[e , f ][x, y, z])
+         1   1                                    1   1</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Now we may evaluate in degree zero with the desired effect.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i9 : coupleEvaluated = prune evaluateInDegree({0}, coupleRestacked)
+
+o9 = cokernel {3, 1}  | 0     0      0   0   0   0   0   0   0   0   0   e_1^2 0     0     0     f_1 0     0     0     0     0     0     0   0     |
+              {2, 2}  | 0     0      f_1 0   0   0   0   0   0   0   0   0     e_1^3 0     0     0   0     0     0     0     0     0     0   0     |
+              {2, 2}  | 0     0      0   f_1 0   0   0   0   0   0   0   0     0     e_1^3 0     0   0     0     0     0     0     0     0   0     |
+              {2, 2}  | 0     0      0   0   f_1 0   0   0   0   0   0   0     0     0     e_1^3 0   0     0     0     0     0     0     0   0     |
+              {2, 4}  | 0     0      0   0   0   0   0   0   0   0   0   0     0     0     0     e_1 0     0     0     0     0     0     f_1 e_1^2 |
+              {2, 2}  | 0     0      0   0   0   f_1 0   0   0   0   0   0     0     0     0     0   e_1^3 0     0     0     0     0     0   0     |
+              {2, 2}  | 0     0      0   0   0   0   f_1 0   0   0   0   0     0     0     0     0   0     e_1^3 0     0     0     0     0   0     |
+              {2, 2}  | 0     0      0   0   0   0   0   f_1 0   0   0   0     0     0     0     0   0     0     e_1^3 0     0     0     0   0     |
+              {2, 2}  | 0     0      0   0   0   0   0   0   f_1 0   0   0     0     0     0     0   0     0     0     e_1^3 0     0     0   0     |
+              {2, 2}  | 0     0      0   0   0   0   0   0   0   f_1 0   0     0     0     0     0   0     0     0     0     e_1^3 0     0   0     |
+              {2, 2}  | 0     0      0   0   0   0   0   0   0   0   f_1 0     0     0     0     0   0     0     0     0     0     e_1^3 0   0     |
+              {-1, 5} | e_1^2 e_1f_1 0   0   0   0   0   0   0   0   0   0     0     0     0     0   0     0     0     0     0     0     0   0     |
+
+                                                12
+o9 : QQ[e , f ]-module, quotient of (QQ[e , f ])
+         1   1                           1   1</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>From here, we easily view the spectral sequence, if we like</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i10 : plotPages((-1..3,-1..3,1..3), prune @@ evaluateInDegree, coupleEvaluated)
+page 1, with differential of degree {1, -1}:
++----++----+---+---+----+---+
+|q=3 ||0   |0  |0  |0   |0  |
++----++----+---+---+----+---+
+|    ||    |  1|  1|    |   |
+|q=2 ||0   |QQ |QQ |0   |0  |
++----++----+---+---+----+---+
+|    ||    |   |  9|    |   |
+|q=1 ||0   |0  |QQ |0   |0  |
++----++----+---+---+----+---+
+|    ||    |   |   |  10|   |
+|q=0 ||0   |0  |0  |QQ  |0  |
++----++----+---+---+----+---+
+|q=-1||0   |0  |0  |0   |0  |
++----++----+---+---+----+---+
+|    ||p=-1|p=0|p=1|p=2 |p=3|
++----++----+---+---+----+---+
+
+page 2, with differential of degree {1, -2}:
++----++----+---+---+---+---+
+|q=3 ||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|    ||    |  1|  1|   |   |
+|q=2 ||0   |QQ |QQ |0  |0  |
++----++----+---+---+---+---+
+|q=1 ||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|    ||    |   |   |  1|   |
+|q=0 ||0   |0  |0  |QQ |0  |
++----++----+---+---+---+---+
+|q=-1||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|    ||p=-1|p=0|p=1|p=2|p=3|
++----++----+---+---+---+---+
+
+page 3, with differential of degree {1, -3}:
++----++----+---+---+---+---+
+|q=3 ||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|    ||    |  1|   |   |   |
+|q=2 ||0   |QQ |0  |0  |0  |
++----++----+---+---+---+---+
+|q=1 ||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|q=0 ||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|q=-1||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|    ||p=-1|p=0|p=1|p=2|p=3|
++----++----+---+---+---+---+</pre>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <h2>Caveat</h2>
+        <div>
+          <p>The ring of M must be restackable: each level may only introduce relations among the most-recent variables.</p>
+        </div>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="changes the order in which variables were adjoined" href="_restack__Ring.html">restackRing</a> -- changes the order in which variables were adjoined</span>          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>Ways to use <tt>restackModule</tt>:</h2>
+        <ul>
+          <li>
+restackModule(List,Module)          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>For the programmer</h2>
+        <p>The object <a title="restacks the ring that acts on a module" href="_restack__Module.html">restackModule</a> is <span>a <a title="a type of method function" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Method__Function.html">method function</a></span>.</p>
+      </div>
+    </div>
+  </body>
+
+</html>

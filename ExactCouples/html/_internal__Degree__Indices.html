@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>internalDegreeIndices -- for a ring, returns the degree-coordinates of its coefficient ring</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="_is__Even__Degree.html">next</a> | <a href="___Homology_spof_spa_spcombinatorial_spfiltration_spof_sp_do__X^n_do.html">previous</a> | <a href="_is__Even__Degree.html">forward</a> | <a href="___Homology_spof_spa_spcombinatorial_spfiltration_spof_sp_do__X^n_do.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="for a ring, returns the degree-coordinates of its coefficient ring" href="_internal__Degree__Indices.html">internalDegreeIndices</a>    </div>
+    <hr/>
+    <div>
+      <h1>internalDegreeIndices -- for a ring, returns the degree-coordinates of its coefficient ring</h1>
+      <div>
+        <h2>Synopsis</h2>
+        <ul>
+          <li>
+            <dl class="element">
+              <dt>Usage: </dt>
+              <dd><tt>internalDegreeIndices Q</tt></dd>
+            </dl>
+          </li>
+          <li>
+Inputs:            <ul>
+              <li>
+<span><tt>Q</tt>, <span>a <a title="the class of all rings" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Ring.html">ring</a></span>, with some coefficient ring R</span>              </li>
+            </ul>
+          </li>
+          <li>
+Outputs:            <ul>
+              <li>
+<span><span>a <a title="the class of all lists -- {...}" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___List.html">list</a></span>, given by {(degreeLength Q) - (degreeLength R), ..., (degreeLength Q) - 1}</span>              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h2>Description</h2>
+        <div>
+          <p>We build a polynomial ring with coefficients in a polynomial ring</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : R = QQ[x,y]
+
+o1 = R
+
+o1 : PolynomialRing</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i2 : Q = R[s,t]
+
+o2 = Q
+
+o2 : PolynomialRing</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i3 : degree s
+
+o3 = {1, 0}
+
+o3 : List</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i4 : degree x
+
+o4 = {1}
+
+o4 : List</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Note that the generators of Q have two degrees: an &quot;internal&quot; degree coming from R and an &quot;external&quot; degree coming from Q proper.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i5 : internal = internalDegreeIndices Q
+
+o5 = {1}
+
+o5 : List</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i6 : (degree s)_internal
+
+o6 = {0}
+
+o6 : List</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i7 : (degree x_Q)_internal
+
+o7 = {1}
+
+o7 : List</pre>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="for a ring Q, returns the degree-coordinates present in Q but not in its coefficient ring" href="_external__Degree__Indices.html">externalDegreeIndices</a> -- for a ring Q, returns the degree-coordinates present in Q but not in its coefficient ring</span>          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>Ways to use <tt>internalDegreeIndices</tt>:</h2>
+        <ul>
+          <li>
+internalDegreeIndices(Ring)          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>For the programmer</h2>
+        <p>The object <a title="for a ring, returns the degree-coordinates of its coefficient ring" href="_internal__Degree__Indices.html">internalDegreeIndices</a> is <span>a <a title="a type of method function" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Method__Function.html">method function</a></span>.</p>
+      </div>
+    </div>
+  </body>
+
+</html>

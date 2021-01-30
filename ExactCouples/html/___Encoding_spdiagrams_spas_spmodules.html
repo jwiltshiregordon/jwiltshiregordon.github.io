@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>Encoding diagrams as modules -- building graded modules with specified modules in certain degrees, and with specified action maps</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="_enforce__Couple__Relations.html">next</a> | <a href="___Elementary_spintroduction_co_spsolving_splinear_spequations_spin_spabelian_spgroups.html">previous</a> | <a href="_enforce__Couple__Relations.html">forward</a> | <a href="___Elementary_spintroduction_co_spsolving_splinear_spequations_spin_spabelian_spgroups.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="building graded modules with specified modules in certain degrees, and with specified action maps" href="___Encoding_spdiagrams_spas_spmodules.html">Encoding diagrams as modules</a>    </div>
+    <hr/>
+    <div>
+      <h1>Encoding diagrams as modules -- building graded modules with specified modules in certain degrees, and with specified action maps</h1>
+      <div>
+        <div>
+          <p>Many algorithms in computer algebra accept as input a finite commuting diagram of modules. This can pose a challenge to programmers, since specifying such a diagram can be unwieldy. For example, to input a commuting cube, a user could specify twelve maps in a list... but... these maps come without any preferred ordering, which makes any convention hard to remember, and moreover, the programmer will be forced to include many compatibility checks in order to supply useful error messages.</p>
+          <p>This package takes the following approach, which we illustrate in the case of a commuting square (a cube would be similar).</p>
+          <p>Let R be the base ring, and build a new ring</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>S = R[f,g,Degrees=>{{1,0},{0,1}}]</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>A graded S-module is an infinite grid of R-modules connected by maps induced by multiplication by the variables f and g.  In particular, it encodes an infinite number of commuting squares! To specify a single commuting square, we restrict attention to the four bidegrees $(0,0)$, $(1,0)$, $(0,1)$, and $(1,1)$.  (We could ask that the module vanish away from these degrees, but in practice it is more efficient to just say &quot;we don't care what happens in other degrees&quot;.)</p>
+          <p><b>Internal and external degrees</b></p>
+          <p>Some terminology, since the ring R may itself have some grading.  We call this grading &quot;internal&quot; since it happens inside the coefficients.  The variables f and g have internal degree zero, even though their external degrees are $(1,0)$ and $(0,1)$ respectively.  When building a ring, the Degrees option specifies external degrees.  Suppose that R has degree length three so that deg(1_R) = $(0,0,0)$, for example.  We have then</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>deg(f) = {1,0,0,0,0}
+deg(g) = {0,1,0,0,0}</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>The first two coordinates are the external degree, and the last three are internal.  To obtain this information about a ring, you can use <a title="for a ring, returns the degree-coordinates of its coefficient ring" href="_internal__Degree__Indices.html">internalDegreeIndices</a> and <a title="for a ring Q, returns the degree-coordinates present in Q but not in its coefficient ring" href="_external__Degree__Indices.html">externalDegreeIndices</a>.  For example:</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : R = QQ[x,y,Degrees=>{{1,2,3},{4,5,6}}]
+
+o1 = R
+
+o1 : PolynomialRing</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i2 : S = R[f,g,Degrees=>{{1,0},{0,1}}]
+
+o2 = S
+
+o2 : PolynomialRing</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i3 : internal = internalDegreeIndices S
+
+o3 = {2, 3, 4}
+
+o3 : List</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i4 : external = externalDegreeIndices S
+
+o4 = {0, 1}
+
+o4 : List</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Later, given a multidegree, it is easy to find the internal and external degrees</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i5 : deg = {2,3,4,5,6}
+
+o5 = {2, 3, 4, 5, 6}
+
+o5 : List</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i6 : deg_internal
+
+o6 = {4, 5, 6}
+
+o6 : List</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i7 : deg_external
+
+o7 = {2, 3}
+
+o7 : List</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>We generally wish to accommodate a wide range of coefficient rings R, which in particular means we accommodate any number of internal degrees, including towers of rings where the coefficients themselves have coefficients, etc.  In such cases, all degrees that are not external count as internal.</p>
+          <p><b>Example: encoding a commuting square</b></p>
+          <p>In this example, we take R=QQ[z].</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i8 : R = QQ[z]
+
+o8 = R
+
+o8 : PolynomialRing</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i9 : S = R[f,g,Degrees=>{{1,0},{0,1}}]
+
+o9 = S
+
+o9 : PolynomialRing</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>We wish to encode a commuting square with the general layout</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>|   A - -g- -> B
+|   |          |
+|   f          f
+|   |          |
+|   v          v
+|   C - -g- -> D</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>The downward maps will be encoded by the action of f, and the rightward maps by g.  Here is a particular example.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>|  cokernel {3} | z13 | - z^2 -> cokernel {1} | z15 |
+|           |                             |
+|           z                             z
+|           |                             |
+|           v                             v
+|  cokernel {2} | z6 |  - x^2 -> cokernel {0} | z8 |</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>We aim to encode this commuting square as an S-module. The external degree will give the position in the commuting square, and the internal degree will record the R-degree.  Then, in a multidegree $(r,c,d)$, r gives the row (0 or 1 in our case), c gives the column (also 0 or 1), and d gives the internal degree (usual grading on R=QQ[z]).</p>
+          <p><b>Declaring generators</b></p>
+          <p>We begin the process in the upper left corner, with the module</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>|  A = cokernel {3} | z13 |</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Let us name the generator of this module $a$.  Since we are in the upper left corner, the external degree is $(0,0)$.  And since the generator appears in R-degree 3, the internal degree is $(3)$.  In total, then, the degree of $a$ is $(0,0,3)$.</p>
+          <p>Similarly, let $b$, $c$, and $d$ be generators with external degrees $(0,1)$, $(1,0)$, and $(1,1)$, and with internal degrees 1, 2, and 0.  This information can be given to M2 using the function <a title="builds a free module and names its generators" href="_declare__Generators.html">declareGenerators</a>.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i10 : declareGenerators(S, {a => {0,0,3}, b => {0,1,1}, c => {1,0,2}, d => {1,1,0}})
+
+       4
+o10 = S
+
+o10 : S-module, free, degrees {{1, 0, 2}, {1, 1, 0}, {0, 0, 3}, {0, 1, 1}}</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>We must now impose relations on these four generators so that the four modules match our intent, and same for the maps.</p>
+          <p>The first four relations come from the original descriptions of A, B, C, and D:</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>z^13*a
+z^15*b
+ z^6*c
+ z^8*d</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>The next four relations come from the descriptions of the four maps:</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>g*a - z^2*b
+g*c - z^2*d
+f*a  -  z*c
+f*b  -  z*d</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>The first of these, for example, forces ga = z^2b, and this is what we want since g is supposed to act by the horizontal map, which sends the generator for A to z^2 times the generator for B.   With these four relations, the action of f and g is determined in the four degrees of interest.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i11 : M = cospan(z^13*a, z^15*b, z^6*c, z^8*d,
+                 g*a - z^2*b, g*c - z^2*d, f*a - z*c, f*b - z*d)
+
+o11 = cokernel {1, 0, 2} | 0   0   z6 0  0   g   -z 0  |
+               {1, 1, 0} | 0   0   0  z8 0   -z2 0  -z |
+               {0, 0, 3} | z13 0   0  0  g   0   f  0  |
+               {0, 1, 1} | 0   z15 0  0  -z2 0   0  f  |
+
+                             4
+o11 : S-module, quotient of S</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>The module M now contains a complete description of the commuting square.</p>
+          <p><b>Evaluating a module at various external degrees</b></p>
+          <p>In order to check that M is correct, we can use the function <a title="evaluates a module in a particular degree" href="_evaluate__In__Degree.html">evaluateInDegree</a> to make sure the proper R-module lives in each of the four external degrees.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i12 : netList apply(2, r -> apply(2, c -> prune evaluateInDegree({r,c}, M)))
+
+      +--------------------+--------------------+
+o12 = |cokernel {3} | z13 ||cokernel {1} | z15 ||
+      +--------------------+--------------------+
+      |cokernel {2} | z6 | |cokernel | z8 |     |
+      +--------------------+--------------------+</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p></p>
+          <p><b>Evaluating a module at a structure map</b></p>
+          <p>In order to check the action of f and g, we use another form of evaluateInDegree.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i13 : prune structureMap({0,0},,g,M)
+
+o13 = {1} | z2 |
+
+o13 : Matrix</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i14 : prune structureMap({1,0},,g,M)
+
+o14 = | z2 |
+
+o14 : Matrix</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i15 : prune structureMap({0,0},,f,M)
+
+o15 = {2} | z |
+
+o15 : Matrix</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i16 : prune structureMap({0,1},,f,M)
+
+o16 = | z |
+
+o16 : Matrix</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p></p>
+          <p><b>Example calculation: computing kernels of cokernels</b></p>
+          <p>In order to perform calculations on a diagram encoded as above, one main strategy involves changing which variables are internal and which are external.  In this example, we take the cokernel of the downward maps, and then take the kernel of the induced rightward map, resulting in a single R-module</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>ker( coker(A - -g- -> B) - - -> coker(C - -g- -> D) )</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>We want to take the cokernel of the g action map in a way that retains the action of f.  So build a ring where f is an internal variable, and only g is external:</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i17 : S' = R[f][g]
+
+o17 = S'
+
+o17 : PolynomialRing</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i18 : phi = map(S',S,DegreeMap=>deg->deg_{1,0,2})
+
+o18 = map(S',S,{f, g, z})
+
+o18 : RingMap S' &lt;--- S</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i19 : isHomogeneous phi
+
+o19 = true</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i20 : M' = phi ** M
+
+o20 = cokernel {0, 1, 2} | 0   0   z6 0  0   g   -z 0  |
+               {1, 1, 0} | 0   0   0  z8 0   -z2 0  -z |
+               {0, 0, 3} | z13 0   0  0  g   0   f  0  |
+               {1, 0, 1} | 0   z15 0  0  -z2 0   0  f  |
+
+                               4
+o20 : S'-module, quotient of S'</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Since only g is external, we may evaluate to obtain a map of R[f]-modules, and then take its cokernel:</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i21 : cokerg = coker structureMap({0},,g,M')
+
+o21 = cokernel {1, 2} | 1 0 0  1   -z 0   z6 0   |
+               {1, 0} | 0 0 -z -z2 0  0   0  0   |
+               {0, 3} | 0 1 0  0   f  1   0  z13 |
+               {0, 1} | 0 0 f  0   0  -z2 0  0   |
+
+                                     4
+o21 : R[f]-module, quotient of (R[f])</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Now g is gone, and f is an external variable.  We may evaluate to obtain the map on cokernels, and take the kernel:</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i22 : ker structureMap({0},,f,cokerg)
+
+o22 = subquotient ({3} | 0 |, {3} | 1 0  |)
+                   {1} | z |  {1} | 0 z2 |
+
+                                2
+o22 : R-module, subquotient of R</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Switching the ring to S' is called &quot;restacking&quot;, and it is easier to do when variables are adjoined in smaller batches.  It would have been better to use R[f][g] in the first place.  For more information, see <a title="changes the order in which variables were adjoined" href="_restack__Ring.html">restackRing</a> and <a title="restacks the ring that acts on a module" href="_restack__Module.html">restackModule</a>.</p>
+        </div>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="evaluates a module in a particular degree" href="_evaluate__In__Degree.html">evaluateInDegree</a> -- evaluates a module in a particular degree</span>          </li>
+          <li>
+<span><a title="mods out by a collection of module elements" href="_cospan.html">cospan</a> -- mods out by a collection of module elements</span>          </li>
+          <li>
+<span><a title="builds a free module and names its generators" href="_declare__Generators.html">declareGenerators</a> -- builds a free module and names its generators</span>          </li>
+          <li>
+<span><a title="restacks the ring that acts on a module" href="_restack__Module.html">restackModule</a> -- restacks the ring that acts on a module</span>          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+
+</html>

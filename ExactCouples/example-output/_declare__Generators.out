@@ -1,0 +1,19 @@
+-- -*- M2-comint -*- hash: -1392437533
+
+i1 : declareGenerators(ZZ[x],{a => 1,b => 2,c => 3})
+
+            3
+o1 = (ZZ[x])
+
+o1 : ZZ[x]-module, free, degrees {3, 1..2}
+
+i2 : cospan(x*a-2*b,x*b-2*c)
+
+o2 = cokernel {3} | 0  -2 |
+              {1} | x  0  |
+              {2} | -2 x  |
+
+                                      3
+o2 : ZZ[x]-module, quotient of (ZZ[x])
+
+i3 : 

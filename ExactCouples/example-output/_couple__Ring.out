@@ -1,0 +1,17 @@
+-- -*- M2-comint -*- hash: 1432342339
+
+i1 : Q = coupleRing(QQ,7,e,f)
+
+o1 = Q
+
+o1 : PolynomialRing
+
+i2 : describe Q
+
+o2 = QQ[e , f , Degrees => {{1}, {-2}}, Heft => {1..2}, MonomialOrder => {MonomialSize => 32}, DegreeRank => 2]
+         7   7              {0}  {2 }                                    {GRevLex => {1..2} }
+                                                                         {Position => Up    }
+
+i3 : expectCoupleRing Q
+
+i4 : 

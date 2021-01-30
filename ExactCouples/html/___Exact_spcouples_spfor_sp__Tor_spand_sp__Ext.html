@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>Exact couples for Tor and Ext -- building couples by applying Tor or Ext to a filtered module or a graded R[t]-module</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="_exact__Couple.html">next</a> | <a href="_evaluate__In__Degree__Law.html">previous</a> | <a href="_exact__Couple.html">forward</a> | <a href="_evaluate__In__Degree__Law.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="building couples by applying Tor or Ext to a filtered module or a graded R[t]-module" href="___Exact_spcouples_spfor_sp__Tor_spand_sp__Ext.html">Exact couples for Tor and Ext</a>    </div>
+    <hr/>
+    <div>
+      <h1>Exact couples for Tor and Ext -- building couples by applying Tor or Ext to a filtered module or a graded R[t]-module</h1>
+      <div>
+        <h2>Synopsis</h2>
+        <ul>
+          <li>
+            <dl class="element">
+              <dt>Usage: </dt>
+              <dd><tt>TorCouple(W, seqmod)</tt></dd>
+              <dd><tt>TorCouple(eSymbol, W, seqmod)</tt></dd>
+            </dl>
+          </li>
+          <li>
+Inputs:            <ul>
+              <li>
+<span><tt>W</tt>, <span>a <a title="the class of all modules" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span>, for some ring R</span>              </li>
+              <li>
+<span><tt>seqmod</tt>, <span>a <a title="the class of all modules" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span>, for a ring of the form R[t]</span>              </li>
+              <li>
+<span><tt>eSymbol</tt>, <span>a <a title="the class of all symbols" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Symbol.html">symbol</a></span>, naming the variable usually called &quot;e&quot;; if omitted, this argument is replaced by getSymbol &quot;e&quot;</span>              </li>
+            </ul>
+          </li>
+          <li>
+Outputs:            <ul>
+              <li>
+<span><tt>C</tt>, <span>a <a title="the class of all modules" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span>, for the couple ring R[e_1,t_1], an exact couple</span>              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <div>
+          <p>The filtered versions are described in detail at their individual pages <a title="the exact couple obtained by applying Tor(W,-) to a filtered module" href="___Tor__Couple.html">TorCouple</a>, <a title="the exact couple obtained by applying Ext(-,Y) to a filtered module" href="_contravariant__Ext__Couple.html">contravariantExtCouple</a>, and <a title="the exact couple obtained by applying Ext(W,-) to a filtered module" href="_covariant__Ext__Couple.html">covariantExtCouple</a>.  We invite the reader to check these first, since the corresponding spectral sequences are easier to describe.</p>
+          <p>The remainder of this page describes an alternative, and more-general way of using these three functions.  Specifically, we explain how to use a graded R[t]-module in place of a filtered module.</p>
+          <p>The idea is to replace a sequence of inclusions with a general sequence of maps. The first page then consists of the homology of mapping cones, which play the role of the associated graded. If the variable t acts by inclusions, the mapping cone is quasi-isomorphic to the associated graded, and we recover the filtered case.</p>
+          <p><b>How to use the R[t] versions</b></p>
+          <p>The schematic for using these generalized versions: replace the &quot;submods&quot; argument, which is an increasing list of submodules of a fixed R-module, with a &quot;seqmod&quot; argument which is a module for a ring of the form R[t].</p>
+          <p>Such a seqmod can be built directly, or from a sequence of maps using <a title="builds a graded R[t]-module from a sequence of maps" href="_sequence__Module.html">sequenceModule</a>.</p>
+          <p>In the case of contravariantExtCouple, the appropriate sequence module (the one generalizing the filtered case) is not the one corresponding to the filtration, but rather the cofiltration $X/A_i$.  So, in recovering the filtered case, the variable t acts by surjections.</p>
+          <p>These generalized versions also allow a symbol as the first argument, which will be used to name the variable &quot;e&quot; in the resulting couple ring.  (The variable &quot;f&quot; in the couple ring will be named after the variable (ring seqmod)_0).</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : R = QQ[x,y,z]
+
+o1 = R
+
+o1 : PolynomialRing</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i2 : A = coker matrix {{x^2+y^2+z^2}};</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i3 : B = coker vars R;</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i4 : toSeqMod = cm -> ( -- This short function converts chain modules to sequence modules
+         amb := ambient ring cm; -- by forgetting that the action of d squares to zero.
+         pres := lift(presentation cm, amb); -- It can be replaced by pushForward once that
+         coker(pres | (id_(target pres) ** (matrix {{(amb_0)^2}}))) -- function is fixed.
+         );</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i5 : B' = toSeqMod chainModule(res B)
+
+o5 = cokernel {-3, 3} | d  0  0  0  0  0  0  0 d2 0  0  0  0  0  0  0  |
+              {-2, 2} | -z d  0  0  0  0  0  0 0  d2 0  0  0  0  0  0  |
+              {-2, 2} | y  0  d  0  0  0  0  0 0  0  d2 0  0  0  0  0  |
+              {-2, 2} | -x 0  0  d  0  0  0  0 0  0  0  d2 0  0  0  0  |
+              {-1, 1} | 0  y  z  0  d  0  0  0 0  0  0  0  d2 0  0  0  |
+              {-1, 1} | 0  -x 0  z  0  d  0  0 0  0  0  0  0  d2 0  0  |
+              {-1, 1} | 0  0  -x -y 0  0  d  0 0  0  0  0  0  0  d2 0  |
+              {0, 0}  | 0  0  0  0  -x -y -z d 0  0  0  0  0  0  0  d2 |
+
+                                    8
+o5 : R[d]-module, quotient of (R[d])</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i6 : torCouple = prune TorCouple(A,B')
+warning: clearing value of symbol d to allow access to subscripted variables based on it
+       : debug with expression   debug 4400   or with command line option   --debug 4400
+
+o6 = cokernel {1, -5, 3} | x2+y2+z2 e_1^2 d_1 0   0        0     0        0     0        0   0        0     0     0   0   0  0 0  0  0   0   0   0   0   0     0   0     0     0   0   0   0     0     0     0        0     0     0     0   0      0      0      0     |
+              {1, -3, 2} | 0        0     -z  -z  x2+y2+z2 e_1^2 0        0     0        0   0        ze_1  0     d_1 0   0  0 0  0  0   0   0   0   0   0     0   0     0     0   0   0   0     0     0     0        0     0     0     0   0      0      0      0     |
+              {1, -3, 2} | 0        0     y   y   0        0     x2+y2+z2 e_1^2 0        0   0        -ye_1 0     0   0   0  0 0  0  0   0   0   d_1 0   0     0   0     0     0   0   0   0     0     0     0        0     0     0     0   0      0      0      0     |
+              {2, -2, 3} | 0        0     0   e_1 0        0     0        0     x2+y2+z2 d_1 0        0     0     0   0   0  0 0  0  0   0   0   0   0   0     0   0     0     0   0   0   0     0     0     0        0     0     0     0   0      0      0      0     |
+              {1, -3, 2} | 0        0     -x  -x  0        0     0        0     0        0   x2+y2+z2 xe_1  e_1^2 0   0   0  0 0  0  0   d_1 0   0   0   0     0   0     0     0   0   0   0     0     0     0        0     0     0     0   0      0      0      0     |
+              {1, -1, 1} | 0        0     0   0   0        0     0        0     0        0   0        0     0     y   y   0  0 0  0  x   0   0   z   z   e_1^2 0   -ye_1 0     0   0   0   0     -ze_1 0     0        0     0     d_1   0   0      0      0      0     |
+              {2, 0, 2}  | 0        0     0   0   0        0     0        0     0        0   0        0     0     0   e_1 -x y -z 0  0   0   0   0   0   0     d_1 0     0     0   0   0   0     0     0     0        0     0     0     0   0      0      0      0     |
+              {1, -1, 1} | 0        0     0   0   0        0     0        0     0        0   0        0     0     -x  -x  0  0 0  0  y   z   z   0   0   0     0   xe_1  e_1^2 0   0   0   -ze_1 0     0     0        0     d_1   0     0   0      0      0      0     |
+              {2, 0, 2}  | 0        0     0   0   0        0     0        0     0        0   0        0     0     0   0   y  x 0  -z e_1 0   0   0   0   0     0   0     0     d_1 0   0   0     0     0     0        0     0     0     0   0      0      0      0     |
+              {2, 0, 2}  | 0        0     0   0   0        0     0        0     0        0   0        0     0     0   0   z  0 -x y  0   0   e_1 0   0   0     0   0     0     0   d_1 0   0     0     0     0        0     0     0     0   0      0      0      0     |
+              {2, 0, 2}  | 0        0     0   0   0        0     0        0     0        0   0        0     0     0   0   0  z y  x  0   0   0   0   e_1 0     0   0     0     0   0   d_1 0     0     0     0        0     0     0     0   0      0      0      0     |
+              {1, -1, 1} | 0        0     0   0   0        0     0        0     0        0   0        0     0     0   0   0  0 0  0  z   -y  -y  -x  -x  0     0   0     0     0   0   0   ye_1  xe_1  e_1^2 0        d_1   0     0     0   0      0      0      0     |
+              {2, 2, 0}  | 0        0     0   0   0        0     0        0     0        0   0        0     0     0   0   0  0 0  0  0   0   0   0   0   0     0   0     0     0   0   0   0     0     0     x2+y2+z2 -ze_1 -ye_1 -xe_1 d_1 ze_1^2 ye_1^2 xe_1^2 e_1^3 |
+
+                                              13
+o6 : R[e , d ]-module, quotient of (R[e , d ])
+        1   1                          1   1</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i7 : plotPages((-3..3,-4..2,1..3), prune @@ evaluateInDegree, torCouple)
+warning: clearing value of symbol e to allow access to subscripted variables based on it
+       : debug with expression   debug 3903   or with command line option   --debug 3903
+warning: clearing value of symbol d to allow access to subscripted variables based on it
+       : debug with expression   debug 4400   or with command line option   --debug 4400
+page 1, with differential of degree {-1, -1}:
++----++----+----+----+-------------------------------------------+---------------------------+---+---+
+|q=2 ||0   |0   |0   |0                                          |0                          |0  |0  |
++----++----+----+----+-------------------------------------------+---------------------------+---+---+
+|q=1 ||0   |0   |0   |0                                          |cokernel | x2+y2+z2 |      |0  |0  |
++----++----+----+----+-------------------------------------------+---------------------------+---+---+
+|q=0 ||0   |0   |0   |cokernel | z y x |                         |cokernel {2} | x  y z  0  ||0  |0  |
+|    ||    |    |    |                                           |         {2} | -y x 0  -z ||   |   |
+|    ||    |    |    |                                           |         {2} | -z 0 x  y  ||   |   |
+|    ||    |    |    |                                           |         {2} | 0  z -y x  ||   |   |
++----++----+----+----+-------------------------------------------+---------------------------+---+---+
+|q=-1||0   |0   |0   |cokernel {1} | -y 0  -z x2+y2+z2 xy    xz ||cokernel {3} | x2+y2+z2 |  |0  |0  |
+|    ||    |    |    |         {1} | x  -z 0  0        y2+z2 yz ||                           |   |   |
+|    ||    |    |    |         {1} | 0  y  x  0        0     z2 ||                           |   |   |
++----++----+----+----+-------------------------------------------+---------------------------+---+---+
+|q=-2||0   |0   |0   |cokernel {2} | z  x2+y2+z2 0        -xz   ||0                          |0  |0  |
+|    ||    |    |    |         {2} | -y 0        x2+y2+z2 xy    ||                           |   |   |
+|    ||    |    |    |         {2} | x  0        0        y2+z2 ||                           |   |   |
++----++----+----+----+-------------------------------------------+---------------------------+---+---+
+|q=-3||0   |0   |0   |cokernel {3} | x2+y2+z2 |                  |0                          |0  |0  |
++----++----+----+----+-------------------------------------------+---------------------------+---+---+
+|q=-4||0   |0   |0   |0                                          |0                          |0  |0  |
++----++----+----+----+-------------------------------------------+---------------------------+---+---+
+|    ||p=-3|p=-2|p=-1|p=0                                        |p=1                        |p=2|p=3|
++----++----+----+----+-------------------------------------------+---------------------------+---+---+
+
+page 2, with differential of degree {-1, -2}:
++----++----+----+----+-------------------------------------------+-------------------------------------------+---+---+
+|q=2 ||0   |0   |0   |0                                          |0                                          |0  |0  |
++----++----+----+----+-------------------------------------------+-------------------------------------------+---+---+
+|q=1 ||0   |0   |0   |0                                          |cokernel {1} | y  x  0  z |                |0  |0  |
+|    ||    |    |    |                                           |         {1} | -z 0  x  y |                |   |   |
+|    ||    |    |    |                                           |         {1} | 0  -z -y x |                |   |   |
++----++----+----+----+-------------------------------------------+-------------------------------------------+---+---+
+|q=0 ||0   |0   |0   |0                                          |cokernel {2} | z  x2+y2+z2 -xz   0        ||0  |0  |
+|    ||    |    |    |                                           |         {2} | x  0        y2+z2 0        ||   |   |
+|    ||    |    |    |                                           |         {2} | -y 0        xy    x2+y2+z2 ||   |   |
++----++----+----+----+-------------------------------------------+-------------------------------------------+---+---+
+|q=-1||0   |0   |0   |cokernel {1} | y  x  0  z |                |cokernel {3} | x2+y2+z2 |                  |0  |0  |
+|    ||    |    |    |         {1} | -z 0  x  y |                |                                           |   |   |
+|    ||    |    |    |         {1} | 0  -z -y x |                |                                           |   |   |
++----++----+----+----+-------------------------------------------+-------------------------------------------+---+---+
+|q=-2||0   |0   |0   |cokernel {2} | z  x2+y2+z2 -xz   0        ||0                                          |0  |0  |
+|    ||    |    |    |         {2} | x  0        y2+z2 0        ||                                           |   |   |
+|    ||    |    |    |         {2} | -y 0        xy    x2+y2+z2 ||                                           |   |   |
++----++----+----+----+-------------------------------------------+-------------------------------------------+---+---+
+|q=-3||0   |0   |0   |cokernel {3} | x2+y2+z2 |                  |0                                          |0  |0  |
++----++----+----+----+-------------------------------------------+-------------------------------------------+---+---+
+|q=-4||0   |0   |0   |0                                          |0                                          |0  |0  |
++----++----+----+----+-------------------------------------------+-------------------------------------------+---+---+
+|    ||p=-3|p=-2|p=-1|p=0                                        |p=1                                        |p=2|p=3|
++----++----+----+----+-------------------------------------------+-------------------------------------------+---+---+
+
+page 3, with differential of degree {-1, -3}:
++----++----+----+----+---+---+---+---+
+|q=2 ||0   |0   |0   |0  |0  |0  |0  |
++----++----+----+----+---+---+---+---+
+|q=1 ||0   |0   |0   |0  |0  |0  |0  |
++----++----+----+----+---+---+---+---+
+|q=0 ||0   |0   |0   |0  |0  |0  |0  |
++----++----+----+----+---+---+---+---+
+|q=-1||0   |0   |0   |0  |0  |0  |0  |
++----++----+----+----+---+---+---+---+
+|q=-2||0   |0   |0   |0  |0  |0  |0  |
++----++----+----+----+---+---+---+---+
+|q=-3||0   |0   |0   |0  |0  |0  |0  |
++----++----+----+----+---+---+---+---+
+|q=-4||0   |0   |0   |0  |0  |0  |0  |
++----++----+----+----+---+---+---+---+
+|    ||p=-3|p=-2|p=-1|p=0|p=1|p=2|p=3|
++----++----+----+----+---+---+---+---+</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i8 : covExtCouple = prune covariantExtCouple(A,B')
+
+o8 = cokernel {1, -5, 1}  | x2+y2+z2 e_1^2 d_1 0   0        0     0        0     0        0   0        0     0     0   0   0  0   0   0   0   0 0  0  0   0     0   0     0     0   0   0     0     0     0        0     0     0     0   0   0      0      0      0     |
+              {1, -3, 0}  | 0        0     -z  -z  x2+y2+z2 e_1^2 0        0     0        0   0        ze_1  0     d_1 0   0  0   0   0   0   0 0  0  0   0     0   0     0     0   0   0     0     0     0        0     0     0     0   0   0      0      0      0     |
+              {1, -3, 0}  | 0        0     y   y   0        0     x2+y2+z2 e_1^2 0        0   0        -ye_1 0     0   0   0  0   0   d_1 0   0 0  0  0   0     0   0     0     0   0   0     0     0     0        0     0     0     0   0   0      0      0      0     |
+              {0, -2, 1}  | 0        0     0   e_1 0        0     0        0     x2+y2+z2 d_1 0        0     0     0   0   0  0   0   0   0   0 0  0  0   0     0   0     0     0   0   0     0     0     0        0     0     0     0   0   0      0      0      0     |
+              {1, -3, 0}  | 0        0     -x  -x  0        0     0        0     0        0   x2+y2+z2 xe_1  e_1^2 0   0   0  d_1 0   0   0   0 0  0  0   0     0   0     0     0   0   0     0     0     0        0     0     0     0   0   0      0      0      0     |
+              {1, -1, -1} | 0        0     0   0   0        0     0        0     0        0   0        0     0     y   y   0  0   0   z   z   0 0  0  -x  e_1^2 0   -ye_1 0     0   0   0     -ze_1 0     0        0     0     d_1   0   0   0      0      0      0     |
+              {0, 0, 0}   | 0        0     0   0   0        0     0        0     0        0   0        0     0     0   e_1 -z 0   0   0   0   0 x  -y 0   0     d_1 0     0     0   0   0     0     0     0        0     0     0     0   0   0      0      0      0     |
+              {1, -1, -1} | 0        0     0   0   0        0     0        0     0        0   0        0     0     -x  -x  0  z   z   0   0   0 0  0  -y  0     0   xe_1  e_1^2 0   0   -ze_1 0     0     0        0     d_1   0     0   0   0      0      0      0     |
+              {0, 0, 0}   | 0        0     0   0   0        0     0        0     0        0   0        0     0     0   0   -x 0   e_1 0   0   y -z 0  0   0     0   0     0     d_1 0   0     0     0     0        0     0     0     0   0   0      0      0      0     |
+              {0, 0, 0}   | 0        0     0   0   0        0     0        0     0        0   0        0     0     0   0   y  0   0   0   e_1 x 0  -z 0   0     0   0     0     0   d_1 0     0     0     0        0     0     0     0   0   0      0      0      0     |
+              {1, -1, -1} | 0        0     0   0   0        0     0        0     0        0   0        0     0     0   0   0  -y  -y  -x  -x  0 0  0  -z  0     0   0     0     0   0   ye_1  xe_1  e_1^2 0        d_1   0     0     0   0   0      0      0      0     |
+              {0, 2, -2}  | 0        0     0   0   0        0     0        0     0        0   0        0     0     0   0   0  0   0   0   0   0 0  0  0   0     0   0     0     0   0   0     0     0     x2+y2+z2 -ze_1 -ye_1 -xe_1 d_1 0   ze_1^2 ye_1^2 xe_1^2 e_1^3 |
+              {0, 0, 0}   | 0        0     0   0   0        0     0        0     0        0   0        0     0     0   0   0  0   0   0   0   z y  x  e_1 0     0   0     0     0   0   0     0     0     0        0     0     0     0   d_1 0      0      0      0     |
+
+                                              13
+o8 : R[e , d ]-module, quotient of (R[e , d ])
+        1   1                          1   1</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i9 : plotPages((-3..3,-4..2,1..3), prune @@ evaluateInDegree, covExtCouple)
+warning: clearing value of symbol e to allow access to subscripted variables based on it
+       : debug with expression   debug 3903   or with command line option   --debug 3903
+warning: clearing value of symbol d to allow access to subscripted variables based on it
+       : debug with expression   debug 4400   or with command line option   --debug 4400
+page 1, with differential of degree {1, -1}:
++----++----+----+----+--------------------------+--------------------------------------------+---+---+
+|q=2 ||0   |0   |0   |0                         |0                                           |0  |0  |
++----++----+----+----+--------------------------+--------------------------------------------+---+---+
+|q=1 ||0   |0   |0   |cokernel {-2} | x2+y2+z2 ||0                                           |0  |0  |
++----++----+----+----+--------------------------+--------------------------------------------+---+---+
+|q=0 ||0   |0   |0   |cokernel | z  0 x  -y |   |cokernel {-2} | z y x |                     |0  |0  |
+|    ||    |    |    |         | x  y -z 0  |   |                                            |   |   |
+|    ||    |    |    |         | -y x 0  -z |   |                                            |   |   |
+|    ||    |    |    |         | 0  z y  x  |   |                                            |   |   |
++----++----+----+----+--------------------------+--------------------------------------------+---+---+
+|q=-1||0   |0   |0   |cokernel {1} | x2+y2+z2 | |cokernel {-1} | -y 0  -z x2+y2+z2 xy    xz ||0  |0  |
+|    ||    |    |    |                          |         {-1} | x  -z 0  0        y2+z2 yz ||   |   |
+|    ||    |    |    |                          |         {-1} | 0  y  x  0        0     z2 ||   |   |
++----++----+----+----+--------------------------+--------------------------------------------+---+---+
+|q=-2||0   |0   |0   |0                         |cokernel | z  x2+y2+z2 0        -xz   |     |0  |0  |
+|    ||    |    |    |                          |         | -y 0        x2+y2+z2 xy    |     |   |   |
+|    ||    |    |    |                          |         | x  0        0        y2+z2 |     |   |   |
++----++----+----+----+--------------------------+--------------------------------------------+---+---+
+|q=-3||0   |0   |0   |0                         |cokernel {1} | x2+y2+z2 |                   |0  |0  |
++----++----+----+----+--------------------------+--------------------------------------------+---+---+
+|q=-4||0   |0   |0   |0                         |0                                           |0  |0  |
++----++----+----+----+--------------------------+--------------------------------------------+---+---+
+|    ||p=-3|p=-2|p=-1|p=0                       |p=1                                         |p=2|p=3|
++----++----+----+----+--------------------------+--------------------------------------------+---+---+
+
+page 2, with differential of degree {1, -2}:
++----++----+----+----+---------------------------------------+---------------------------------------+---+---+
+|q=2 ||0   |0   |0   |0                                      |0                                      |0  |0  |
++----++----+----+----+---------------------------------------+---------------------------------------+---+---+
+|q=1 ||0   |0   |0   |cokernel {-1} | y  x  0  z |           |0                                      |0  |0  |
+|    ||    |    |    |         {-1} | -z 0  x  y |           |                                       |   |   |
+|    ||    |    |    |         {-1} | 0  -z -y x |           |                                       |   |   |
++----++----+----+----+---------------------------------------+---------------------------------------+---+---+
+|q=0 ||0   |0   |0   |cokernel | z  x2+y2+z2 -xz   0        ||0                                      |0  |0  |
+|    ||    |    |    |         | x  0        y2+z2 0        ||                                       |   |   |
+|    ||    |    |    |         | -y 0        xy    x2+y2+z2 ||                                       |   |   |
++----++----+----+----+---------------------------------------+---------------------------------------+---+---+
+|q=-1||0   |0   |0   |cokernel {1} | x2+y2+z2 |              |cokernel {-1} | y  x  0  z |           |0  |0  |
+|    ||    |    |    |                                       |         {-1} | -z 0  x  y |           |   |   |
+|    ||    |    |    |                                       |         {-1} | 0  -z -y x |           |   |   |
++----++----+----+----+---------------------------------------+---------------------------------------+---+---+
+|q=-2||0   |0   |0   |0                                      |cokernel | z  x2+y2+z2 -xz   0        ||0  |0  |
+|    ||    |    |    |                                       |         | x  0        y2+z2 0        ||   |   |
+|    ||    |    |    |                                       |         | -y 0        xy    x2+y2+z2 ||   |   |
++----++----+----+----+---------------------------------------+---------------------------------------+---+---+
+|q=-3||0   |0   |0   |0                                      |cokernel {1} | x2+y2+z2 |              |0  |0  |
++----++----+----+----+---------------------------------------+---------------------------------------+---+---+
+|q=-4||0   |0   |0   |0                                      |0                                      |0  |0  |
++----++----+----+----+---------------------------------------+---------------------------------------+---+---+
+|    ||p=-3|p=-2|p=-1|p=0                                    |p=1                                    |p=2|p=3|
++----++----+----+----+---------------------------------------+---------------------------------------+---+---+
+
+page 3, with differential of degree {1, -3}:
++----++----+----+----+---+---+---+---+
+|q=2 ||0   |0   |0   |0  |0  |0  |0  |
++----++----+----+----+---+---+---+---+
+|q=1 ||0   |0   |0   |0  |0  |0  |0  |
++----++----+----+----+---+---+---+---+
+|q=0 ||0   |0   |0   |0  |0  |0  |0  |
++----++----+----+----+---+---+---+---+
+|q=-1||0   |0   |0   |0  |0  |0  |0  |
++----++----+----+----+---+---+---+---+
+|q=-2||0   |0   |0   |0  |0  |0  |0  |
++----++----+----+----+---+---+---+---+
+|q=-3||0   |0   |0   |0  |0  |0  |0  |
++----++----+----+----+---+---+---+---+
+|q=-4||0   |0   |0   |0  |0  |0  |0  |
++----++----+----+----+---+---+---+---+
+|    ||p=-3|p=-2|p=-1|p=0|p=1|p=2|p=3|
++----++----+----+----+---+---+---+---+</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i10 : contraExtCouple = prune contravariantExtCouple(B' ** (ring B')^{{-4,0}},A) -- see Caveat
+warning: clearing value of symbol d to allow access to subscripted variables based on it
+       : debug with expression   debug 4400   or with command line option   --debug 4400
+
+o10 = cokernel {-1, -7, 0}  | x2+y2+z2 e_1^2 d_1 0   0        0     0        0     0        0    0     0        0   0   0   0   0   0   0  0   0  0  0 0   0     0    0     0     0    0     0        0    0     0    0   0   0   0   0   0      0      0      0     |
+               {-1, -5, -1} | 0        0     -x  x   x2+y2+z2 e_1^2 0        0     0        xe_1 0     0        0   d_1 0   0   0   0   0  0   0  0  0 0   0     0    0     0     0    0     0        0    0     0    0   0   0   0   0   0      0      0      0     |
+               {-1, -5, -1} | 0        0     -y  y   0        0     x2+y2+z2 e_1^2 0        ye_1 0     0        0   0   d_1 0   0   0   0  0   0  0  0 0   0     0    0     0     0    0     0        0    0     0    0   0   0   0   0   0      0      0      0     |
+               {-1, -5, -1} | 0        0     -z  z   0        0     0        0     x2+y2+z2 ze_1 e_1^2 0        0   0   0   d_1 0   0   0  0   0  0  0 0   0     0    0     0     0    0     0        0    0     0    0   0   0   0   0   0      0      0      0     |
+               {-2, -4, 0}  | 0        0     0   e_1 0        0     0        0     0        0    0     x2+y2+z2 d_1 0   0   0   0   0   0  0   0  0  0 0   0     0    0     0     0    0     0        0    0     0    0   0   0   0   0   0      0      0      0     |
+               {-1, -3, -2} | 0        0     0   0   0        0     0        0     0        0    0     0        0   y   -x  0   y   -x  0  0   0  0  0 z   e_1^2 ye_1 0     -xe_1 0    0     0        d_1  0     0    0   0   0   0   0   0      0      0      0     |
+               {-1, -3, -2} | 0        0     0   0   0        0     0        0     0        0    0     0        0   z   0   -x  z   0   0  x   0  0  0 -y  0     ze_1 e_1^2 0     xe_1 0     0        0    d_1   0    0   0   0   0   0   0      0      0      0     |
+               {-1, -3, -2} | 0        0     0   0   0        0     0        0     0        0    0     0        0   0   z   -y  0   z   0  y   0  0  0 x   0     0    0     ze_1  ye_1 e_1^2 0        0    0     d_1  0   0   0   0   0   0      0      0      0     |
+               {-2, 0, -3}  | 0        0     0   0   0        0     0        0     0        0    0     0        0   0   0   0   0   0   0  0   0  0  0 0   0     0    0     0     0    0     x2+y2+z2 ze_1 -ye_1 xe_1 d_1 0   0   0   0   ze_1^2 ye_1^2 xe_1^2 e_1^3 |
+               {-2, -2, -1} | 0        0     0   0   0        0     0        0     0        0    0     0        0   0   0   0   e_1 0   -x 0   y  -z 0 0   0     0    0     0     0    0     0        0    0     0    0   d_1 0   0   0   0      0      0      0     |
+               {-2, -2, -1} | 0        0     0   0   0        0     0        0     0        0    0     0        0   0   0   0   0   e_1 -y 0   -x 0  z 0   0     0    0     0     0    0     0        0    0     0    0   0   d_1 0   0   0      0      0      0     |
+               {-2, -2, -1} | 0        0     0   0   0        0     0        0     0        0    0     0        0   0   0   0   0   0   z  e_1 0  -x y 0   0     0    0     0     0    0     0        0    0     0    0   0   0   d_1 0   0      0      0      0     |
+               {-2, -2, -1} | 0        0     0   0   0        0     0        0     0        0    0     0        0   0   0   0   0   0   0  0   z  y  x e_1 0     0    0     0     0    0     0        0    0     0    0   0   0   0   d_1 0      0      0      0     |
+
+                                               13
+o10 : R[e , d ]-module, quotient of (R[e , d ])
+         1   1                          1   1</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i11 : plotPages((-3..1,-5..1,1..3), prune @@ evaluateInDegree, contraExtCouple)
+warning: clearing value of symbol e to allow access to subscripted variables based on it
+       : debug with expression   debug 3903   or with command line option   --debug 3903
+warning: clearing value of symbol d to allow access to subscripted variables based on it
+       : debug with expression   debug 4400   or with command line option   --debug 4400
+page 1, with differential of degree {1, -1}:
++----++----+----+----------------------------+--------------------------------------------+---+
+|q=1 ||0   |0   |0                           |0                                           |0  |
++----++----+----+----------------------------+--------------------------------------------+---+
+|q=0 ||0   |0   |cokernel {-3} | x2+y2+z2 |  |0                                           |0  |
++----++----+----+----------------------------+--------------------------------------------+---+
+|q=-1||0   |0   |cokernel {-1} | x  -y z  0 ||cokernel {-3} | z y x |                     |0  |
+|    ||    |    |         {-1} | y  x  0  z ||                                            |   |
+|    ||    |    |         {-1} | -z 0  x  y ||                                            |   |
+|    ||    |    |         {-1} | 0  -z -y x ||                                            |   |
++----++----+----+----------------------------+--------------------------------------------+---+
+|q=-2||0   |0   |cokernel | x2+y2+z2 |       |cokernel {-2} | y x  0 z2  0      0        ||0  |
+|    ||    |    |                            |         {-2} | z 0  x -yz -y2-z2 0        ||   |
+|    ||    |    |                            |         {-2} | 0 -z y xz  xy     x2+y2+z2 ||   |
++----++----+----+----------------------------+--------------------------------------------+---+
+|q=-3||0   |0   |0                           |cokernel {-1} | x 0        -y2-z2 0        ||0  |
+|    ||    |    |                            |         {-1} | y x2+y2+z2 xy     0        ||   |
+|    ||    |    |                            |         {-1} | z 0        xz     x2+y2+z2 ||   |
++----++----+----+----------------------------+--------------------------------------------+---+
+|q=-4||0   |0   |0                           |cokernel | x2+y2+z2 |                       |0  |
++----++----+----+----------------------------+--------------------------------------------+---+
+|q=-5||0   |0   |0                           |0                                           |0  |
++----++----+----+----------------------------+--------------------------------------------+---+
+|    ||p=-3|p=-2|p=-1                        |p=0                                         |p=1|
++----++----+----+----------------------------+--------------------------------------------+---+
+
+page 2, with differential of degree {1, -2}:
++----++----+----+---------------------------------------------+---------------------------------------------+---+
+|q=1 ||0   |0   |0                                            |0                                            |0  |
++----++----+----+---------------------------------------------+---------------------------------------------+---+
+|q=0 ||0   |0   |cokernel {-2} | y  x  0  z |                 |0                                            |0  |
+|    ||    |    |         {-2} | -z 0  x  y |                 |                                             |   |
+|    ||    |    |         {-2} | 0  -z -y x |                 |                                             |   |
++----++----+----+---------------------------------------------+---------------------------------------------+---+
+|q=-1||0   |0   |cokernel {-1} | x  0        -y2-z2 0        ||0                                            |0  |
+|    ||    |    |         {-1} | y  x2+y2+z2 xy     0        ||                                             |   |
+|    ||    |    |         {-1} | -z 0        -xz    x2+y2+z2 ||                                             |   |
++----++----+----+---------------------------------------------+---------------------------------------------+---+
+|q=-2||0   |0   |cokernel | x2+y2+z2 |                        |cokernel {-2} | y  x  0  z |                 |0  |
+|    ||    |    |                                             |         {-2} | -z 0  x  y |                 |   |
+|    ||    |    |                                             |         {-2} | 0  -z -y x |                 |   |
++----++----+----+---------------------------------------------+---------------------------------------------+---+
+|q=-3||0   |0   |0                                            |cokernel {-1} | x  0        -y2-z2 0        ||0  |
+|    ||    |    |                                             |         {-1} | y  x2+y2+z2 xy     0        ||   |
+|    ||    |    |                                             |         {-1} | -z 0        -xz    x2+y2+z2 ||   |
++----++----+----+---------------------------------------------+---------------------------------------------+---+
+|q=-4||0   |0   |0                                            |cokernel | x2+y2+z2 |                        |0  |
++----++----+----+---------------------------------------------+---------------------------------------------+---+
+|q=-5||0   |0   |0                                            |0                                            |0  |
++----++----+----+---------------------------------------------+---------------------------------------------+---+
+|    ||p=-3|p=-2|p=-1                                         |p=0                                          |p=1|
++----++----+----+---------------------------------------------+---------------------------------------------+---+
+
+page 3, with differential of degree {1, -3}:
++----++----+----+----+---+---+
+|q=1 ||0   |0   |0   |0  |0  |
++----++----+----+----+---+---+
+|q=0 ||0   |0   |0   |0  |0  |
++----++----+----+----+---+---+
+|q=-1||0   |0   |0   |0  |0  |
++----++----+----+----+---+---+
+|q=-2||0   |0   |0   |0  |0  |
++----++----+----+----+---+---+
+|q=-3||0   |0   |0   |0  |0  |
++----++----+----+----+---+---+
+|q=-4||0   |0   |0   |0  |0  |
++----++----+----+----+---+---+
+|q=-5||0   |0   |0   |0  |0  |
++----++----+----+----+---+---+
+|    ||p=-3|p=-2|p=-1|p=0|p=1|
++----++----+----+----+---+---+</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>It bears mentioning that there are many other spectral sequences arising from Tor and Ext. For example, both coordinates could vary instead of just one, or these functors could be composed in various ways.  For such applications, work directly with the function <a title="builds an exact couple from a R[d,f]/d^2-module" href="_exact__Couple.html">exactCouple</a>.  If you obtain anything compelling, the author of this package would appreciate hearing about it!</p>
+        </div>
+      </div>
+      <div>
+        <h2>Caveat</h2>
+        <div>
+          <p>In the case of <a title="the exact couple obtained by applying Ext(-,Y) to a filtered module" href="_contravariant__Ext__Couple.html">contravariantExtCouple</a>, the module seqmod should be concentrated in degrees that are positive multiples of $deg(t)$.</p>
+        </div>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="the exact couple obtained by applying Tor(W,-) to a filtered module" href="___Tor__Couple.html">TorCouple</a> -- the exact couple obtained by applying Tor(W,-) to a filtered module</span>          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+
+</html>

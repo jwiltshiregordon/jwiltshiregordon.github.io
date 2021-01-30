@@ -1,0 +1,144 @@
+-- -*- M2-comint -*- hash: -2043330725
+
+i1 : n = 2;
+
+i2 : facets = {{1,2},{1,3},{2,3}};
+
+i3 : d = -1 + max apply(facets, f -> #f);
+
+i4 : faces = k -> unique flatten apply(facets, f -> subsets(f, k));
+
+i5 : ff = flatten apply(2 + d, faces);
+
+i6 : nextsteps = f -> select(unique flatten select(facets, g -> isSubset(f, g)), v -> #f == 0 or v >= last f);
+
+i7 : pe = mat -> (
+         q := numrows mat;
+         nxts := apply(q, r -> nextsteps unique first entries mat^{r});
+         prod := apply(fold((a,b)->a**b,nxts), flatten);
+         ret := {mat};
+         for p in prod do (
+             col := map(ZZ^q,ZZ^1,apply(p,v->{v}));
+             if numcols mat == 0 or col != mat_{-1 + numcols mat} then (
+                 ret = ret | pe(mat | col);
+                 );
+             );
+         ret
+         );
+
+i8 : cs = m -> apply(numcols m, c -> m_{c});
+
+i9 : prod = apply(pe(map(ZZ^n,ZZ^0,{})),cs)
+
+o9 = {{}, {| 1 |}, {| 1 |, | 2 |}, {| 1 |, | 2 |, | 2 |}, {| 1 |, | 2 |, | 2
+           | 1 |    | 1 |  | 1 |    | 1 |  | 1 |  | 2 |    | 1 |  | 1 |  | 3
+     ------------------------------------------------------------------------
+     |}, {| 1 |, | 3 |}, {| 1 |, | 3 |, | 3 |}, {| 1 |, | 3 |, | 3 |}, {| 1
+     |    | 1 |  | 1 |    | 1 |  | 1 |  | 2 |    | 1 |  | 1 |  | 3 |    | 1
+     ------------------------------------------------------------------------
+     |, | 1 |}, {| 1 |, | 1 |, | 2 |}, {| 1 |, | 1 |, | 3 |}, {| 1 |, | 2 |},
+     |  | 2 |    | 1 |  | 2 |  | 2 |    | 1 |  | 2 |  | 2 |    | 1 |  | 2 |  
+     ------------------------------------------------------------------------
+     {| 1 |, | 3 |}, {| 1 |, | 1 |}, {| 1 |, | 1 |, | 2 |}, {| 1 |, | 1 |, |
+      | 1 |  | 2 |    | 1 |  | 3 |    | 1 |  | 3 |  | 3 |    | 1 |  | 3 |  |
+     ------------------------------------------------------------------------
+     3 |}, {| 1 |, | 2 |}, {| 1 |, | 3 |}, {| 2 |}, {| 2 |, | 3 |}, {| 2 |, |
+     3 |    | 1 |  | 3 |    | 1 |  | 3 |    | 1 |    | 1 |  | 1 |    | 1 |  |
+     ------------------------------------------------------------------------
+     3 |, | 3 |}, {| 2 |, | 3 |, | 3 |}, {| 2 |, | 2 |}, {| 2 |, | 2 |, | 3
+     1 |  | 2 |    | 1 |  | 1 |  | 3 |    | 1 |  | 2 |    | 1 |  | 2 |  | 2
+     ------------------------------------------------------------------------
+     |}, {| 2 |, | 3 |}, {| 2 |, | 2 |}, {| 2 |, | 2 |, | 3 |}, {| 2 |, | 3
+     |    | 1 |  | 2 |    | 1 |  | 3 |    | 1 |  | 3 |  | 3 |    | 1 |  | 3
+     ------------------------------------------------------------------------
+     |}, {| 3 |}, {| 3 |, | 3 |}, {| 3 |, | 3 |}, {| 1 |}, {| 1 |, | 2 |}, {|
+     |    | 1 |    | 1 |  | 2 |    | 1 |  | 3 |    | 2 |    | 2 |  | 2 |    |
+     ------------------------------------------------------------------------
+     1 |, | 2 |, | 2 |}, {| 1 |, | 3 |}, {| 1 |, | 3 |, | 3 |}, {| 1 |, | 1
+     2 |  | 2 |  | 3 |    | 2 |  | 2 |    | 2 |  | 2 |  | 3 |    | 2 |  | 3
+     ------------------------------------------------------------------------
+     |}, {| 1 |, | 1 |, | 2 |}, {| 1 |, | 1 |, | 3 |}, {| 1 |, | 2 |}, {| 1
+     |    | 2 |  | 3 |  | 3 |    | 2 |  | 3 |  | 3 |    | 2 |  | 3 |    | 2
+     ------------------------------------------------------------------------
+     |, | 3 |}, {| 2 |}, {| 2 |, | 3 |}, {| 2 |, | 3 |, | 3 |}, {| 2 |, | 2
+     |  | 3 |    | 2 |    | 2 |  | 2 |    | 2 |  | 2 |  | 3 |    | 2 |  | 3
+     ------------------------------------------------------------------------
+     |}, {| 2 |, | 2 |, | 3 |}, {| 2 |, | 3 |}, {| 3 |}, {| 3 |, | 3 |}, {| 1
+     |    | 2 |  | 3 |  | 3 |    | 2 |  | 3 |    | 2 |    | 2 |  | 3 |    | 3
+     ------------------------------------------------------------------------
+     |}, {| 1 |, | 2 |}, {| 1 |, | 3 |}, {| 2 |}, {| 2 |, | 3 |}, {| 3 |}}
+     |    | 3 |  | 3 |    | 3 |  | 3 |    | 3 |    | 3 |  | 3 |    | 3 |
+
+o9 : List
+
+i10 : pd = -1 + max apply(prod, f -> #f);
+
+i11 : assert(pd == n * d)
+
+i12 : filt = f -> (
+          m = fold((a,b)->a|b,f);
+          urows = unique apply(numrows m, r -> m^{r});
+          -1 + #urows
+          );
+
+i13 : R = ZZ[t];
+
+i14 : prodfaces = apply(1 + pd, k -> select(prod, f -> #f - 1 == k));
+
+i15 : chains = apply(1+pd,k->R^(-apply(prodfaces#k, filt)));
+
+i16 : omega = (a,b)->if isSubset(a,b) then (-1)^(position(b, v->not member(v,a))) * t^(filt(b)-filt(a)) else 0;
+
+i17 : diffs = apply(pd,k->map(chains#k, chains#(k+1), matrix table(prodfaces#k,prodfaces#(k+1),omega)));
+
+i18 : cx = chainComplex diffs;
+
+i19 : sm = sequenceModule(R[D,Degrees=>{{-1}}]/D^2,(reverse diffs) | {map(R^{}, first chains, {})});
+
+i20 : sm = sm ** (ring sm)^{{-pd,0}};
+
+i21 : smm = restackModule({2,1},sm);
+
+i22 : M = prune restackModule({1,1},smm);
+
+i23 : couple = prune exactCouple M;
+warning: clearing value of symbol t to allow access to subscripted variables based on it
+       : debug with expression   debug 5504   or with command line option   --debug 5504
+
+i24 : plotPages((-1..(pd+1),-1..n,1..2), prune @@ evaluateInDegree, couple)
+warning: clearing value of symbol e to allow access to subscripted variables based on it
+       : debug with expression   debug 3903   or with command line option   --debug 3903
+warning: clearing value of symbol t to allow access to subscripted variables based on it
+       : debug with expression   debug 5504   or with command line option   --debug 5504
+page 1, with differential of degree {-1, -1}:
++----++----+---+---+---+---+
+|q=2 ||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|    ||    |   |  1|  1|   |
+|q=1 ||0   |0  |ZZ |ZZ |0  |
++----++----+---+---+---+---+
+|    ||    |  1|  1|   |   |
+|q=0 ||0   |ZZ |ZZ |0  |0  |
++----++----+---+---+---+---+
+|q=-1||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|    ||p=-1|p=0|p=1|p=2|p=3|
++----++----+---+---+---+---+
+
+page 2, with differential of degree {-1, -2}:
++----++----+---+---+---+---+
+|q=2 ||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|    ||    |   |  1|  1|   |
+|q=1 ||0   |0  |ZZ |ZZ |0  |
++----++----+---+---+---+---+
+|    ||    |  1|  1|   |   |
+|q=0 ||0   |ZZ |ZZ |0  |0  |
++----++----+---+---+---+---+
+|q=-1||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|    ||p=-1|p=0|p=1|p=2|p=3|
++----++----+---+---+---+---+
+
+
+i25 : 

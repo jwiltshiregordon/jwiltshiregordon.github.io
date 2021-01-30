@@ -1,0 +1,74 @@
+-- -*- M2-comint -*- hash: 923578709
+
+i1 : R = QQ[x]
+
+o1 = R
+
+o1 : PolynomialRing
+
+i2 : X = R^1 / x^9
+
+o2 = cokernel | x9 |
+
+                            1
+o2 : R-module, quotient of R
+
+i3 : A = image map(X,,{{x^7}})
+
+o3 = subquotient (| x7 |, | x9 |)
+
+                               1
+o3 : R-module, subquotient of R
+
+i4 : W = coker map(R^1,,{{x^3}})
+
+o4 = cokernel | x3 |
+
+                            1
+o4 : R-module, quotient of R
+
+i5 : TorLES(3,W,X,A)
+warning: clearing value of symbol f to allow access to subscripted variables based on it
+       : debug with expression   debug 3406   or with command line option   --debug 3406
+
+o5 =           .- ->          0                                                                                    
+         0    (      
+               \     
+
+                                                                                 0                               \ 
+               .- ->   cokernel | x3 |      - - - ->      cokernel | x3 |      - - ->              0          - -' 
+         0    (                              | 1 |
+               \     
+
+                                                                             {7} | 1 |                           \ 
+               .- -> cokernel {9} | x3 | - - - - - - -> cokernel {7} | x3 | - - - - - ->  cokernel {7} | x2 | - -' 
+     {9} | x |(                            {7} | x2 |
+               \     
+
+                                                                                 0                               \ 
+               .- ->          0              - - ->              0             - - ->    cokernel {10} | x2 | - -' 
+         0    (                                0
+               \     
+
+                                                                                                                 \ 
+                                                                                                   0          - -' 
+
+i6 : apply(2, p -> prune Tor_p(W,X))
+
+o6 = {cokernel | x3 |, cokernel {9} | x3 |}
+
+o6 : List
+
+i7 : apply(2, p -> prune Tor_p(W,X/A))
+
+o7 = {cokernel | x3 |, cokernel {7} | x3 |}
+
+o7 : List
+
+i8 : apply(2, p -> prune Tor_p(W,A))
+
+o8 = {cokernel {7} | x2 |, cokernel {10} | x2 |}
+
+o8 : List
+
+i9 : 

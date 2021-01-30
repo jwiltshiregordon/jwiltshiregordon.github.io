@@ -1,0 +1,42 @@
+-- -*- M2-comint -*- hash: -2008419306
+
+i1 : R = QQ[d,t,Degrees=>{{0,1},{1,0}}]/d^2;
+
+i2 : declareGenerators(R,{a=>{0,0},b=>{0,0},c=>{0,0},ab=>{0,1},ac=>{0,1},bc=>{0,1}});
+
+i3 : M = cospan(d*a+ab+ac, d*b-ab+bc, d*c-ac-bc, d*ab, d*ac, d*bc,
+                t*bc, t^2*ac, t^3*ab, t^4*c, t^5*b, t^6*a);
+
+i4 : Q = QQ[e_1,f_1,Degrees=>{{-1,1},{2,0}}];
+
+i5 : E1 = exactCouple(Q, M)
+
+o5 = cokernel {1, -1}  | e_1^2 e_1f_1 0 0   0     0    0 0   0     0 0     f_1^4 0 0   0     0 0     0 0   0 e_1^2 e_1f_1 0     0   0     0      0     0   0     0      0     0   0     0   |
+              {2, 0}   | 0     0      0 f_1 0     0    0 0   0     0 0     0     0 0   0     0 0     0 0   0 0     0      e_1^3 f_1 0     0      0     0   0     0      0     0   0     0   |
+              {5, -1}  | 0     0      0 0   e_1^2 f_1  0 0   0     0 0     0     0 0   0     0 0     0 0   0 0     0      0     0   e_1^2 e_1f_1 0     0   0     0      0     0   0     0   |
+              {8, -2}  | 0     0      0 0   0     -e_1 0 f_1 e_1^2 0 0     0     0 0   0     0 0     0 0   0 0     0      0     0   0     0      e_1^3 f_1 0     0      0     0   0     0   |
+              {7, -1}  | 0     0      0 0   0     0    0 0   0     0 e_1^2 -f_1  0 0   0     0 f_1^2 0 0   0 0     0      0     0   0     0      0     0   e_1^2 e_1f_1 0     0   0     0   |
+              {10, -2} | 0     0      0 0   0     0    0 0   0     0 0     -e_1  0 f_1 e_1^2 0 0     0 0   0 0     0      0     0   0     0      0     0   0     0      e_1^3 f_1 0     0   |
+              {12, -2} | 0     0      0 0   0     0    0 0   0     0 0     0     0 0   0     0 -e_1  0 f_1 0 0     0      0     0   0     0      0     0   0     0      0     0   e_1^3 f_1 |
+
+                            7
+o5 : Q-module, quotient of Q
+
+i6 : expectExactCouple E1;
+
+i7 : E2 = derivedCouple E1
+warning: clearing value of symbol e to allow access to subscripted variables based on it
+       : debug with expression   debug 3903   or with command line option   --debug 3903
+
+o7 = cokernel {8, -2}  | 0     0      f_2 e_2^3 0   0     0     0   |
+              {10, -2} | 0     0      0   0     f_2 e_2^3 0     0   |
+              {12, -2} | 0     0      0   0     0   0     -e_2  f_2 |
+              {2, -1}  | e_2^2 e_2f_2 0   0     0   0     f_2^4 0   |
+
+                                                4
+o7 : QQ[e , f ]-module, quotient of (QQ[e , f ])
+         2   2                           2   2
+
+i8 : expectExactCouple E2;
+
+i9 : 

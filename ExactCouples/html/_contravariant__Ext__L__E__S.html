@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>contravariantExtLES -- the long exact sequence in Ext induced by an inclusion in the first coordinate of Hom</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="___Conventions_spand_spfirst_spexamples.html">next</a> | <a href="_contravariant__Ext__Couple.html">previous</a> | <a href="___Conventions_spand_spfirst_spexamples.html">forward</a> | <a href="_contravariant__Ext__Couple.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="the long exact sequence in Ext induced by an inclusion in the first coordinate of Hom" href="_contravariant__Ext__L__E__S.html">contravariantExtLES</a>    </div>
+    <hr/>
+    <div>
+      <h1>contravariantExtLES -- the long exact sequence in Ext induced by an inclusion in the first coordinate of Hom</h1>
+      <div>
+        <h2>Synopsis</h2>
+        <ul>
+          <li>
+            <dl class="element">
+              <dt>Usage: </dt>
+              <dd><tt>contravariantExtLES(k,X,A,Y)</tt></dd>
+            </dl>
+          </li>
+          <li>
+Inputs:            <ul>
+              <li>
+<span><tt>k</tt>, <span>an <a title="the class of all integers" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Z__Z.html">integer</a></span>, number of rotations of the long exact sequence to display</span>              </li>
+              <li>
+<span><tt>X</tt>, <span>a <a title="the class of all modules" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span></span>              </li>
+              <li>
+<span><tt>A</tt>, <span>a <a title="the class of all modules" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span>, a submodule of X</span>              </li>
+              <li>
+<span><tt>Y</tt>, <span>a <a title="the class of all modules" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span>, giving a hom-functor Hom(-,Y)</span>              </li>
+            </ul>
+          </li>
+          <li>
+Outputs:            <ul>
+              <li>
+<span><span>a <a title="the class of all nets and strings" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Net.html">net</a></span>, showing the long exact sequence in Ext</span>              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h2>Description</h2>
+        <div>
+          <p>The long exact sequence is returned as a Net with the following general format:</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>|   .- ->        ...    (k-3) more rows appearing
+|  (
+|   \
+|
+|                                                                   \
+|   .- ->  Ext^1(X,Y)  - - ->  Ext^1(A,Y)  - - ->  Ext^2(X/A,Y)  - -'
+|  (
+|   \
+|
+|                                                                   \
+|   .- ->   Hom(X,Y)   - - ->   Hom(A,Y)   - - ->  Ext^1(X/A,Y)  - -'
+|  (
+|   \
+|
+|                                                                   \
+|   .- ->      0       - - ->       0      - - ->   Hom(X/A,Y)   - -'
+|  (
+|   \
+|
+|                                                                   \
+|                                                        0       - -'</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>The next example gives a typical use.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : R = QQ[x]
+
+o1 = R
+
+o1 : PolynomialRing</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i2 : X = R^1 / x^9
+
+o2 = cokernel | x9 |
+
+                            1
+o2 : R-module, quotient of R</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i3 : A = image map(X,,{{x^7}})
+
+o3 = subquotient (| x7 |, | x9 |)
+
+                               1
+o3 : R-module, subquotient of R</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i4 : Y = coker map(R^1,,{{x^3}})
+
+o4 = cokernel | x3 |
+
+                            1
+o4 : R-module, quotient of R</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i5 : contravariantExtLES(3,X,A,Y)
+warning: clearing value of symbol f to allow access to subscripted variables based on it
+       : debug with expression   debug 3406   or with command line option   --debug 3406
+
+o5 =             .- ->           0                                                                                       
+          0     (      
+                 \     
+
+                                                                                      0                                \ 
+                 .- -> cokernel {-9} | x3 | - - - - - - -> cokernel {-9} | x2 |     - - ->               0          - -' 
+     {-9} | x2 |(                             {-9} | 1 |
+                 \     
+
+                                                                                  {-7} | x |                           \ 
+                 .- ->    cokernel | x3 |       - - ->     cokernel {-6} | x2 | - - - - - - -> cokernel {-7} | x3 | - -' 
+        | 1 |   (                                 0
+                 \     
+
+                                                                                      0                                \ 
+                 .- ->           0              - - ->               0              - - ->        cokernel | x3 |   - -' 
+          0     (                                 0
+                 \     
+
+                                                                                                                       \ 
+                                                                                                         0          - -' </pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i6 : apply(2, p -> prune Ext^p(X,Y))
+
+o6 = {cokernel | x3 |, cokernel {-9} | x3 |}
+
+o6 : List</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i7 : apply(2, p -> prune Ext^p(A,Y))
+
+o7 = {cokernel {-6} | x2 |, cokernel {-9} | x2 |}
+
+o7 : List</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i8 : apply(2, p -> prune Ext^p(X/A,Y))
+
+o8 = {cokernel | x3 |, cokernel {-7} | x3 |}
+
+o8 : List</pre>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <h2>Caveat</h2>
+        <div>
+          <p>For computational access to the maps in the sequence, use contravariantExtCouple instead.</p>
+        </div>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="displays a few entries of a long exact sequence" href="_excerpt__L__E__S.html">excerptLES</a> -- displays a few entries of a long exact sequence</span>          </li>
+          <li>
+<span><a title="the exact couple obtained by applying Ext(-,Y) to a filtered module" href="_contravariant__Ext__Couple.html">contravariantExtCouple</a> -- the exact couple obtained by applying Ext(-,Y) to a filtered module</span>          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>Ways to use <tt>contravariantExtLES</tt>:</h2>
+        <ul>
+          <li>
+contravariantExtLES(ZZ,Module,Module,Module)          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>For the programmer</h2>
+        <p>The object <a title="the long exact sequence in Ext induced by an inclusion in the first coordinate of Hom" href="_contravariant__Ext__L__E__S.html">contravariantExtLES</a> is <span>a <a title="a type of method function" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Method__Function.html">method function</a></span>.</p>
+      </div>
+    </div>
+  </body>
+
+</html>

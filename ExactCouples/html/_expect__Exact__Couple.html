@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>expectExactCouple -- accepts a module if it encodes an exact couple</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="_expect__Filtration__List.html">next</a> | <a href="_expect__Couple__Ring.html">previous</a> | <a href="_expect__Filtration__List.html">forward</a> | <a href="_expect__Couple__Ring.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="accepts a module if it encodes an exact couple" href="_expect__Exact__Couple.html">expectExactCouple</a>    </div>
+    <hr/>
+    <div>
+      <h1>expectExactCouple -- accepts a module if it encodes an exact couple</h1>
+      <div>
+        <h2>Synopsis</h2>
+        <ul>
+          <li>
+            <dl class="element">
+              <dt>Usage: </dt>
+              <dd><tt>expectExactCouple M</tt></dd>
+            </dl>
+          </li>
+          <li>
+Inputs:            <ul>
+              <li>
+<span><tt>M</tt>, <span>a <a title="the class of all modules" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span>, over a couple ring R[e,f]</span>              </li>
+            </ul>
+          </li>
+          <li>
+            <div>
+Consequences:              <ul>
+                <li>
+Causes an error if M is not exact.                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h2>Description</h2>
+        <div>
+          <p>Let S be the subring R[e^2, f].  Homogeneous elements of S are restricted to an index-two subgroup of the bidegrees of M; as an S-module, M splits as a direct sum of its even part and its odd part.  We write E for the odd part and A for the even part.  Multiplication by e induces maps from E to A and back again.  We say that M is exact if</p>
+          <p>image(f : A --> A) = kernel(e : A --> E)</p>
+          <p>image(e : A --> E) = kernel(e : E --> A)</p>
+          <p>image(e : E --> A) = kernel(f : A --> A).</p>
+          <p></p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : R = QQ[d,t,Degrees=>{{0,1},{1,0}}]/d^2;</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i2 : declareGenerators(R,{a=>{0,0},b=>{0,0},c=>{0,0},ab=>{0,1},ac=>{0,1},bc=>{0,1}});</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i3 : M = cospan(d*a+ab+ac, d*b-ab+bc, d*c-ac-bc, d*ab, d*ac, d*bc,
+                t*bc, t^2*ac, t^3*ab, t^4*c, t^5*b, t^6*a);</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i4 : netList table(7,4,(i,j)->hilbertFunction({6-i,j},M))
+
+     +-+-+-+-+
+o4 = |0|0|0|0|
+     +-+-+-+-+
+     |1|0|0|0|
+     +-+-+-+-+
+     |2|0|0|0|
+     +-+-+-+-+
+     |3|0|0|0|
+     +-+-+-+-+
+     |3|1|0|0|
+     +-+-+-+-+
+     |3|2|0|0|
+     +-+-+-+-+
+     |3|3|0|0|
+     +-+-+-+-+</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i5 : Q = QQ[e_1,f_1,Degrees=>{{-1,1},{2,0}}];</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i6 : E1 = exactCouple(Q,M);</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i7 : expectExactCouple E1; -- No error</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i8 : E1' = E1 / E1_0; -- but expectExactCouple E1' would give the error &quot;failure of exactness at page: ker e != im e.&quot;</pre>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <h2>Caveat</h2>
+        <div>
+          <p></p>
+        </div>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="builds an exact couple from a R[d,f]/d^2-module" href="_exact__Couple.html">exactCouple</a> -- builds an exact couple from a R[d,f]/d^2-module</span>          </li>
+          <li>
+<span><a title="builds the derived couple of an exact couple" href="_derived__Couple.html">derivedCouple</a> -- builds the derived couple of an exact couple</span>          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>Ways to use <tt>expectExactCouple</tt>:</h2>
+        <ul>
+          <li>
+expectExactCouple(Module)          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>For the programmer</h2>
+        <p>The object <a title="accepts a module if it encodes an exact couple" href="_expect__Exact__Couple.html">expectExactCouple</a> is <span>a <a title="a type of method function" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Method__Function.html">method function</a></span>.</p>
+      </div>
+    </div>
+  </body>
+
+</html>
