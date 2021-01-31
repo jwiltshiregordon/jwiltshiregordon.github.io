@@ -4,11 +4,11 @@
   <head>
     <title>Conventions and first examples -- specifics on encoding exact couples as modules for a ring</title>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
-    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+    <link type="text/css" rel="stylesheet" href="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/doc.css"/>
 
-    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
-    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
-    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <link rel="stylesheet" href="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
     <script defer="defer" type="text/javascript">
       var macros = {
           "\\break": "\\\\",
@@ -31,9 +31,9 @@
       });
     </script>
     <style type="text/css">.katex { font-size: 1em; }</style>
-    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
-    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
-    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+    <link href="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
   <body>
     <table class="buttons">
       <tr>
@@ -63,7 +63,7 @@
           <p>defining the maps in the exact couple.</p>
           <p>The all-purpose method <a title="builds an exact couple from a R[d,f]/d^2-module" href="_exact__Couple.html">exactCouple</a> accepts as input C considered as an $R[d,f]/d^2$ module. Note that the action of $d$ and $f$ is encoded by the ring action.</p>
           <p></p>
-          <p>To build exact couples by hand, use <a title="initializes generating classes for an exact couple" href="_declare__Couple.html">declareCouple</a>, and check your work with <a title="whether something is homogeneous (graded)" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/_is__Homogeneous.html">isHomogeneous</a> and <a title="accepts a module if it encodes an exact couple" href="_expect__Exact__Couple.html">expectExactCouple</a>.  For the usual long exact sequence induced by a map of complexes, use <a title="finds the long exact sequence associated to a map of R[d]/d^2-modules" href="_long__Exact__Sequence.html">longExactSequence</a>. Once you have an exact couple, <a title="builds the derived couple of an exact couple" href="_derived__Couple.html">derivedCouple</a> produces another, as we now explain.</p>
+          <p>To build exact couples by hand, use <a title="initializes generating classes for an exact couple" href="_declare__Couple.html">declareCouple</a>, and check your work with <a title="whether something is homogeneous (graded)" href="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/doc/Macaulay2/Macaulay2Doc/html/_is__Homogeneous.html">isHomogeneous</a> and <a title="accepts a module if it encodes an exact couple" href="_expect__Exact__Couple.html">expectExactCouple</a>.  For the usual long exact sequence induced by a map of complexes, use <a title="finds the long exact sequence associated to a map of R[d]/d^2-modules" href="_long__Exact__Sequence.html">longExactSequence</a>. Once you have an exact couple, <a title="builds the derived couple of an exact couple" href="_derived__Couple.html">derivedCouple</a> produces another, as we now explain.</p>
           <p><b>Derived couples</b></p>
           <p>Every exact couple determines a new exact couple by the formulas $A' = im(f)$ and $E' = ker(e^2)/im(e^2)$.  The maps $A' \to E' \to A'$ are induced by $e$, and the map $A' \to A'$ is induced by $f$.  There is a wrinkle, however: the map $A' \to E'$ factors $A' \to A / ker(f) \to E'$, making use of the first isomorphism theorem.  Some degree confusion can result.  Indeed, the inclusion $A' \subseteq A$, which is induced by the identity, is a degree 0 map; in contrast, the projection $A / (ker f) \to A'$, which is induced by $f$, has the same degree as $f$ itself.  This forces the inverse map $A' \to A / ker(f)$ to have degree $-deg(f)$.</p>
           <p>If we had taken A' to be the coimage of f instead of the image, this would have resulted in different degrees.  So either of these conventions would have an asymmetry: an unjustified preference for image or coimage.</p>

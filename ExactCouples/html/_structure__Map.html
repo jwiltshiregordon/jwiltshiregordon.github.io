@@ -4,11 +4,11 @@
   <head>
     <title>structureMap -- computes the action of a ring element on a particular degree</title>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
-    <link type="text/css" rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/doc.css"/>
+    <link type="text/css" rel="stylesheet" href="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/doc.css"/>
 
-    <link rel="stylesheet" href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.css" />
-    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/katex.min.js"></script>
-    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <link rel="stylesheet" href="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
     <script defer="defer" type="text/javascript">
       var macros = {
           "\\break": "\\\\",
@@ -31,9 +31,9 @@
       });
     </script>
     <style type="text/css">.katex { font-size: 1em; }</style>
-    <link href="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
-    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
-    <script defer="defer" type="text/javascript" src="/Applications/Macaulay2-1.16.99/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+    <link href="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
   <body>
     <table class="buttons">
       <tr>
@@ -60,19 +60,19 @@
           <li>
 Inputs:            <ul>
               <li>
-<span><tt>M</tt>, <span>a <a title="the class of all modules" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span>, over some ring R with coefficient ring $k$</span>              </li>
+<span><tt>M</tt>, <span>a <a title="the class of all modules" href="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span>, over some ring R with coefficient ring $k$</span>              </li>
               <li>
-<span><tt>x</tt>, <span>a <a title="the class of all lists -- {...}" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___List.html">list</a></span>, an external R-degree</span>              </li>
+<span><tt>x</tt>, <span>a <a title="the class of all lists -- {...}" href="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/doc/Macaulay2/Macaulay2Doc/html/___List.html">list</a></span>, an external R-degree</span>              </li>
               <li>
-<span><tt>y</tt>, <span>a <a title="the class of all lists -- {...}" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___List.html">list</a></span>, an external R-degree</span>              </li>
+<span><tt>y</tt>, <span>a <a title="the class of all lists -- {...}" href="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/doc/Macaulay2/Macaulay2Doc/html/___List.html">list</a></span>, an external R-degree</span>              </li>
               <li>
-<span><tt>r</tt>, <span>a <a title="the class of all ring elements handled by the engine" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Ring__Element.html">ring element</a></span>, of degree y-x</span>              </li>
+<span><tt>r</tt>, <span>a <a title="the class of all ring elements handled by the engine" href="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/doc/Macaulay2/Macaulay2Doc/html/___Ring__Element.html">ring element</a></span>, of degree y-x</span>              </li>
             </ul>
           </li>
           <li>
 Outputs:            <ul>
               <li>
-<span><span>a <a title="the class of all matrices" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Matrix.html">matrix</a></span>, the $k$-linear map $M_x \to M_y$, $m \mapsto r \cdot m$</span>              </li>
+<span><span>a <a title="the class of all matrices" href="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/doc/Macaulay2/Macaulay2Doc/html/___Matrix.html">matrix</a></span>, the $k$-linear map $M_x \to M_y$, $m \mapsto r \cdot m$</span>              </li>
             </ul>
           </li>
         </ul>
@@ -169,7 +169,7 @@ structureMap(Nothing,List,RingElement,Module)          </li>
       </div>
       <div class="waystouse">
         <h2>For the programmer</h2>
-        <p>The object <a title="computes the action of a ring element on a particular degree" href="_structure__Map.html">structureMap</a> is <span>a <a title="a type of method function" href="/Applications/Macaulay2-1.16.99/share/doc/Macaulay2/Macaulay2Doc/html/___Method__Function.html">method function</a></span>.</p>
+        <p>The object <a title="computes the action of a ring element on a particular degree" href="_structure__Map.html">structureMap</a> is <span>a <a title="a type of method function" href="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/doc/Macaulay2/Macaulay2Doc/html/___Method__Function.html">method function</a></span>.</p>
       </div>
     </div>
   </body>
