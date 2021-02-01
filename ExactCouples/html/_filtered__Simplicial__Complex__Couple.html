@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>filteredSimplicialComplexCouple -- builds the exact couple associated to a filtered simplicial complex</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <link type="text/css" rel="stylesheet" href="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/doc.css"/>
+
+    <link rel="stylesheet" href="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/katex/katex.min.css" />
+    <script defer="defer" type="text/javascript" src="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/katex/katex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/katex/contrib/auto-render.min.js"></script>
+    <script defer="defer" type="text/javascript">
+      var macros = {
+          "\\break": "\\\\",
+          "\\R": "\\mathbb{R}",
+          "\\C": "\\mathbb{C}",
+          "\\ZZ": "\\mathbb{Z}",
+          "\\NN": "\\mathbb{N}",
+          "\\QQ": "\\mathbb{Q}",
+          "\\RR": "\\mathbb{R}",
+          "\\CC": "\\mathbb{C}",
+          "\\PP": "\\mathbb{P}"
+      }, delimiters = [
+          { left: "$$",  right: "$$",  display: true},
+          { left: "\\[", right: "\\]", display: true},
+          { left: "$",   right: "$",   display: false},
+          { left: "\\(", right: "\\)", display: false}
+      ];
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, { delimiters: delimiters, macros: macros, trust: true });
+      });
+    </script>
+    <style type="text/css">.katex { font-size: 1em; }</style>
+    <link href="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/katex/contrib/copy-tex.min.css" rel="stylesheet" type="text/css" />
+    <script defer="defer" type="text/javascript" src="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/katex/contrib/copy-tex.min.js"></script>
+    <script defer="defer" type="text/javascript" src="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/Macaulay2/Style/katex/contrib/render-a11y-string.min.js"></script>  </head>
+  <body>
+    <table class="buttons">
+      <tr>
+        <td>
+          <div>
+<a href="_filtration__Module.html">next</a> | <a href="_external__Degree__Indices.html">previous</a> | <a href="_filtration__Module.html">forward</a> | <a href="_external__Degree__Indices.html">backward</a> | up | <a href="index.html">top</a> | <a href="master.html">index</a> | <a href="toc.html">toc</a> | <a href="http://macaulay2.com/">Macaulay2 website</a>          </div>
+        </td>
+      </tr>
+    </table>
+    <div>
+<a title="spectral sequences by Massey's method of exact couples" href="index.html">ExactCouples</a> :: <a title="builds the exact couple associated to a filtered simplicial complex" href="_filtered__Simplicial__Complex__Couple.html">filteredSimplicialComplexCouple</a>    </div>
+    <hr/>
+    <div>
+      <h1>filteredSimplicialComplexCouple -- builds the exact couple associated to a filtered simplicial complex</h1>
+      <div>
+        <h2>Synopsis</h2>
+        <ul>
+          <li>
+            <dl class="element">
+              <dt>Usage: </dt>
+              <dd><tt>filteredSimplicialComplexCouple(facets, filtration)</tt></dd>
+            </dl>
+          </li>
+          <li>
+Inputs:            <ul>
+              <li>
+<span><tt>facets</tt>, <span>a <a title="the class of all lists -- {...}" href="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/doc/Macaulay2/Macaulay2Doc/html/___List.html">list</a></span>, a list of maximal faces of a simplicial complex</span>              </li>
+              <li>
+<span><tt>filtration</tt>, <span>a <a title="the class of all functions" href="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/doc/Macaulay2/Macaulay2Doc/html/___Function.html">function</a></span>, sending a face to its filtration degree</span>              </li>
+            </ul>
+          </li>
+          <li>
+Outputs:            <ul>
+              <li>
+<span><tt>couple</tt>, <span>a <a title="the class of all modules" href="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/doc/Macaulay2/Macaulay2Doc/html/___Module.html">module</a></span>, an exact couple</span>              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h2>Description</h2>
+        <div>
+          <p>Suppose X is an abstract simplicial complex whose vertices are integers. We specify X by listing its facets:</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i1 : Xfacets = {{1,2},{2,3},{3,4},{1,4},{1,3}};</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>In this example, X is one-dimensional.  It is a square with vertices {1,2,3,4} and with a diagonal edge connecting 1 to 3.</p>
+          <p>To specify a filtration of X, we write a function that takes a face to its filtration degree.  In this example, we set each vertex to have degree 0, the square to have degree 1, and the diagonal edge {1,3} to have degree 2.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i2 : filt = f -> if #f == 1 then 0 else if f == {1,3} then 2 else 1;</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>We can now build the exact couple and view the corresponding spectral sequence.</p>
+        </div>
+        <table class="examples">
+          <tr>
+            <td>
+              <pre>i3 : couple = filteredSimplicialComplexCouple(Xfacets, filt);
+warning: clearing value of symbol t to allow access to subscripted variables based on it
+       : debug with expression   debug 5504   or with command line option   --debug 5504</pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <pre>i4 : plotPages((-1..3,-1..3,1..2), prune @@ evaluateInDegree, couple)
+warning: clearing value of symbol e to allow access to subscripted variables based on it
+       : debug with expression   debug 3903   or with command line option   --debug 3903
+warning: clearing value of symbol t to allow access to subscripted variables based on it
+       : debug with expression   debug 5504   or with command line option   --debug 5504
+page 1, with differential of degree {-1, -1}:
++----++----+---+---+---+---+
+|q=3 ||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|    ||    |   |  1|   |   |
+|q=2 ||0   |0  |ZZ |0  |0  |
++----++----+---+---+---+---+
+|    ||    |   |  4|   |   |
+|q=1 ||0   |0  |ZZ |0  |0  |
++----++----+---+---+---+---+
+|    ||    |  4|   |   |   |
+|q=0 ||0   |ZZ |0  |0  |0  |
++----++----+---+---+---+---+
+|q=-1||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|    ||p=-1|p=0|p=1|p=2|p=3|
++----++----+---+---+---+---+
+
+page 2, with differential of degree {-1, -2}:
++----++----+---+---+---+---+
+|q=3 ||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|    ||    |   |  1|   |   |
+|q=2 ||0   |0  |ZZ |0  |0  |
++----++----+---+---+---+---+
+|    ||    |   |  1|   |   |
+|q=1 ||0   |0  |ZZ |0  |0  |
++----++----+---+---+---+---+
+|    ||    |  1|   |   |   |
+|q=0 ||0   |ZZ |0  |0  |0  |
++----++----+---+---+---+---+
+|q=-1||0   |0  |0  |0  |0  |
++----++----+---+---+---+---+
+|    ||p=-1|p=0|p=1|p=2|p=3|
++----++----+---+---+---+---+</pre>
+            </td>
+          </tr>
+        </table>
+        <div>
+          <p>Here is how to interpret the output.  The &quot;p&quot; coordinate is homological degree, and the &quot;q&quot; coordinate is filtration degree.</p>
+          <p>On page 1, we see four 0-dimensional classes in filtration degree 0, and five 1-dimensional classes spread between filtration degree 0 and 1.  The differential on page 1 has bidegree $(-1,-1)$.</p>
+          <p>On page 2, we see that three 1-dimensional classes have cancelled three 0-dimensional classes, and we are left with fewer classes.  The differential now has bidegree $(-1,-2)$.</p>
+          <p>In fact, the sequence is converged: column $p$ now gives the associated graded of the filtration on $H_p$.</p>
+        </div>
+      </div>
+      <div>
+        <h2>Caveat</h2>
+        <div>
+          <p>The filtration must be increasing: if $A, B \subseteq X$ are faces with $A \subseteq B$, then the filtration degree of $A$ must not exceed the filtration degree of $B$.</p>
+        </div>
+      </div>
+      <div>
+        <h2>See also</h2>
+        <ul>
+          <li>
+<span><a title="builds an exact couple from a R[d,f]/d^2-module" href="_exact__Couple.html">exactCouple</a> -- builds an exact couple from a R[d,f]/d^2-module</span>          </li>
+          <li>
+<span><a title="displays a few pages of a spectral sequence" href="_plot__Pages.html">plotPages</a> -- displays a few pages of a spectral sequence</span>          </li>
+          <li>
+<span><a title="evaluates a module in a particular degree" href="_evaluate__In__Degree.html">evaluateInDegree</a> -- evaluates a module in a particular degree</span>          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>Ways to use <tt>filteredSimplicialComplexCouple</tt>:</h2>
+        <ul>
+          <li>
+filteredSimplicialComplexCouple(List,Function)          </li>
+        </ul>
+      </div>
+      <div class="waystouse">
+        <h2>For the programmer</h2>
+        <p>The object <a title="builds the exact couple associated to a filtered simplicial complex" href="_filtered__Simplicial__Complex__Couple.html">filteredSimplicialComplexCouple</a> is <span>a <a title="a type of method function" href="https://faculty.math.illinois.edu/Macaulay2/doc/Macaulay2/share/doc/Macaulay2/Macaulay2Doc/html/___Method__Function.html">method function</a></span>.</p>
+      </div>
+    </div>
+  </body>
+
+</html>
