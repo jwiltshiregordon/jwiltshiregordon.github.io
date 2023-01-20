@@ -1,0 +1,133 @@
+<html>
+  <head>
+    <title>Ice Cream Picker</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  </head>
+  <body>
+
+    <py-config>
+      packages = ["hsnf"]
+      [[fetch]]
+      from = "/"
+      files = ["les.py", "homology.py"]
+    </py-config>
+
+<h1>Welcome to the interactive homology calculator.</h1>
+
+Homology is a tool that helps mathematicians reason about complicated spaces.  Homology can help determine
+    if two points in a space can be connected by a path, or if a loop can be filled by a disk.  Generally,
+    it is concerned with "boundaries" and "cycles" and the possibility of filling a cycle to show that it's a boundary.
+
+This calculator uses Simplicial Homology, which is a nice rich theory.  I freely use non-standard definitions
+    and bad algorithms in order to limit the required background.
+
+<h2>Simplicial Complexes</h2>
+    A simplicial complex is obtained by gluing points, segments, triangles, and higher-dimensional simplices.  In this
+    program, we work in a high dimensional spce \(\mathbb{R}^n\), but draw figures in two dimensions like this:
+
+    Drawing of a simplicial complex
+
+    We understand that a vertex labeled \(i\) is actually located at the standard basis vector
+
+    \[e_i = (0, 0, 0, ... , 0, 1, 0, ..., 0) \in \mathbb{R}^n \]
+
+    which is entirely zero except for a 1 in coordinate \(i \in \{0, \ldots, n-1\}\).  A line segment between two
+    vertices indicates that our space also contains every positive weighted average of those basis vectors, and
+    similarly for triangles, tetrahedra, etc.
+
+    More formally, we define the \(k\)-simplex \( [v_0, v_1, \ldots, v_k] \) to be the subset
+
+    \[
+    [v_0, v_1, \ldots, v_k] = \left\{ \sum_i \alpha_i \cdot v_i  \;\;\; | \;\;\;  \sum_i \alpha_i = 1, \alpha_i \geq 0 \right\}
+    \]
+
+    One convenient combinatorial encoding of a simplicial complex is as a list of facets.  These are
+
+    A complete understanding of the homology of a space
+
+    he prospect of proving that a cycle can be shown to be
+    a boundary by finding an appropriate filler.
+
+This tool is optimized for human understanding, not fast calculation.  It also uses slightly non-standard definitions
+    in th interest of avoiding the usual
+
+    like the boundary of a disk being a circle, and "cycles," which look like
+    boundaries if you zoom in far enough.  For example, the boundary of a path is its endpoints.  And if you zoom
+    in on a single point, it
+
+    <py-repl>
+import sys
+    </py-repl>
+  <py-script>
+import numpy as np
+from les import SimplicialComplex
+from homology import HomologyGroup
+
+# 1  2  3  4
+# |\ |
+# 4  5  6  1
+
+facets = [(1, 4, 5), (1, 2, 5), (2, 5, 6), (2, 3, 6), (1, 3, 6), (1, 3, 4)]
+subcomplex_facets = [(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (1, 6)]
+
+
+simplicial_complex = SimplicialComplex(facets)
+face_count = simplicial_complex.face_count
+
+partial = simplicial_complex.differential()
+pi = simplicial_complex.subcomplex_projection(subcomplex_facets)
+one = np.identity(face_count, dtype=np.int64)
+zed = np.zeros((face_count, face_count), dtype=np.int64)
+
+
+les_terms = dict(
+    subcomplex_homology=HomologyGroup(pi @ partial, np.hstack((one - pi, partial))),
+    homology=HomologyGroup(partial, partial),
+    relative_homology=HomologyGroup(np.vstack((pi, partial)), partial @ (one - pi)),
+)
+
+les_maps = [
+    ("subcomplex_homology", one, "homology"),
+    ("homology", one, "relative_homology"),
+    ("relative_homology", partial, "subcomplex_homology"),
+]
+
+for key in ("subcomplex_homology", "homology", "relative_homology"):
+    print(key)
+    h = les_terms[key]
+    for i, (d, z) in enumerate(zip(h.elementary_divisors[h.ones_count:], h.generating_cycles)):
+        print(simplicial_complex.display_linear_combination(z))
+        if d > 0:
+            print("A multiple of this cycle bounds")
+            print(f"{d} * cycle = boundary of ")
+            print(simplicial_complex.display_multi_combination(h.fillers[h.ones_count + i]))
+
+
+for source, f, target in les_maps:
+    print(f"Map from {source} to {target}")
+    h_source = les_terms[source]
+    h_target = les_terms[target]
+    target_cycles = h_source.generating_cycles @ f
+    for sz, tz in zip(h_source.generating_cycles, target_cycles):
+        print("Sending " + simplicial_complex.display_linear_combination(sz))
+        print("To " + simplicial_complex.display_linear_combination(tz))
+        filler_coefficients, generator_coefficients = h_target.write_cycle_using_generators(tz)
+        print("Which is the sum of the boundary of")
+        print(simplicial_complex.display_multi_combination(filler_coefficients @ h_target.fillers))
+        print("And the representative sum")
+        print(simplicial_complex.display_multi_combination(generator_coefficients @ h_target.generating_cycles))
+        print("Which is built from the generators using coefficients")
+        print(generator_coefficients)
+
+
+  </py-script>
+
+  </body>
+</html>
