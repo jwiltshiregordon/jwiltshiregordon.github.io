@@ -44,8 +44,6 @@ A "subcomplex" \( A \subseteq X \) is a simplicial complex so that every face of
 we want to talk about a complex and subcomplex simultaneously, we call them a "pair" and write \( (X, A) \).
 </p>
 
-<!-- E1 subcomplex face  -->
-<!--<img src="images/E1.png" alt="every face of a subcomplex is also a face of the original"> -->
 <!-- I2 pair -->
 <img src="images/I2.png" alt="a subcomplex inside a larger simplicial complex">
 <p>
@@ -61,7 +59,7 @@ just the maximal faces.
     <label for="P1-input">Enter facets (maximal faces)</label>
     <input id="P1-input" class="interactive-input">
   </p>
-  <button id="P1-submit" class="py-button" type="submit" py-click="p1()">Submit facets</button>
+  <button id="P1-submit" class="py-button" type="submit" py-click="p1()">Submit facets (maximal faces)</button>
   <div id="P1-output" class="interactive-output hidden"></div>
 </div>
 
@@ -74,7 +72,10 @@ face of \(X\).
 <!-- E2 geometric realization definition -->
 <img src="images/E2.png" alt="symbolic definition of geometric realization">
 <p>
-Once an abstract simplicial complex has been realized in this way, we drop the adjective "abstract."
+Once an abstract simplicial complex has been realized in this way, we drop the adjective "abstract."  All of the 
+illustrations on the page are of realized simplicial complexes.  (They look smooth and blobby, but if you zoom
+in far enough you will see the triangulations.)  Also, they are rendered as if they are (2d-projections of) 3d
+spaces, even though they are actually carefully chosen projections of \(n+1\)-dimensional spaces.
 </p>
 <p>
 Strictly speaking, this calculator doesn't know or need to know anything about this geometry, but
@@ -93,7 +94,7 @@ space allowing various coordinates to increase and decrease, as long as the tota
 It is easy to tell when you reach the edge of the space: one or more of your coordinates will
 drop to zero.  You will then be on the face that omits the vertices corresponding to the coordinates that are zero.
 So the boundary faces of the \(n\)-simplex are those subsets of \(V\) that omit at least one vertex.
-It turns out that we want to take an alternating sum of these faces to obtain the "linear algebraic" boundary, and
+It turns out that we want to take an alternating sum of these faces to obtain the "algebraic" boundary, and
 that the coefficients of all faces that omit multiple vertices will be zero.
 </p>
 
@@ -137,7 +138,7 @@ want to have some fun.
 <p>
   We now hereby allow addition and subtraction of faces.  The resulting objects will be sums of faces with integer
   coefficients.
-  Let us call one of these integer combinations a "chain." Every face becomes a chain with a single term, and implicit
+  Let us call one of these integer combinations a "chain." Every face becomes a chain with a single term with implicit coefficient
   coefficient \( 1 \in \mathbb{Z}\).  Extend the boundary map
 to general chains by the rules \( \partial(x + y) = \partial(x) + \partial(y) \) and \( \partial(kx) = k \partial(x) \)
 for chains \(x, y\) and integers \(k \in \mathbb{Z}\).  Faces with coefficient zero can be canceled.
@@ -149,7 +150,6 @@ for chains \(x, y\) and integers \(k \in \mathbb{Z}\).  Faces with coefficient z
 </p>
 
 <!-- P2 interactive calculator: boundary of a chain -->
-
 <div class="interactive">
   Set \(X\) to be the simplex with facet \( (1,2,3,4,5) \) and \(A = \emptyset \).
   Calculate the boundary of a chain on \(X\).
@@ -222,7 +222,6 @@ The cycles that are not boundaries are more mysterious.
 <!-- P5 code to test if a cycle is a boundary, and if so, find the filler -->
 <div class="interactive">
   Enter a pair and a chain.  If the chain is a cycle, say so; and if it is a boundary, find a filler.
-  Example input: <code>10(2,3,4) + 100(3,4,5) - (1,2,3)</code>
   <p>
     <label for="P5-input-X">Enter facets for \(X\)</label>
     <input id="P5-input-X" class="interactive-input">

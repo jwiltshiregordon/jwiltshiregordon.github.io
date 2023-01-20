@@ -30,10 +30,11 @@ body {
 }
 
 .interactive-output {
-    font-size: 14px;
+    font-size: 16px;
     font-family: monospace;
+    color:darkslateblue;
     width: 100%;
-    background-color: beige;
+    background-color: floralwhite;
     margin-top: 20px;
 }
 
@@ -46,7 +47,7 @@ body {
     border-width: 1px;
     border-color: darkgrey;
     border-radius: 20px;
-    background-color: goldenrod;
+    background-color: floralwhite;
     padding: 30px;
     margin: 20px;
 }
