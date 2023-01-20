@@ -10,17 +10,6 @@ p1_input = Element("P1-input")
 p1_submit = Element("P1-submit")
 p1_output = Element("P1-output")
 
-def action_function(program_number, func):
-    input_element = f'P{program_number}-input'
-    output_element = f'P{program_number}-output'
-    input = document.getElementById(input_element)
-    output = document.getElementById(output_element)
-    def action():
-        output.innerHTML = func(input.value)
-        remove_class(Element(output_element), "hidden")
-    return action
-
-
 def click_action(input_element_ids, output_element_id, func):
     inputs = [document.getElementById(eid) for eid in input_element_ids]
     output = document.getElementById(output_element_id)
@@ -41,7 +30,7 @@ def generate_all_faces(facets_string):
     return f"all faces: <br/> {simplicial_complex.faces}"
 
 
-p1 = action_function(1, generate_all_faces)
+p1 = click_action(["P1-input"], "P1-output", generate_all_faces)
 
 
 def boundary_on_four_simplex(chain_string):
@@ -49,7 +38,7 @@ def boundary_on_four_simplex(chain_string):
     return simplicial_complex.boundary(chain_string)
 
 
-p2 = action_function(2, boundary_on_four_simplex)
+p2 = click_action(["P2-input"], "P2-output", boundary_on_four_simplex)
 
 
 def generating_cycles_for_pair(facets_string, subcomplex_facets_string):
@@ -171,6 +160,8 @@ def mathjax_cyclic_group_with_multiplicity(mod, multiplicity):
 
 
 def mathjax_abelian_group(factors):
+    if len(factors) == 0:
+        return "0"
     summands = [mathjax_cyclic_group_with_multiplicity(*mm) for mm in Counter(factors).items()]
     return r" \oplus ".join(summands)
 
