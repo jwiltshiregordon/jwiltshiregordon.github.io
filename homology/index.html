@@ -196,7 +196,9 @@ plus some error chain on \(A\).  If \(A\) is empty, then this error is forced to
 <!-- I5 illustration of a boundary -->
 <img src="images/I5.png" alt="illustration of a boundary">
 
+<p>
 The following program gives generators for the boundaries on \( (X, A) \).
+</p>
 
 <!-- P4 interactive calculator: examples of boundaries -->
 <div class="interactive">
@@ -369,7 +371,7 @@ homology?
   and when they are one, we drop the term; when they exceed one, we let them live in the notation as denominators.  For
   example, if the divisor chain is \(1, 1, 1, 1, 2, 4, 4, 12, 36, 0, 0 \) then the corresponding homology group is written
   \[
-  (\mathbb{Z}/2) \oplus (\mathbb{Z}/4)^{2} \oplus (\mathbb{Z}/12) \oplus (\mathbb{Z}/36) \oplus \mathbb{Z}^{2}
+  (\mathbb{Z}/2) \oplus (\mathbb{Z}/4)^{\oplus 2} \oplus (\mathbb{Z}/12) \oplus (\mathbb{Z}/36) \oplus \mathbb{Z}^{\oplus 2}
   \]
   and standard form requires that the first entry be in the range 0-1, the next two entries 0-3, the next 0-11, the next
   0-35, and the last two arbirary.
@@ -413,6 +415,15 @@ class is sent to the zero class by one map, then it actually does arise as an ou
   <p>
     <label for="P9-input-A">Enter facets for \(A\)</label>
     <input id="P9-input-A" class="interactive-input">
+  </p>
+  <p>
+    <button id="P9-1" class="py-button" type="submit" py-click="p9_1()">(2-Sphere, equator)</button>
+    <button id="P9-2" class="py-button" type="submit" py-click="p9_2()">(graph, spanning tree)</button>
+    <button id="P9-3" class="py-button" type="submit" py-click="p9_3()">(torus, point)</button>
+    <button id="P9-4" class="py-button" type="submit" py-click="p9_4()">(genus-2 surface, separating loop)</button>
+    <button id="P9-5" class="py-button" type="submit" py-click="p9_5()">(genus-2 surface, non-separating loop)</button>
+    <button id="P9-6" class="py-button" type="submit" py-click="p9_6()">(2x2 square, grid lines)</button>
+    <button id="P9-7" class="py-button" type="submit" py-click="p9_7()">(torus, diagonal loop)</button>
   </p>
   <button id="P9-submit" class="py-button" type="submit" py-click="p9()">Submit pair</button>
   <div id="P9-output" class="interactive-output hidden"></div>

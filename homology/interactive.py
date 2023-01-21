@@ -1,14 +1,11 @@
 import traceback
 from collections import Counter
 
-from utils import add_class, remove_class
+from utils import remove_class
 from js import document, MathJax
 
 from simplicial_complex import SimplicialComplex, SimplicialComplexPair, LongExactSequence
 
-p1_input = Element("P1-input")
-p1_submit = Element("P1-submit")
-p1_output = Element("P1-output")
 
 def click_action(input_element_ids, output_element_id, func):
     inputs = [document.getElementById(eid) for eid in input_element_ids]
@@ -180,3 +177,85 @@ def les_for_pair(facets_string, subcomplex_facets_string):
 
 p9 = click_action(["P9-input-X", "P9-input-A"], "P9-output", les_for_pair)
 
+p9_pairs = [
+    [
+        [(1, 2, 5), (2, 3, 5), (3, 4, 5), (1, 4, 5), (1, 2, 6), (2, 3, 6), (3, 4, 6), (1, 4, 6)],
+        [(1, 2), (2, 3), (3, 4), (1, 4)],
+    ],
+    [
+        [(1, 2), (2, 3), (3, 4), (3, 5), (1, 6), (6, 7), (1, 8), (4, 5), (2, 5), (7, 8)],
+        [(1, 2), (2, 3), (3, 4), (3, 5), (1, 6), (6, 7), (1, 8)],
+    ],
+    [
+        [
+            (1, 2, 5), (1, 4, 5), (2, 3, 6), (2, 5, 6), (1, 3, 4), (3, 4, 6),
+            (4, 5, 8), (4, 7, 8), (5, 6, 9), (5, 8, 9), (4, 6, 7), (6, 7, 9),
+            (2, 7, 8), (1, 2, 7), (3, 8, 9), (2, 3, 8), (1, 7, 9), (1, 3, 9),
+        ],
+        [(1,)],
+    ],
+    [
+        [
+            (1, 3, 11), (2, 3, 7), (1, 9, 10), (4, 7, 11), (5, 7, 11), (1, 3, 7),
+            (1, 6, 8), (1, 2, 6), (2, 4, 7), (2, 5, 11), (2, 4, 10), (1, 5, 7),
+            (3, 4, 5), (2, 8, 9), (1, 2, 11), (2, 3, 5), (6, 9, 10), (1, 4, 9),
+            (1, 4, 5), (3, 4, 11), (2, 6, 9), (1, 8, 10), (4, 8, 9), (4, 6, 10),
+            (4, 6, 8), (2, 8, 10),
+        ],
+        [
+            (1, 2), (1, 4), (2, 4),
+        ]
+    ],
+    [
+        [
+            (1, 3, 11), (2, 3, 7), (1, 9, 10), (4, 7, 11), (5, 7, 11), (1, 3, 7),
+            (1, 6, 8), (1, 2, 6), (2, 4, 7), (2, 5, 11), (2, 4, 10), (1, 5, 7),
+            (3, 4, 5), (2, 8, 9), (1, 2, 11), (2, 3, 5), (6, 9, 10), (1, 4, 9),
+            (1, 4, 5), (3, 4, 11), (2, 6, 9), (1, 8, 10), (4, 8, 9), (4, 6, 10),
+            (4, 6, 8), (2, 8, 10),
+        ],
+        [
+            (2, 7), (2, 11), (7, 11),
+        ]
+    ],
+    [
+        [
+            (1, 2, 5), (1, 4, 5), (2, 3, 6), (2, 5, 6),
+            (4, 5, 8), (4, 7, 8), (5, 6, 9), (5, 8, 9),
+        ],
+        [
+            (1, 2), (2, 3), (4, 5), (5, 6), (7, 8), (8, 9),
+            (1, 4), (4, 7), (2, 5), (5, 8), (3, 6), (6, 9),
+        ],
+    ],
+    [
+        [
+            (1, 2, 5), (1, 4, 5), (2, 3, 6), (2, 5, 6), (1, 3, 4), (3, 4, 6),
+            (4, 5, 8), (4, 7, 8), (5, 6, 9), (5, 8, 9), (4, 6, 7), (6, 7, 9),
+            (2, 7, 8), (1, 2, 7), (3, 8, 9), (2, 3, 8), (1, 7, 9), (1, 3, 9),
+        ],
+        [(1, 5), (5, 9), (1, 9)],
+    ],
+]
+
+p9_input_facets = document.getElementById("P9-input-X")
+p9_input_subcomplex_facets = document.getElementById("P9-input-A")
+
+
+def p9_example_action(id_number):
+    facets, subcomplex_facets = p9_pairs[id_number - 1]
+
+    def action():
+        p9_input_facets.value = str(facets)[1:-1]
+        p9_input_subcomplex_facets.value = str(subcomplex_facets)[1:-1]
+
+    return action
+
+
+p9_1 = p9_example_action(1)
+p9_2 = p9_example_action(2)
+p9_3 = p9_example_action(3)
+p9_4 = p9_example_action(4)
+p9_5 = p9_example_action(5)
+p9_6 = p9_example_action(6)
+p9_7 = p9_example_action(7)
