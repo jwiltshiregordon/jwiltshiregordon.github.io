@@ -100,7 +100,6 @@ def info_for_pair(facets_string, subcomplex_facets_string):
 p7 = click_action(["P7-input-X", "P7-input-A"], "P7-output", info_for_pair)
 
 
-
 def standardize_cycle(facets_string, subcomplex_facets_string, chain_string):
     pair = SimplicialComplexPair(eval(f"[{facets_string}]"), eval(f"[{subcomplex_facets_string}]"))
     h = pair.homology()
@@ -114,7 +113,7 @@ def standardize_cycle(facets_string, subcomplex_facets_string, chain_string):
         "This cycle is homologous to a sum of the standard generators with coefficients",
         str(list(cycle[h.ones_count:])),
         "And the error term is the boundary of a sum of standard fillers with coefficients",
-        str(list(error[:-h.zeros_count])),
+        str(list(error[:len(error) - h.zeros_count])),
         "<br/>For reference, here are the standard homology generators:",
         generating_cycles,
         "Standard fillers:",
@@ -234,7 +233,7 @@ p9_pairs = [
             (4, 5, 8), (4, 7, 8), (5, 6, 9), (5, 8, 9), (4, 6, 7), (6, 7, 9),
             (2, 7, 8), (1, 2, 7), (3, 8, 9), (2, 3, 8), (1, 7, 9), (1, 3, 9),
         ],
-        [(1, 5), (5, 9), (1, 9)],
+        [(1, 5), (5, 9), (1, 9), (2, 6), (4, 6), (4, 8), (2, 8)],
     ],
 ]
 
