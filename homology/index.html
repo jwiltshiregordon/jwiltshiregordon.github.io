@@ -31,7 +31,8 @@ have influenced a large fraction of modern mathematics.
 <img src="images/I1.png" alt="Illustration of points connected by a path and loops with/without a filler">
 <p>
 This calculator uses simplicial homology, an enjoyable and concrete theory.  We intentionally skip certain details
-in order to limit the required background.
+in order to limit the required background.  (I already know simplicial homology; please take me to the
+<a href="#les">long exact sequence calculator</a>.)
 </p>
 <h2>Simplicial Complexes</h2>
 <p>
@@ -54,10 +55,9 @@ just the maximal faces.
 
 <div class="interactive">
   Input maximal faces for a simplicial complex, and get back a list of all faces.
-  Example input: <code>(1, 2, 3), (3, 4), (4, 5), (1, 5)</code>
   <p>
     <label for="P1-input">Enter facets (maximal faces)</label>
-    <input id="P1-input" class="interactive-input">
+    <input id="P1-input" class="interactive-input" value="(1, 2, 3), (3, 4), (4, 5), (1, 5)">
   </p>
   <button id="P1-submit" class="py-button" type="submit" py-click="p1()">Submit facets (maximal faces)</button>
   <div id="P1-output" class="interactive-output hidden"></div>
@@ -374,7 +374,7 @@ homology?
   (\mathbb{Z}/2) \oplus (\mathbb{Z}/4)^{\oplus 2} \oplus (\mathbb{Z}/12) \oplus (\mathbb{Z}/36) \oplus \mathbb{Z}^{\oplus 2}
   \]
   and standard form requires that the first entry be in the range 0-1, the next two entries 0-3, the next 0-11, the next
-  0-35, and the last two arbirary.
+  0-35, and the last two arbitrary.
 </p>
   <h2>The long exact sequence of a pair</h2>
 <p>
@@ -406,7 +406,7 @@ First, the output of one map is always sent to the zero homology class by the ne
 class is sent to the zero class by one map, then it actually does arise as an output from the previous.
 </p>
 <!-- P9 three maps in the LES -->
-<div class="interactive">
+<div class="interactive" id="les">
   Give facets for \(X\) and \(A \) to get the long exact sequence for the pair \(X, A\)
   <p>
     <label for="P9-input-X">Enter facets for \(X\)</label>
@@ -429,7 +429,7 @@ class is sent to the zero class by one map, then it actually does arise as an ou
   <div id="P9-output" class="interactive-output hidden"></div>
 </div>
 
-<h2>Experiments and Challenges</h2>
+<h2>Exercises</h2>
   <ol>
     <li>
       Can you find a pair and a non-boundary cycle whose triple is a boundary?  Quadruple?
@@ -447,31 +447,33 @@ class is sent to the zero class by one map, then it actually does arise as an ou
       and the long exact sequence?
     </li>
     <li>
-      If you choose different triangulations of the same pair, the divisor chain will always be the same (possibly with
-      a different number of leading 1's).  More abstractly, this means that homology groups do not depend on the
-      triangulation up to a change of coordinates.  Do any two triangulations of a space have a common refinement?
+      Up to isomorphism, homology groups do not depend on the
+      triangulation.  Can you prove this by showing that any two triangulations of a space have a common refinement?
     </li>
     <li>
-      What does the long exact sequence look like for the pair (usual two-dimensional sphere, equator)?
+      What will the long exact sequence look like for (three-dimensional sphere, linked circles) vs
+      (three-dimensional sphere, unlinked circles)?
     </li>
     <li>
-      What about (three-dimensional sphere, linked circles)?
-    </li>
-    <li>
-      Find a bug, typo, or mathematical mistake and submit an issue or PR at
-      <a href="https://github.com/jwiltshiregordon/simplicial-homology">github.com/jwiltshiregordon/simplicial-homology</a>.
+      Find a bug, typo, or mathematical mistake and submit an issue or pull request at
+      <a href="https://github.com/jwiltshiregordon/jwiltshiregordon.github.io">github.com/jwiltshiregordon/simplicial-homology</a>.
     </li>
   </ol>
 <h2>Acknowledgements</h2>
   Thanks to my coworkers for covering for my week off to build this site.  Thanks to
   <a href="https://github.com/lan496">Kohei Shinohara</a> for the python package
   <a href="https://pypi.org/project/hsnf/"><code>hsnf</code></a> which we use
-  to calculate Hermite and Smith normal forms.  Thanks to <a href="https://anaconda.com/">Anaconda, Inc</a> for
-  <a href="a">PyScript</a>, and thanks to upstream ecosystems <a href="https://pyodide.org/en/stable/">Pyodide</a> and
+  to calculate Hermite and Smith normal forms.  Thanks to <a href="https://anaconda.com/">Anaconda, Inc</a> and all the
+  contributors at
+  <a href="https://pyscript.net/">PyScript</a>, and thanks to upstream ecosystems
+  <a href="https://pyodide.org/en/stable/">Pyodide</a> and
   <a href="https://webassembly.org/">WASM</a>.
+
+  Thanks in advance if you're helping emscript stronger stuff: GAP, macaulay2, kenzo, singular,
+  sage??, qepcad, etc.
 <h2>About the author</h2>
 John Wiltshire-Gordon is head of AI at <a href="https://taxcredit.ai">TaxCredit.ai</a> where
-he helps software companies leverage their version control logs to claim the R&D tax credit.
+he helps software companies claim the R&D tax credit.
 </div>
   </body>
 </html>
