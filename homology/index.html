@@ -36,20 +36,20 @@ in order to limit the required background.  (I already know simplicial homology;
 </p>
 <h2>Simplicial Complexes</h2>
 <p>
-An abstract simplicial complex on the vertex set \(V = \{0, \ldots, n\}\) is a collection \(\mathcal{F}\)
+An "abstract simplicial complex" on the vertex set \(V = \{0, \ldots, n\}\) is a collection \(\mathcal{F}\)
 of subsets of \(V\) called "faces" with the requirement that every subset of a face is also a face.
 </p>
 
 <p>
-A "subcomplex" \( A \subseteq X \) is a simplicial complex so that every face of \(A\) is also a face of \(X\).  When
-we want to talk about a complex and subcomplex simultaneously, we call them a "pair" and write \( (X, A) \).
+A "subcomplex" \( A \subseteq X \) is an abstract simplicial complex so that every face of \(A\) is also a face of
+\(X\).  When we want to talk about a complex and subcomplex simultaneously,
+we call them a "pair" and write \( (X, A) \).
 </p>
 
 <!-- I2 pair -->
 <img src="images/I2.png" alt="a subcomplex inside a larger simplicial complex">
 <p>
-Abstract simplicial complexes are simple to describe to a computer, for example, by giving a list of faces, or even
-just the maximal faces.
+Abstract simplicial complexes are simple to describe to a computer, for example, by giving a list of maximal faces.
 </p>
 <!-- P1 demonstration of faces from facets -->
 
@@ -153,10 +153,9 @@ for chains \(x, y\) and integers \(k \in \mathbb{Z}\).  Faces with coefficient z
 <div class="interactive">
   Set \(X\) to be the simplex with facet \( (1,2,3,4,5) \) and \(A = \emptyset \).
   Calculate the boundary of a chain on \(X\).
-  Example input: <code>10(2,3,4) + 100(3,4,5) - (1,2,3)</code>
   <p>
     <label for="P2-input">Enter a chain</label>
-    <input id="P2-input" class="interactive-input">
+    <input id="P2-input" class="interactive-input" value="10(2,3,4) + 100(3,4,5) - (1,2,3)">
   </p>
   <button id="P2-submit" class="py-button" type="submit" py-click="p2()">Submit chain</button>
   <div id="P2-output" class="interactive-output hidden"></div>
@@ -179,11 +178,11 @@ The following program gives generators for the cycles on \((X, A)\).
   Give facets for \(X\) and \(A \) and receive additive generators for the set of cycles
   <p>
     <label for="P3-input-X">Enter facets for \(X\)</label>
-    <input id="P3-input-X" class="interactive-input">
+    <input id="P3-input-X" class="interactive-input" value="(1, 2, 4), (1, 3, 4)">
   </p>
   <p>
     <label for="P3-input-A">Enter facets for \(A\)</label>
-    <input id="P3-input-A" class="interactive-input">
+    <input id="P3-input-A" class="interactive-input" value="(1, 2), (3, 4)">
   </p>
   <button id="P3-submit" class="py-button" type="submit" py-click="p3()">Submit pair</button>
   <div id="P3-output" class="interactive-output hidden"></div>
@@ -205,11 +204,11 @@ The following program gives generators for the boundaries on \( (X, A) \).
   Give facets for \(X\) and \(A \) and receive additive generators for the set of boundaries
   <p>
     <label for="P4-input-X">Enter facets for \(X\)</label>
-    <input id="P4-input-X" class="interactive-input">
+    <input id="P4-input-X" class="interactive-input" value="(1, 2, 5), (2, 3, 5), (3, 4, 5), (1, 4, 5)">
   </p>
   <p>
     <label for="P4-input-A">Enter facets for \(A\)</label>
-    <input id="P4-input-A" class="interactive-input">
+    <input id="P4-input-A" class="interactive-input" value="(1,)">
   </p>
   <button id="P4-submit" class="py-button" type="submit" py-click="p4()">Submit pair</button>
   <div id="P4-output" class="interactive-output hidden"></div>
@@ -226,15 +225,15 @@ The cycles that are not boundaries are more mysterious.
   Enter a pair and a chain.  If the chain is a cycle, say so; and if it is a boundary, find a filler.
   <p>
     <label for="P5-input-X">Enter facets for \(X\)</label>
-    <input id="P5-input-X" class="interactive-input">
+    <input id="P5-input-X" class="interactive-input" value="(1, 2, 5), (2, 3, 5), (3, 4, 5), (1, 4, 5)">
   </p>
   <p>
     <label for="P5-input-A">Enter facets for \(A\)</label>
-    <input id="P5-input-A" class="interactive-input">
+    <input id="P5-input-A" class="interactive-input" value="(5,)">
   </p>
   <p>
     <label for="P5-input">Enter a chain</label>
-    <input id="P5-input" class="interactive-input">
+    <input id="P5-input" class="interactive-input" value="(1, 2) + (2, 5) - (4, 5) - (1, 4)">
   </p>
   <button id="P5-submit" class="py-button" type="submit" py-click="p5()">Submit data</button>
   <div id="P5-output" class="interactive-output hidden"></div>
@@ -260,7 +259,8 @@ all boundaries.  We may add homology classes by the rule
   It is possible to have a cycle \( [z] \neq [0] \) but have \( k[z] = [kz] = [0] \) for some positive integer
   \(k \in \mathbb{Z}\).  This situation is very cool to try to visualize.  Probably the simplest example takes
   \(X\) to be the Mobius band, and \(A\) to be its boundary.  A path cutting across the band is a cycle, since its
-  endpoints are on the boundary, but not a boundary; however, it becomes a boundary after doubling.
+  endpoints are on the boundary.  There's no way to get this path as a boundary.  Usually to cancel a path, you would
+  add a nearby opposite path or subtract a nearby parallel path.  But this path can cancel itself!  Its double bounds.
 </p>
 
 <!-- I7 illustration of the Mobius example smoothly -->
@@ -278,10 +278,9 @@ all boundaries.  We may add homology classes by the rule
     <li>\(A\) has facets (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (1, 6)</li>
     </ul>
   </p>
-  Example input chain: <code>(1,4)</code>
   <p>
     <label for="P6-input">Enter a chain</label>
-    <input id="P6-input" class="interactive-input">
+    <input id="P6-input" class="interactive-input" value="2(1, 4)">
   </p>
   <button id="P6-submit" class="py-button" type="submit" py-click="p6()">Submit chain</button>
   <div id="P6-output" class="interactive-output hidden"></div>
@@ -321,11 +320,11 @@ homology?
   Give facets for \(X\) and \(A \) and receive fillers, cycles, and chain of elementary divisors
   <p>
     <label for="P7-input-X">Enter facets for \(X\)</label>
-    <input id="P7-input-X" class="interactive-input">
+    <input id="P7-input-X" class="interactive-input" value="(1, 4, 5), (1, 2, 5), (2, 3, 6), (2, 5, 6), (1, 3, 4), (1, 3, 6)">
   </p>
   <p>
     <label for="P7-input-A">Enter facets for \(A\)</label>
-    <input id="P7-input-A" class="interactive-input">
+    <input id="P7-input-A" class="interactive-input" value="(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (1, 6)">
   </p>
   <button id="P7-submit" class="py-button" type="submit" py-click="p7()">Submit pair</button>
   <div id="P7-output" class="interactive-output hidden"></div>
@@ -346,15 +345,15 @@ homology?
   Enter a pair and a chain.  If the chain is a cycle, say so, and give a homologous cycle in standard form.
   <p>
     <label for="P8-input-X">Enter facets for \(X\)</label>
-    <input id="P8-input-X" class="interactive-input">
+    <input id="P8-input-X" class="interactive-input" value="(1, 4, 5), (1, 2, 5), (2, 3, 6), (2, 5, 6), (1, 3, 4), (1, 3, 6)">
   </p>
   <p>
     <label for="P8-input-A">Enter facets for \(A\)</label>
-    <input id="P8-input-A" class="interactive-input">
+    <input id="P8-input-A" class="interactive-input" value="(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (1, 6)">
   </p>
   <p>
     <label for="P8-input">Enter a chain</label>
-    <input id="P8-input" class="interactive-input">
+    <input id="P8-input" class="interactive-input" value="(2, 5)">
   </p>
   <button id="P8-submit" class="py-button" type="submit" py-click="p8()">Submit data</button>
   <div id="P8-output" class="interactive-output hidden"></div>
@@ -456,7 +455,9 @@ class is sent to the zero class by one map, then it actually does arise as an ou
     </li>
     <li>
       Find a bug, typo, or mathematical mistake and submit an issue or pull request at
-      <a href="https://github.com/jwiltshiregordon/jwiltshiregordon.github.io">github.com/jwiltshiregordon/simplicial-homology</a>.
+      <a href="https://github.com/jwiltshiregordon/jwiltshiregordon.github.io">
+        https://github.com/jwiltshiregordon/jwiltshiregordon.github.io
+      </a>.
     </li>
   </ol>
 <h2>Acknowledgements</h2>
