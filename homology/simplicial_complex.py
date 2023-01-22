@@ -83,10 +83,13 @@ class SimplicialComplexPair:
         paren_matcher = re.compile(r"\(.*?\)")
         for match in re.finditer(paren_matcher, search_string):
             if eval(match.group(0)) not in self.faces:
-                raise SyntaxError(f"Unknown basis vector {match.group(0)}.  Are the vertices in increasing order?")
+                raise SyntaxError(
+                    f"Unknown basis vector {match.group(0)}.  Are the vertices in increasing order? " +
+                    "Are singleton tuples written (x,) as in python?  \n"
+                )
         integer_combination_of_tuples_pattern = re.compile(r"0|[\+-]?\d*\(.*?\)(?:[\+-]\d*\(.*?\))*")
         if not re.match(integer_combination_of_tuples_pattern, search_string):
-            raise SyntaxError(f"Error parsing input string")
+            raise SyntaxError(f"Error parsing input string. \n")
         vector = parse_vector(search_string, self.faces)
         if truncate:
             return vector[:self.k]
