@@ -110,5 +110,38 @@ Click a title to visit arXiv.
   <li>January 17, 2014. Ann Arbor, MI. U. of Michigan Combinatorics Seminar.</li>
   <li>April 16, 2012. Cambridge, United Kingdom. EUROCRYPT 2012. YouTube</li>
 </ol>
+<script>
+  logVisitorMessage("Someone visited jwiltshiregordon.github.io!");
+
+  function logVisitorMessage(event_details) {
+    const repoOwner = "jwiltshiregordon";
+    const repoName = "jwiltshiregordon.github.io";
+
+    const data = {
+      repo_owner: repoOwner,
+      repo_name: repoName,
+      event_details: event_details
+    };
+
+    fetch('https://api.github-pages-visitor-log.net/log', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'success') {
+        console.log('Message logged successfully:', data);
+      } else {
+        console.error('Error logging message:', data);
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
+</script>
 </body>
 </html>

@@ -476,5 +476,38 @@ class is sent to the zero class by one map, then it actually does arise as an ou
 John Wiltshire-Gordon is head of AI at <a href="https://taxcredit.ai">TaxCredit.ai</a> where
 he helps software companies claim the R&D tax credit.
 </div>
+  <script>
+  logVisitorMessage("Someone visited jwiltshiregordon.github.io/homology");
+
+  function logVisitorMessage(event_details) {
+    const repoOwner = "jwiltshiregordon";
+    const repoName = "jwiltshiregordon.github.io";
+
+    const data = {
+      repo_owner: repoOwner,
+      repo_name: repoName,
+      event_details: event_details
+    };
+
+    fetch('https://api.github-pages-visitor-log.net/log', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'success') {
+        console.log('Message logged successfully:', data);
+      } else {
+        console.error('Error logging message:', data);
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
+</script>
   </body>
 </html>
