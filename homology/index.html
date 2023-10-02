@@ -427,6 +427,27 @@ class is sent to the zero class by one map, then it actually does arise as an ou
   <button id="P9-submit" class="py-button" type="submit" py-click="p9()">Submit pair</button>
   <div id="P9-output" class="interactive-output hidden"></div>
 </div>
+  <h2>Share a cool example</h2>
+  <script>
+    function logExample() {
+      const x = document.getElementById("P9-input-X").value;
+      const a = document.getElementById("P9-input-A").value;
+      const m = document.getElementById("message-text").value;
+      logVisitorMessage(`X = ${x}; A = ${a}; ${m}`)
+    }
+  </script>
+  <textarea id="message-text" cols="30" rows="10" placeholder="describe your example here" style="font-family: Arial, sans-serif; border: 1px solid #ccc; padding: 10px; width: 1122px; min-height: 80px; box-shadow: 3px 3px 5px #aaa; margin: 10px; border-radius: 5px;"></textarea>
+  <button type="submit" class="py-button" onclick="logExample()">Share X, A, and message</button>
+<div id="github-pages-log-container" style="font-family: Arial, sans-serif; border: 1px solid #ccc; padding: 10px; width: 1100px; min-height: 80px; box-shadow: 3px 3px 5px #aaa; margin: 10px; border-radius: 5px;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+    <span style="font-weight: bold;">Recent page visits and examples</span>
+    <span style="font-size: 0.8em;">courtesy of the <a href="https://github.com/jwiltshiregordon/github-pages-visitor-log" style="color: #007BFF; text-decoration: none;">github pages visitor log</a> project</span>
+    <button onclick="writeLogsToElement()" style="background-color: #007BFF; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px;">Refresh</button>
+  </div>
+  <div style="border-top: 1px solid #ccc; padding-top: 10px; max-height: 310px; overflow-y: auto;">
+    <pre><code id="github-pages-log-element"></code></pre>
+  </div>
+</div>
 
 <h2>Exercises</h2>
   <ol>
@@ -477,19 +498,21 @@ John Wiltshire-Gordon is head of AI at <a href="https://taxcredit.ai">TaxCredit.
 he helps software companies claim the R&D tax credit.
 </div>
   <script>
-  logVisitorMessage("Someone visited jwiltshiregordon.github.io/homology");
+  const repoOwner = "jwiltshiregordon";
+  const repoName = "jwiltshiregordon.github.io";
+
+  logVisitorMessage(`Someone visited ${repoOwner}/${repoName}/homology`);
+  writeLogsToElement();
 
   function logVisitorMessage(event_details) {
-    const repoOwner = "jwiltshiregordon";
-    const repoName = "jwiltshiregordon.github.io";
-
+    const apiUrlBase = 'https://api.github-pages-visitor-log.net';
     const data = {
       repo_owner: repoOwner,
       repo_name: repoName,
       event_details: event_details
     };
 
-    fetch('https://api.github-pages-visitor-log.net/log', {
+    fetch(apiUrlBase + '/log', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
@@ -508,6 +531,30 @@ he helps software companies claim the R&D tax credit.
       console.error('Error:', error);
     });
   }
-</script>
+
+  function formatLogsForDisplay(logs) {
+    let formattedLogs = [];
+    logs.forEach(log => {
+      let details = log.event_details.split('\n').join('\t');
+      let timeAgo = moment.utc(log.timestamp).fromNow();
+      formattedLogs.push(`${timeAgo.padEnd(22, ' ')}${details}`);
+    });
+    return formattedLogs.join('\n');
+  }
+
+  function writeLogsToElement(logsElementId = "github-pages-log-element", repoOwner = "jwiltshiregordon", repoName = "jwiltshiregordon.github.io") {
+    const apiUrlBase = 'https://api.github-pages-visitor-log.net';
+    document.getElementById(logsElementId).textContent = "loading...";
+    new Promise(resolve => setTimeout(resolve, 1500))
+    .then(() => fetch(apiUrlBase + '/fetch-logs?repo_owner=' + repoOwner + '&repo_name=' + repoName))
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById(logsElementId).textContent = formatLogsForDisplay(data.logs);
+    });
+  }
+  </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
   </body>
 </html>
