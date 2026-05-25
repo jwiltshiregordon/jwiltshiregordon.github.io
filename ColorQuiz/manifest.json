@@ -1,0 +1,20 @@
+{
+  "name": "Chromata — Color Name Quiz",
+  "short_name": "Chromata",
+  "start_url": "/ColorQuiz/",
+  "display": "standalone",
+  "background_color": "#F7F3ED",
+  "theme_color": "#1C1814",
+  "icons": [
+    {
+      "src": "/ColorQuiz/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/ColorQuiz/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
