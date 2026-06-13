@@ -16,7 +16,7 @@
     @font-face { font-family: 'DM Sans'; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/dmsans-500.ttf) format('truetype'); }
   </style>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-user-select: none; user-select: none; }
 
     :root {
       --cream: #F7F3ED;
@@ -343,8 +343,6 @@
     }
     .shop-card:hover { transform: translateY(-3px); border-color: var(--ink); box-shadow: 0 8px 24px rgba(28,24,20,0.1); }
     .shop-card:active { transform: scale(0.98); }
-    .shop-card.unaffordable { opacity: 0.45; cursor: default; }
-    .shop-card.unaffordable:hover { transform: none; border-color: rgba(28,24,20,0.09); box-shadow: none; }
     .shop-swatch { aspect-ratio: 1; width: 100%; display: block; }
     .shop-price {
       padding: 10px 8px;
@@ -363,6 +361,27 @@
       text-align: center;
       padding: 3rem 0;
     }
+    .shop-action {
+      margin-top: 20px;
+      padding: 14px 18px;
+      background: white;
+      border: 1px solid rgba(28,24,20,0.12);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      animation: fadeIn 0.15s ease;
+    }
+    .shop-action-msg {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--ink-muted);
+      flex: 1;
+    }
+    .shop-action-msg.error { color: var(--accent); }
+    .shop-action-btns { display: flex; gap: 8px; }
 
     /* ── Purchase modal ── */
     .modal-overlay {
@@ -535,6 +554,13 @@
         <p>Six mystery colors for sale. Names and histories revealed on purchase.</p>
       </div>
       <div class="shop-grid" id="shop-grid"></div>
+      <div id="shop-action" class="shop-action hidden">
+        <span class="shop-action-msg" id="shop-action-msg"></span>
+        <div class="shop-action-btns" id="shop-action-btns">
+          <button class="btn-primary" onclick="confirmBuy()">Confirm</button>
+          <button class="btn-ghost" onclick="cancelBuy()">Cancel</button>
+        </div>
+      </div>
     </div>
 
   </main>
@@ -598,7 +624,7 @@ const SHOP_COLORS = [
   { name: "Naples Yellow",  hex: "#FADA5E", domain: "Art",        price: 22, clue: "A warm, creamy yellow favored by Old Masters, originally made from the toxic mineral lead antimonite" },
   { name: "Smalt",          hex: "#4B6AB0", domain: "Art",        price: 28, clue: "A deep blue made by grinding cobalt glass into powder, widely used in 16th and 17th century paintings" },
   { name: "Orpiment",       hex: "#FCB500", domain: "Art",        price: 20, clue: "A blazing arsenic-yellow prized in medieval manuscripts for its fierce, almost toxic luminosity" },
-  { name: "Malachite",      hex: "#0BDA51", domain: "Art",        price: 38, clue: "A vivid copper-green ground from the banded mineral — used since ancient Egypt and Pompeii" },
+  { name: "Malachite",      hex: "#4CBB72", domain: "Art",        price: 38, clue: "A vivid copper-green ground from the banded mineral — used since ancient Egypt and Pompeii" },
   { name: "Lapis Lazuli",   hex: "#26619C", domain: "Art",        price: 48, clue: "Ground from the semi-precious stone shipped from Afghanistan — the most coveted pigment of the medieval world" },
   { name: "Sepia",          hex: "#704214", domain: "Art",        price: 20, clue: "A warm brown ink drawn from the ink sac of cuttlefish, beloved by Rembrandt for his spontaneous sketches" },
   { name: "Bone Black",     hex: "#3D2B1F", domain: "Art",        price: 18, clue: "The richest black in an Old Master's palette, made by charring animal bones until only carbon remains" },
@@ -627,7 +653,7 @@ const SHOP_COLORS = [
   { name: "Flaxen",         hex: "#FFCF48", domain: "Literature", price: 22, clue: "The pale gold of ripened flax fields, used throughout pastoral poetry to describe fair and luminous hair" },
   { name: "Dun",            hex: "#6E5A33", domain: "Literature", price: 16, clue: "Dun's the mouse — Shakespeare's idiom for a dull greyish-brown, signifying drabness and obscurity" },
   { name: "Sanguine",       hex: "#C1384A", domain: "Literature", price: 28, clue: "Blood-red, from the Latin sanguis — one of the four humors, embodying passion, heat, and vitality" },
-  { name: "Hazel",          hex: "#8E7618", domain: "Literature", price: 20, clue: "The warm amber-brown of hazelnut shells and woodland paths, a staple of English pastoral verse" },
+  { name: "Hazel",          hex: "#A07850", domain: "Literature", price: 20, clue: "The warm amber-brown of hazelnut shells and woodland paths, a staple of English pastoral verse" },
   { name: "Damask Rose",    hex: "#E8748A", domain: "Literature", price: 32, clue: "The rose looks fair, but fairer we it deem / For that sweet odour — Shakespeare's Sonnets, Sonnet 54" },
   // Nature
   { name: "Mist",           hex: "#C4C9D4", domain: "Nature",     price: 18, clue: "The soft blue-grey that hangs over valleys on cool mornings before the sun burns it away" },
@@ -643,9 +669,9 @@ const SHOP_COLORS = [
   { name: "Ember",          hex: "#CB4800", domain: "Nature",     price: 30, clue: "The deep orange-red of a fire burned to its last glowing coals, still holding its heat in the dark" },
   { name: "Pumice",         hex: "#C2BDB5", domain: "Nature",     price: 16, clue: "The pale, porous grey of solidified volcanic foam — light enough to float, abrasive to the touch" },
   { name: "Flint",          hex: "#6E6E6E", domain: "Nature",     price: 16, clue: "The dark sparking grey of struck stone — the color that lit a thousand fires before fire had a name" },
-  { name: "Tidepool",       hex: "#5E8C88", domain: "Nature",     price: 30, clue: "The deep teal-green of water trapped in coastal rock, full of small lives, briny and still" },
-  { name: "Canopy",         hex: "#355E3B", domain: "Nature",     price: 28, clue: "The deep forest green seen looking up through layered leaves in old-growth woodland at noon" },
-  { name: "Petal",          hex: "#F2C4CE", domain: "Nature",     price: 32, clue: "The soft blush pink of a wild rose in early morning, before the dew has dried" },
+  { name: "Teal",           hex: "#008080", domain: "Nature",     price: 30, clue: "A pure blue-green named after the teal duck, whose iridescent wing patch is exactly this hue" },
+  { name: "Hunter",         hex: "#3B7A57", domain: "Nature",     price: 28, clue: "A deep, authoritative green adopted by 19th-century hunting jackets and country sportswear" },
+  { name: "Blush",          hex: "#FFB3C6", domain: "Nature",     price: 32, clue: "A soft warm pink — the color of fair skin in cool air, and the defining tone of bridal fashion" },
   { name: "Ash",            hex: "#B2BEB5", domain: "Nature",     price: 16, clue: "The cool pale grey of wood ash after a fire has completely died — light, powdery, and still warm" },
   { name: "Glacier",        hex: "#ACCED5", domain: "Nature",     price: 28, clue: "The ethereal blue-white of ancient compressed ice, lit faintly from within by millennia of snowfall" }
 ];
@@ -704,6 +730,7 @@ function setMode(m) {
   });
   if (m === 'gallery') renderGallery('all');
   if (m === 'shop') renderShop();
+  if (m !== 'shop') { pendingPurchase = null; document.getElementById('shop-action').classList.add('hidden'); }
 }
 
 /* ─── Gallery ─── */
@@ -741,33 +768,57 @@ function ensureShopStock() {
 
 function renderShop() {
   ensureShopStock();
+  document.getElementById('shop-action').classList.add('hidden');
   const grid = document.getElementById('shop-grid');
   if (shopStock.length === 0) {
     grid.innerHTML = '<p class="shop-empty">You\'ve collected every color in the shop. Your palette is complete.</p>';
     return;
   }
-  grid.innerHTML = shopStock.map(c => {
-    const canAfford = florins >= c.price;
-    return `<div class="shop-card${canAfford ? '' : ' unaffordable'}" onclick="buyColor('${c.name.replace(/'/g, "\\'")}')">
+  grid.innerHTML = shopStock.map(c =>
+    `<div class="shop-card" onclick="tapShopCard('${c.name.replace(/'/g, "\\'")}')">
       <div class="shop-swatch" style="background:${c.hex}"></div>
       <div class="shop-price">ƒ ${c.price}</div>
-    </div>`;
-  }).join('');
+    </div>`
+  ).join('');
 }
 
-function buyColor(name) {
+let pendingPurchase = null;
+
+function tapShopCard(name) {
   const color = SHOP_COLORS.find(c => c.name === name);
+  pendingPurchase = null;
+  const actionEl = document.getElementById('shop-action');
+  const msgEl = document.getElementById('shop-action-msg');
+  const btnsEl = document.getElementById('shop-action-btns');
+
   if (florins < color.price) {
+    const need = color.price - florins;
+    msgEl.textContent = `You need ƒ${need} more to buy this color.`;
+    msgEl.className = 'shop-action-msg error';
+    btnsEl.classList.add('hidden');
     const badge = document.getElementById('florin-badge');
     badge.classList.remove('shake');
     void badge.offsetWidth;
     badge.classList.add('shake');
-    return;
+  } else {
+    pendingPurchase = color;
+    msgEl.textContent = `Spend ƒ${color.price} on this mystery color?`;
+    msgEl.className = 'shop-action-msg';
+    btnsEl.classList.remove('hidden');
   }
-  florins -= color.price;
-  ownedShopColors.push(name);
+  actionEl.classList.remove('hidden');
+}
 
-  const stockIdx = shopStock.findIndex(c => c.name === name);
+function confirmBuy() {
+  if (!pendingPurchase) return;
+  const color = pendingPurchase;
+  pendingPurchase = null;
+  document.getElementById('shop-action').classList.add('hidden');
+
+  florins -= color.price;
+  ownedShopColors.push(color.name);
+
+  const stockIdx = shopStock.findIndex(c => c.name === color.name);
   const available = SHOP_COLORS.filter(c =>
     !ownedShopColors.includes(c.name) &&
     !shopStock.some(s => s.name === c.name)
@@ -782,6 +833,11 @@ function buyColor(name) {
   updateFlorinDisplay();
   updateFooter();
   showPurchaseFanfare(color);
+}
+
+function cancelBuy() {
+  pendingPurchase = null;
+  document.getElementById('shop-action').classList.add('hidden');
 }
 
 function showPurchaseFanfare(color) {
