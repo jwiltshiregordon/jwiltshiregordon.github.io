@@ -1,4 +1,4 @@
-const CACHE = 'chromata-v1';
+const CACHE = 'chromata-v2';
 const ASSETS = [
   '/ColorQuiz/',
   '/ColorQuiz/index.html',

@@ -28,6 +28,8 @@
       --accent-light: #F2DDD8;
       --green: #2D7A5E;
       --green-light: #D6EDE6;
+      --gold: #9A7C2F;
+      --gold-light: #F5EDD6;
       --serif: 'Cormorant Garamond', Georgia, serif;
       --sans: 'DM Sans', sans-serif;
     }
@@ -54,7 +56,7 @@
     header {
       padding: 2.5rem 0 1.5rem;
       display: flex;
-      align-items: baseline;
+      align-items: center;
       gap: 16px;
       border-bottom: 1px solid rgba(28,24,20,0.1);
     }
@@ -64,20 +66,31 @@
       font-weight: 600;
       letter-spacing: -0.01em;
       color: var(--ink);
+      align-self: baseline;
     }
-    .logo em {
-      font-style: italic;
-      color: var(--accent);
-    }
+    .logo em { font-style: italic; color: var(--accent); }
     .tagline {
       font-size: 13px;
       color: var(--ink-faint);
       font-weight: 300;
       letter-spacing: 0.04em;
       text-transform: uppercase;
+      align-self: baseline;
+    }
+    .florin-badge {
+      margin-left: auto;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gold);
+      background: var(--gold-light);
+      padding: 5px 13px;
+      border-radius: 99px;
+      white-space: nowrap;
+      border: 1px solid rgba(154,124,47,0.2);
+      cursor: default;
     }
     .mode-tabs {
-      margin-left: auto;
+      margin-left: 8px;
       display: flex;
       gap: 4px;
       background: var(--cream-dark);
@@ -96,10 +109,7 @@
       color: var(--ink-muted);
       transition: background 0.18s, color 0.18s;
     }
-    .tab-btn.active {
-      background: var(--ink);
-      color: var(--cream);
-    }
+    .tab-btn.active { background: var(--ink); color: var(--cream); }
 
     /* ── Main ── */
     main { padding: 2rem 0; }
@@ -228,7 +238,7 @@
     .feedback.lose { color: var(--accent); }
 
     /* Next btn */
-    .action-row { display: flex; gap: 10px; align-items: center; }
+    .action-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
     .btn-primary {
       font-family: var(--sans);
       font-size: 14px;
@@ -257,29 +267,6 @@
     }
     .btn-ghost:hover { background: var(--cream-dark); }
     .hidden { display: none !important; }
-
-    /* Final screen */
-    .final {
-      text-align: center;
-      padding: 3rem 1rem;
-      animation: fadeIn 0.35s ease;
-    }
-    .final-score {
-      font-family: var(--serif);
-      font-size: 5rem;
-      font-weight: 600;
-      line-height: 1;
-      color: var(--ink);
-      margin-bottom: 0.25rem;
-    }
-    .final-denom { font-size: 2rem; color: var(--ink-faint); }
-    .final-label {
-      font-size: 1.1rem;
-      font-family: var(--serif);
-      font-style: italic;
-      color: var(--ink-muted);
-      margin-bottom: 2rem;
-    }
 
     /* ── Gallery mode ── */
     #gallery-mode { animation: fadeIn 0.25s ease; }
@@ -322,35 +309,138 @@
     .g-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(28,24,20,0.08); }
     .g-swatch { height: 80px; }
     .g-body { padding: 10px 12px 12px; }
-    .g-name {
+    .g-name { font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+    .g-hex { font-family: monospace; font-size: 11px; color: var(--ink-faint); }
+    .g-domain { font-size: 11px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-faint); margin-top: 4px; }
+    .g-clue { font-family: var(--serif); font-size: 0.82rem; font-style: italic; color: var(--ink-muted); margin-top: 6px; line-height: 1.5; border-top: 1px solid rgba(28,24,20,0.07); padding-top: 6px; }
+
+    /* ── Shop mode ── */
+    #shop-mode { animation: fadeIn 0.25s ease; }
+
+    .shop-intro {
+      margin-bottom: 1.75rem;
+    }
+    .shop-intro p {
       font-family: var(--serif);
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 2px;
-    }
-    .g-hex {
-      font-family: monospace;
-      font-size: 11px;
-      color: var(--ink-faint);
-    }
-    .g-domain {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--ink-faint);
-      margin-top: 4px;
-    }
-    .g-clue {
-      font-family: var(--serif);
-      font-size: 0.82rem;
+      font-size: 1.1rem;
       font-style: italic;
       color: var(--ink-muted);
-      margin-top: 6px;
-      line-height: 1.5;
-      border-top: 1px solid rgba(28,24,20,0.07);
-      padding-top: 6px;
+      line-height: 1.6;
+    }
+
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .shop-card {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid rgba(28,24,20,0.09);
+      background: white;
+      cursor: pointer;
+      transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+    }
+    .shop-card:hover { transform: translateY(-3px); border-color: var(--ink); box-shadow: 0 8px 24px rgba(28,24,20,0.1); }
+    .shop-card:active { transform: scale(0.98); }
+    .shop-card.unaffordable { opacity: 0.45; cursor: default; }
+    .shop-card.unaffordable:hover { transform: none; border-color: rgba(28,24,20,0.09); box-shadow: none; }
+    .shop-swatch { aspect-ratio: 1; width: 100%; display: block; }
+    .shop-price {
+      padding: 10px 8px;
+      text-align: center;
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gold);
+    }
+    .shop-empty {
+      grid-column: 1 / -1;
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--ink-muted);
+      text-align: center;
+      padding: 3rem 0;
+    }
+
+    /* ── Purchase modal ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(28,24,20,0.72);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      padding: 24px;
+    }
+    .modal-overlay.visible { opacity: 1; }
+    .modal-box {
+      background: var(--cream);
+      border-radius: 18px;
+      overflow: hidden;
+      max-width: 460px;
+      width: 100%;
+      transform: translateY(28px) scale(0.97);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 32px 80px rgba(28,24,20,0.35);
+    }
+    .modal-overlay.visible .modal-box { transform: translateY(0) scale(1); }
+    .modal-swatch { height: 200px; width: 100%; display: block; transition: height 0.3s; }
+    .modal-body { padding: 28px 28px 24px; }
+    .modal-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .modal-domain-chip {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      background: var(--cream-dark);
+      padding: 3px 10px;
+      border-radius: 99px;
+    }
+    .modal-hex-text {
+      font-family: monospace;
+      font-size: 12px;
+      color: var(--ink-faint);
+    }
+    .modal-name {
+      font-family: var(--serif);
+      font-size: 2.75rem;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.1;
+      margin-bottom: 12px;
+      animation: nameReveal 0.5s ease 0.1s both;
+    }
+    @keyframes nameReveal {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .modal-clue {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-style: italic;
+      line-height: 1.65;
+      color: var(--ink-muted);
+      margin-bottom: 18px;
+      animation: nameReveal 0.5s ease 0.2s both;
+    }
+    .modal-congrats {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gold);
+      letter-spacing: 0.02em;
+      margin-bottom: 22px;
+      animation: nameReveal 0.5s ease 0.3s both;
     }
 
     /* ── Footer ── */
@@ -362,14 +452,24 @@
       letter-spacing: 0.02em;
     }
 
+    /* ── Animations ── */
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-6px); }
+      50% { transform: translateX(6px); }
+      75% { transform: translateX(-4px); }
+    }
+    .shake { animation: shake 0.4s ease; }
 
     @media (max-width: 520px) {
       .logo { font-size: 1.5rem; }
       .tagline { display: none; }
+      .florin-badge { margin-left: auto; font-size: 12px; padding: 4px 10px; }
       .swatch-frame { height: 160px; }
       .choices { grid-template-columns: 1fr; }
-      .final-score { font-size: 3.5rem; }
+      .shop-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .modal-name { font-size: 2rem; }
     }
   </style>
 </head>
@@ -379,10 +479,12 @@
   <!-- Header -->
   <header>
     <span class="logo">Chrom<em>ata</em></span>
-    <span class="tagline">Colors of art, fashion &amp; literature</span>
+    <span class="tagline">Colors of art, fashion &amp; nature</span>
+    <span class="florin-badge" id="florin-badge">ƒ <span id="florin-count">0</span></span>
     <div class="mode-tabs">
       <button class="tab-btn active" id="tab-quiz" onclick="setMode('quiz')">Quiz</button>
       <button class="tab-btn" id="tab-gallery" onclick="setMode('gallery')">Browse</button>
+      <button class="tab-btn" id="tab-shop" onclick="setMode('shop')">Shop</button>
     </div>
   </header>
 
@@ -411,6 +513,7 @@
       <div class="action-row">
         <button class="btn-primary hidden" id="next-btn" onclick="nextQ()">Next →</button>
         <button class="btn-ghost hidden" id="restart-btn" onclick="restartQuiz()">Play again</button>
+        <button class="btn-ghost hidden" id="shop-btn" onclick="setMode('shop')">Visit Shop →</button>
       </div>
     </div>
 
@@ -421,48 +524,167 @@
         <button class="filter-chip" data-filter="Art" onclick="filterGallery('Art', this)">Art</button>
         <button class="filter-chip" data-filter="Fashion" onclick="filterGallery('Fashion', this)">Fashion</button>
         <button class="filter-chip" data-filter="Literature" onclick="filterGallery('Literature', this)">Literature</button>
+        <button class="filter-chip" data-filter="Nature" onclick="filterGallery('Nature', this)">Nature</button>
       </div>
       <div class="gallery" id="gallery-grid"></div>
     </div>
 
+    <!-- Shop mode -->
+    <div id="shop-mode" class="hidden">
+      <div class="shop-intro">
+        <p>Six mystery colors for sale. Names and histories revealed on purchase.</p>
+      </div>
+      <div class="shop-grid" id="shop-grid"></div>
+    </div>
+
   </main>
 
-  <footer>30 colors · art, fashion &amp; literature · chromata</footer>
+  <footer id="footer-text">30 colors · art, fashion &amp; literature · chromata</footer>
+</div>
+
+<!-- Purchase fanfare modal -->
+<div id="purchase-modal" class="modal-overlay hidden" onclick="closeFanfare()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div id="modal-swatch" class="modal-swatch"></div>
+    <div class="modal-body">
+      <div class="modal-eyebrow">
+        <span class="modal-domain-chip" id="modal-domain"></span>
+        <span class="modal-hex-text" id="modal-hex"></span>
+      </div>
+      <h2 class="modal-name" id="modal-name"></h2>
+      <p class="modal-clue" id="modal-clue"></p>
+      <p class="modal-congrats" id="modal-congrats"></p>
+      <button class="btn-primary" onclick="closeFanfare()">Add to collection</button>
+    </div>
+  </div>
 </div>
 
 <script>
 const COLORS = [
-  { name: "Vermilion",    hex: "#E34234", domain: "Art",                clue: "A vivid red-orange used by masters like Turner and Titian" },
-  { name: "Celadon",      hex: "#ACE1AF", domain: "Art",                clue: "A pale green glaze prized in East Asian ceramics" },
-  { name: "Carmine",      hex: "#960018", domain: "Art & Fashion",      clue: "A deep crimson extracted from cochineal insects" },
-  { name: "Saffron",      hex: "#F4C430", domain: "Fashion",            clue: "A golden yellow associated with Buddhist robes and spice markets" },
-  { name: "Ecru",         hex: "#C2B280", domain: "Fashion",            clue: "An unbleached linen tone — raw, warm, and neutral" },
-  { name: "Cobalt",       hex: "#0047AB", domain: "Art",                clue: "An intense blue made famous by Yves Klein" },
-  { name: "Umber",        hex: "#635147", domain: "Art",                clue: "A natural brown earth pigment, raw or burnt, beloved in oil painting" },
-  { name: "Gamboge",      hex: "#E49B0F", domain: "Art",                clue: "A resinous yellow-orange used in medieval manuscripts" },
-  { name: "Aubergine",    hex: "#614051", domain: "Fashion",            clue: "A deep purple-black named after the eggplant" },
-  { name: "Viridian",     hex: "#40826D", domain: "Art",                clue: "A cool, transparent green made popular by the Impressionists" },
-  { name: "Bisque",       hex: "#FFE4C4", domain: "Fashion",            clue: "A pale pinkish beige, soft as unglazed porcelain" },
-  { name: "Chartreuse",   hex: "#7FFF00", domain: "Art & Fashion",      clue: "A yellow-green named after a French liqueur" },
-  { name: "Puce",         hex: "#CC8899", domain: "Fashion",            clue: "A dusty mauve-pink — its name is French for 'flea'" },
-  { name: "Scarlet",      hex: "#FF2400", domain: "Literature",         clue: "The bold red of a certain letter in Hawthorne's classic" },
-  { name: "Cerulean",     hex: "#2A52BE", domain: "Art",                clue: "A vivid sky blue described famously in The Devil Wears Prada" },
-  { name: "Russet",       hex: "#80461B", domain: "Literature",         clue: "A reddish-brown worn by English peasants in medieval literature" },
-  { name: "Amaranth",     hex: "#9F2B68", domain: "Literature",         clue: "An everlasting flower's purple-red, found in Greek myth and poetry" },
-  { name: "Mauve",        hex: "#E0B0FF", domain: "Fashion",            clue: "The first synthetic dye, discovered in 1856, kicked off the purple fashion craze" },
-  { name: "Titian",       hex: "#B5651D", domain: "Art",                clue: "A reddish auburn named after the Venetian Renaissance painter" },
-  { name: "Cinnabar",     hex: "#E34234", domain: "Art",                clue: "A mercury-red pigment used in Chinese lacquerware and ancient frescoes" },
-  { name: "Alabaster",    hex: "#F2F0E6", domain: "Literature",         clue: "A luminous off-white describing smooth, pale skin in poetry" },
-  { name: "Ochre",        hex: "#CC7722", domain: "Art",                clue: "A yellow-brown earth pigment used since prehistoric cave paintings" },
-  { name: "Prussian Blue",hex: "#003153", domain: "Art",                clue: "The first modern synthetic pigment, created accidentally in 1704" },
-  { name: "Ivory",        hex: "#FFFFF0", domain: "Literature & Fashion",clue: "A warm near-white evoking bone and piano keys" },
-  { name: "Alizarin",     hex: "#E32636", domain: "Art",                clue: "The first synthetic dye from coal tar — a rich crimson red" },
-  { name: "Sage",         hex: "#BCB88A", domain: "Fashion",            clue: "A muted, silvery green named after the herb" },
-  { name: "Parchment",    hex: "#F1E9D2", domain: "Literature",         clue: "A warm antique cream — the color of old manuscripts and scrolls" },
-  { name: "Bordeaux",     hex: "#5C0120", domain: "Fashion",            clue: "A deep wine red named after France's great wine region" },
-  { name: "Indigo",       hex: "#4B0082", domain: "Art & Fashion",      clue: "A plant-based blue-violet, the backbone of denim worldwide" },
-  { name: "Gilt",         hex: "#FFD700", domain: "Literature",         clue: "A brilliant gold found on gilded pages and opulent decor in Victorian novels" }
+  { name: "Vermilion",     hex: "#E34234", domain: "Art",                 clue: "A vivid red-orange used by masters like Turner and Titian" },
+  { name: "Celadon",       hex: "#ACE1AF", domain: "Art",                 clue: "A pale green glaze prized in East Asian ceramics" },
+  { name: "Carmine",       hex: "#960018", domain: "Art & Fashion",       clue: "A deep crimson extracted from cochineal insects" },
+  { name: "Saffron",       hex: "#F4C430", domain: "Fashion",             clue: "A golden yellow associated with Buddhist robes and spice markets" },
+  { name: "Ecru",          hex: "#C2B280", domain: "Fashion",             clue: "An unbleached linen tone — raw, warm, and neutral" },
+  { name: "Cobalt",        hex: "#0047AB", domain: "Art",                 clue: "An intense blue made famous by Yves Klein" },
+  { name: "Umber",         hex: "#635147", domain: "Art",                 clue: "A natural brown earth pigment, raw or burnt, beloved in oil painting" },
+  { name: "Gamboge",       hex: "#E49B0F", domain: "Art",                 clue: "A resinous yellow-orange used in medieval manuscripts" },
+  { name: "Aubergine",     hex: "#614051", domain: "Fashion",             clue: "A deep purple-black named after the eggplant" },
+  { name: "Viridian",      hex: "#40826D", domain: "Art",                 clue: "A cool, transparent green made popular by the Impressionists" },
+  { name: "Bisque",        hex: "#FFE4C4", domain: "Fashion",             clue: "A pale pinkish beige, soft as unglazed porcelain" },
+  { name: "Chartreuse",    hex: "#7FFF00", domain: "Art & Fashion",       clue: "A yellow-green named after a French liqueur" },
+  { name: "Puce",          hex: "#CC8899", domain: "Fashion",             clue: "A dusty mauve-pink — its name is French for 'flea'" },
+  { name: "Scarlet",       hex: "#FF2400", domain: "Literature",          clue: "The bold red of a certain letter in Hawthorne's classic" },
+  { name: "Cerulean",      hex: "#2A52BE", domain: "Art",                 clue: "A vivid sky blue described famously in The Devil Wears Prada" },
+  { name: "Russet",        hex: "#80461B", domain: "Literature",          clue: "A reddish-brown worn by English peasants in medieval literature" },
+  { name: "Amaranth",      hex: "#9F2B68", domain: "Literature",          clue: "An everlasting flower's purple-red, found in Greek myth and poetry" },
+  { name: "Mauve",         hex: "#E0B0FF", domain: "Fashion",             clue: "The first synthetic dye, discovered in 1856, kicked off the purple fashion craze" },
+  { name: "Titian",        hex: "#B5651D", domain: "Art",                 clue: "A reddish auburn named after the Venetian Renaissance painter" },
+  { name: "Cinnabar",      hex: "#E34234", domain: "Art",                 clue: "A mercury-red pigment used in Chinese lacquerware and ancient frescoes" },
+  { name: "Alabaster",     hex: "#F2F0E6", domain: "Literature",          clue: "A luminous off-white describing smooth, pale skin in poetry" },
+  { name: "Ochre",         hex: "#CC7722", domain: "Art",                 clue: "A yellow-brown earth pigment used since prehistoric cave paintings" },
+  { name: "Prussian Blue", hex: "#003153", domain: "Art",                 clue: "The first modern synthetic pigment, created accidentally in 1704" },
+  { name: "Ivory",         hex: "#FFFFF0", domain: "Literature & Fashion", clue: "A warm near-white evoking bone and piano keys" },
+  { name: "Alizarin",      hex: "#E32636", domain: "Art",                 clue: "The first synthetic dye from coal tar — a rich crimson red" },
+  { name: "Sage",          hex: "#BCB88A", domain: "Fashion",             clue: "A muted, silvery green named after the herb" },
+  { name: "Parchment",     hex: "#F1E9D2", domain: "Literature",          clue: "A warm antique cream — the color of old manuscripts and scrolls" },
+  { name: "Bordeaux",      hex: "#5C0120", domain: "Fashion",             clue: "A deep wine red named after France's great wine region" },
+  { name: "Indigo",        hex: "#4B0082", domain: "Art & Fashion",       clue: "A plant-based blue-violet, the backbone of denim worldwide" },
+  { name: "Gilt",          hex: "#FFD700", domain: "Literature",          clue: "A brilliant gold found on gilded pages and opulent decor in Victorian novels" }
 ];
+
+const SHOP_COLORS = [
+  // Art
+  { name: "Naples Yellow",  hex: "#FADA5E", domain: "Art",        price: 22, clue: "A warm, creamy yellow favored by Old Masters, originally made from the toxic mineral lead antimonite" },
+  { name: "Smalt",          hex: "#4B6AB0", domain: "Art",        price: 28, clue: "A deep blue made by grinding cobalt glass into powder, widely used in 16th and 17th century paintings" },
+  { name: "Orpiment",       hex: "#FCB500", domain: "Art",        price: 20, clue: "A blazing arsenic-yellow prized in medieval manuscripts for its fierce, almost toxic luminosity" },
+  { name: "Malachite",      hex: "#0BDA51", domain: "Art",        price: 38, clue: "A vivid copper-green ground from the banded mineral — used since ancient Egypt and Pompeii" },
+  { name: "Lapis Lazuli",   hex: "#26619C", domain: "Art",        price: 48, clue: "Ground from the semi-precious stone shipped from Afghanistan — the most coveted pigment of the medieval world" },
+  { name: "Sepia",          hex: "#704214", domain: "Art",        price: 20, clue: "A warm brown ink drawn from the ink sac of cuttlefish, beloved by Rembrandt for his spontaneous sketches" },
+  { name: "Bone Black",     hex: "#3D2B1F", domain: "Art",        price: 18, clue: "The richest black in an Old Master's palette, made by charring animal bones until only carbon remains" },
+  { name: "Verdigris",      hex: "#43B3AE", domain: "Art",        price: 32, clue: "The blue-green patina that forms on weathered copper, scraped off and used as a vivid medieval pigment" },
+  { name: "Payne's Grey",   hex: "#536878", domain: "Art",        price: 22, clue: "A versatile dark blue-grey invented by 18th-century watercolorist William Payne for mixing shadows" },
+  { name: "Ultramarine",    hex: "#4166F5", domain: "Art",        price: 45, clue: "From the Latin beyond the sea — a brilliant blue ground from lapis lazuli, worth its weight in gold" },
+  { name: "Terra Cotta",    hex: "#E2725B", domain: "Art",        price: 24, clue: "Italian for baked earth — the warm orange-red of fired clay, ancient sculpture, and Roman rooftops" },
+  { name: "Realgar",        hex: "#FF4500", domain: "Art",        price: 28, clue: "A fiery arsenic-orange mineral prized by Chinese and Islamic painters for its almost volcanic intensity" },
+  // Fashion
+  { name: "Camel",          hex: "#C19A6B", domain: "Fashion",    price: 20, clue: "A warm sandy tan synonymous with English tailoring and the luxury overcoats of Savile Row" },
+  { name: "Champagne",      hex: "#F7E7CE", domain: "Fashion",    price: 35, clue: "A pale golden beige — the exact color of fine French bubbly held up to candlelight" },
+  { name: "Greige",         hex: "#C3A882", domain: "Fashion",    price: 22, clue: "A blend of grey and beige that became the foundational neutral of Scandinavian minimalist fashion" },
+  { name: "Heliotrope",     hex: "#DF73FF", domain: "Fashion",    price: 40, clue: "A vivid pinkish-purple named after the sun-tracking flower, briefly the height of 1890s fashion" },
+  { name: "Cerise",         hex: "#DE3163", domain: "Fashion",    price: 32, clue: "French for cherry — a bright, decisive red beloved by mid-century couturiers for its modern confidence" },
+  { name: "Nacre",          hex: "#E8D8C4", domain: "Fashion",    price: 38, clue: "The shimmering off-white of mother-of-pearl — prized in fashion for its subtle, shifting luminosity" },
+  { name: "Wisteria",       hex: "#C9A0DC", domain: "Fashion",    price: 36, clue: "A soft pale purple named after the cascading flowering vine, fashionable in the Edwardian era" },
+  { name: "Taupe",          hex: "#483C32", domain: "Fashion",    price: 16, clue: "From the French word for mole — a dark brownish-grey that anchors every minimalist wardrobe" },
+  { name: "Fawn",           hex: "#E5AA70", domain: "Fashion",    price: 20, clue: "A light yellowish-brown named after the pale, dappled coat of a newborn deer" },
+  { name: "Damask",         hex: "#DA7777", domain: "Fashion",    price: 28, clue: "A muted rose named after Damascus, the Syrian city famous for its richly patterned silk weaves" },
+  // Literature
+  { name: "Tawny",          hex: "#CF6B17", domain: "Literature", price: 22, clue: "A warm orange-brown used by Chaucer and Shakespeare to evoke autumn harvest and the color of strong ale" },
+  { name: "Murrey",         hex: "#8B0038", domain: "Literature", price: 28, clue: "A dark blood-red-purple reserved for high nobility in medieval romance literature and heraldry" },
+  { name: "Watchet",        hex: "#7BA4B4", domain: "Literature", price: 25, clue: "A pale blue named in Coleridge's Rime of the Ancient Mariner for the color of the mariner's worn garment" },
+  { name: "Incarnadine",    hex: "#DA3E52", domain: "Literature", price: 42, clue: "Will all great Neptune's ocean wash this blood clean? — Shakespeare's Macbeth, on a red that cannot be undone" },
+  { name: "Glaucous",       hex: "#6082B6", domain: "Literature", price: 26, clue: "Homer's sea-grey blue — the ambiguous color he used for both the wine-dark sea and the eyes of Athena" },
+  { name: "Flaxen",         hex: "#FFCF48", domain: "Literature", price: 22, clue: "The pale gold of ripened flax fields, used throughout pastoral poetry to describe fair and luminous hair" },
+  { name: "Dun",            hex: "#6E5A33", domain: "Literature", price: 16, clue: "Dun's the mouse — Shakespeare's idiom for a dull greyish-brown, signifying drabness and obscurity" },
+  { name: "Sanguine",       hex: "#C1384A", domain: "Literature", price: 28, clue: "Blood-red, from the Latin sanguis — one of the four humors, embodying passion, heat, and vitality" },
+  { name: "Hazel",          hex: "#8E7618", domain: "Literature", price: 20, clue: "The warm amber-brown of hazelnut shells and woodland paths, a staple of English pastoral verse" },
+  { name: "Damask Rose",    hex: "#E8748A", domain: "Literature", price: 32, clue: "The rose looks fair, but fairer we it deem / For that sweet odour — Shakespeare's Sonnets, Sonnet 54" },
+  // Nature
+  { name: "Mist",           hex: "#C4C9D4", domain: "Nature",     price: 18, clue: "The soft blue-grey that hangs over valleys on cool mornings before the sun burns it away" },
+  { name: "Dusk",           hex: "#B09DB5", domain: "Nature",     price: 26, clue: "The fleeting purple-grey that colors the sky in the minutes between sunset and true dark" },
+  { name: "Lichen",         hex: "#B7B89E", domain: "Nature",     price: 16, clue: "The quiet grey-green of slow-growing lichen spreading across ancient stone and bark" },
+  { name: "Slate",          hex: "#708090", domain: "Nature",     price: 20, clue: "The cool blue-grey of split metamorphic rock — ancient, resolute, and flat as a winter sky" },
+  { name: "Fern",           hex: "#4F7942", domain: "Nature",     price: 24, clue: "The deep, muted green of unfurling fern fronds, the understory color of old-growth forests" },
+  { name: "Juniper",        hex: "#3A5A40", domain: "Nature",     price: 26, clue: "The dark, dusty green of mountain evergreens — sharp, cold, and perpetually windswept" },
+  { name: "Brine",          hex: "#89A4B0", domain: "Nature",     price: 22, clue: "The hazy blue-green of shallow salt water over pale sand, shimmering with dissolved light" },
+  { name: "Birch",          hex: "#D4C5A9", domain: "Nature",     price: 22, clue: "The pale cream of freshly peeled birch bark — papery, luminous, and faintly marked with shadow" },
+  { name: "Clay",           hex: "#B66A50", domain: "Nature",     price: 20, clue: "The warm terracotta of raw earthen soil after rain — the color that everything returns to" },
+  { name: "Moss",           hex: "#8A9A5B", domain: "Nature",     price: 22, clue: "The muted olive green of thick moss on a shaded stone wall, soft as a whisper" },
+  { name: "Ember",          hex: "#CB4800", domain: "Nature",     price: 30, clue: "The deep orange-red of a fire burned to its last glowing coals, still holding its heat in the dark" },
+  { name: "Pumice",         hex: "#C2BDB5", domain: "Nature",     price: 16, clue: "The pale, porous grey of solidified volcanic foam — light enough to float, abrasive to the touch" },
+  { name: "Flint",          hex: "#6E6E6E", domain: "Nature",     price: 16, clue: "The dark sparking grey of struck stone — the color that lit a thousand fires before fire had a name" },
+  { name: "Tidepool",       hex: "#5E8C88", domain: "Nature",     price: 30, clue: "The deep teal-green of water trapped in coastal rock, full of small lives, briny and still" },
+  { name: "Canopy",         hex: "#355E3B", domain: "Nature",     price: 28, clue: "The deep forest green seen looking up through layered leaves in old-growth woodland at noon" },
+  { name: "Petal",          hex: "#F2C4CE", domain: "Nature",     price: 32, clue: "The soft blush pink of a wild rose in early morning, before the dew has dried" },
+  { name: "Ash",            hex: "#B2BEB5", domain: "Nature",     price: 16, clue: "The cool pale grey of wood ash after a fire has completely died — light, powdery, and still warm" },
+  { name: "Glacier",        hex: "#ACCED5", domain: "Nature",     price: 28, clue: "The ethereal blue-white of ancient compressed ice, lit faintly from within by millennia of snowfall" }
+];
+
+/* ─── State ─── */
+let florins = 0;
+let ownedShopColors = [];
+let shopStock = [];
+
+function loadState() {
+  florins = parseInt(localStorage.getItem('chromata-florins') || '0');
+  ownedShopColors = JSON.parse(localStorage.getItem('chromata-owned') || '[]');
+  const storedNames = JSON.parse(localStorage.getItem('chromata-stock') || '[]');
+  shopStock = storedNames
+    .filter(n => !ownedShopColors.includes(n))
+    .map(n => SHOP_COLORS.find(c => c.name === n))
+    .filter(Boolean);
+}
+
+function saveState() {
+  localStorage.setItem('chromata-florins', florins);
+  localStorage.setItem('chromata-owned', JSON.stringify(ownedShopColors));
+  localStorage.setItem('chromata-stock', JSON.stringify(shopStock.map(c => c.name)));
+}
+
+function getActiveColors() {
+  const owned = SHOP_COLORS.filter(c => ownedShopColors.includes(c.name));
+  return [...COLORS, ...owned];
+}
+
+function updateFlorinDisplay() {
+  document.getElementById('florin-count').textContent = florins;
+}
+
+function updateFooter() {
+  const n = getActiveColors().length;
+  document.getElementById('footer-text').textContent =
+    `${n} colors · art, fashion, literature & nature · chromata`;
+}
 
 /* ─── Helpers ─── */
 function shuffle(arr) {
@@ -476,17 +698,18 @@ function shuffle(arr) {
 
 /* ─── Mode toggle ─── */
 function setMode(m) {
-  const isQuiz = m === 'quiz';
-  document.getElementById('quiz-mode').classList.toggle('hidden', !isQuiz);
-  document.getElementById('gallery-mode').classList.toggle('hidden', isQuiz);
-  document.getElementById('tab-quiz').classList.toggle('active', isQuiz);
-  document.getElementById('tab-gallery').classList.toggle('active', !isQuiz);
-  if (!isQuiz) renderGallery('all');
+  ['quiz', 'gallery', 'shop'].forEach(mode => {
+    document.getElementById(mode + '-mode').classList.toggle('hidden', mode !== m);
+    document.getElementById('tab-' + mode).classList.toggle('active', mode === m);
+  });
+  if (m === 'gallery') renderGallery('all');
+  if (m === 'shop') renderShop();
 }
 
 /* ─── Gallery ─── */
 function renderGallery(filter) {
-  const list = filter === 'all' ? COLORS : COLORS.filter(c => c.domain.includes(filter));
+  const all = getActiveColors();
+  const list = filter === 'all' ? all : all.filter(c => c.domain.includes(filter));
   const sorted = [...list].sort((a, b) => a.name.localeCompare(b.name));
   document.getElementById('gallery-grid').innerHTML = sorted.map(c => `
     <div class="g-card">
@@ -507,14 +730,97 @@ function filterGallery(f, el) {
   renderGallery(f);
 }
 
-/* ─── Quiz state ─── */
+/* ─── Shop ─── */
+function ensureShopStock() {
+  if (shopStock.length === 0) {
+    const available = SHOP_COLORS.filter(c => !ownedShopColors.includes(c.name));
+    shopStock = shuffle(available).slice(0, 6);
+    saveState();
+  }
+}
+
+function renderShop() {
+  ensureShopStock();
+  const grid = document.getElementById('shop-grid');
+  if (shopStock.length === 0) {
+    grid.innerHTML = '<p class="shop-empty">You\'ve collected every color in the shop. Your palette is complete.</p>';
+    return;
+  }
+  grid.innerHTML = shopStock.map(c => {
+    const canAfford = florins >= c.price;
+    return `<div class="shop-card${canAfford ? '' : ' unaffordable'}" onclick="buyColor('${c.name.replace(/'/g, "\\'")}')">
+      <div class="shop-swatch" style="background:${c.hex}"></div>
+      <div class="shop-price">ƒ ${c.price}</div>
+    </div>`;
+  }).join('');
+}
+
+function buyColor(name) {
+  const color = SHOP_COLORS.find(c => c.name === name);
+  if (florins < color.price) {
+    const badge = document.getElementById('florin-badge');
+    badge.classList.remove('shake');
+    void badge.offsetWidth;
+    badge.classList.add('shake');
+    return;
+  }
+  florins -= color.price;
+  ownedShopColors.push(name);
+
+  const stockIdx = shopStock.findIndex(c => c.name === name);
+  const available = SHOP_COLORS.filter(c =>
+    !ownedShopColors.includes(c.name) &&
+    !shopStock.some(s => s.name === c.name)
+  );
+  if (available.length > 0) {
+    shopStock[stockIdx] = shuffle(available)[0];
+  } else {
+    shopStock.splice(stockIdx, 1);
+  }
+
+  saveState();
+  updateFlorinDisplay();
+  updateFooter();
+  showPurchaseFanfare(color);
+}
+
+function showPurchaseFanfare(color) {
+  document.getElementById('modal-swatch').style.background = color.hex;
+  document.getElementById('modal-domain').textContent = color.domain;
+  document.getElementById('modal-hex').textContent = color.hex;
+  document.getElementById('modal-name').textContent = color.name;
+  document.getElementById('modal-clue').textContent = color.clue;
+  document.getElementById('modal-congrats').textContent =
+    color.price >= 45 ? 'A truly rare acquisition — your collection is the richer for it.' :
+    color.price >= 35 ? 'A beautiful and distinguished addition to your collection.' :
+    color.price >= 25 ? 'A fine new color joins your collection.' :
+                        'A new color joins your collection.';
+
+  const modal = document.getElementById('purchase-modal');
+  modal.classList.remove('hidden');
+  void modal.offsetWidth;
+  modal.classList.add('visible');
+}
+
+function closeFanfare() {
+  const modal = document.getElementById('purchase-modal');
+  modal.classList.remove('visible');
+  setTimeout(() => {
+    modal.classList.add('hidden');
+    renderShop();
+  }, 320);
+}
+
+/* ─── Quiz ─── */
 let order = [], idx = 0, results = [], answered = false;
 
 function startQuiz() {
-  order = shuffle(COLORS).slice(0, 20);
+  const active = getActiveColors();
+  order = shuffle(active).slice(0, 20);
   idx = 0; results = []; answered = false;
   document.getElementById('next-btn').classList.add('hidden');
   document.getElementById('restart-btn').classList.add('hidden');
+  document.getElementById('shop-btn').classList.add('hidden');
   renderQ();
 }
 
@@ -534,10 +840,11 @@ function renderQ() {
   document.getElementById('score-val').textContent = results.filter(Boolean).length;
   document.getElementById('prog-fill').style.width = Math.max(5, Math.round((idx / order.length) * 100)) + '%';
 
-  const others = shuffle(COLORS.filter(x => x.name !== c.name)).slice(0, 3);
+  const active = getActiveColors();
+  const others = shuffle(active.filter(x => x.name !== c.name)).slice(0, 3);
   const pool = shuffle([c, ...others]);
   document.getElementById('choices').innerHTML = pool.map(o =>
-    `<button class="choice" onclick="guess('${o.name.replace(/'/g,"\\'")}')">
+    `<button class="choice" onclick="guess('${o.name.replace(/'/g, "\\'")}')">
        ${o.name}
      </button>`
   ).join('');
@@ -589,6 +896,11 @@ function showFinal() {
   const pct = Math.round(right / total * 100);
   const msg = pct >= 90 ? 'Palette master.' : pct >= 70 ? 'Sharp eye.' : pct >= 50 ? 'Keep mixing.' : 'Keep exploring.';
 
+  const earned = right;
+  florins += earned;
+  saveState();
+  updateFlorinDisplay();
+
   document.getElementById('choices').innerHTML = '';
   document.getElementById('clue').innerHTML = '';
   document.getElementById('feedback').innerHTML = `
@@ -599,19 +911,27 @@ function showFinal() {
       <div style="font-family:var(--serif); font-style:italic; font-size:1.1rem; color:var(--ink-muted); margin-top:0.5rem;">
         ${pct}% correct &mdash; ${msg}
       </div>
+      <div style="margin-top:1.25rem; font-size:1rem; font-weight:500; color:var(--gold);">
+        +ƒ${earned} earned &nbsp;·&nbsp; ƒ${florins} total
+      </div>
     </div>
   `;
   document.getElementById('prog-fill').style.width = '100%';
   document.getElementById('next-btn').classList.add('hidden');
   document.getElementById('restart-btn').classList.remove('hidden');
+  document.getElementById('shop-btn').classList.remove('hidden');
 }
 
 function restartQuiz() {
   document.getElementById('choices').innerHTML = '';
+  document.getElementById('shop-btn').classList.add('hidden');
   startQuiz();
 }
 
 /* ─── Init ─── */
+loadState();
+updateFlorinDisplay();
+updateFooter();
 startQuiz();
 </script>
 <script>
